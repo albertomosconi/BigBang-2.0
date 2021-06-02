@@ -93,73 +93,73 @@ public class doAddCart extends HttpServlet {
 	
 		// Read variables from request
 
-		String id = request.getParameter("vendorId");
-		if(id != null && !id.equals("")) {
-		      try {
-		        vendorAdd = Integer.parseInt(id);
-		      }catch(NumberFormatException e) {
-		    	  errorMessage= new ErrorMessage("Vendor Parameter Error", "not corret format of credential value");
-					request.getSession().setAttribute("error", errorMessage);
-					response.sendRedirect(getServletContext().getContextPath() + "/cart");
-					return;
-		      }
-		}else {
-			errorMessage= new ErrorMessage("Vendor Parameter Error", "not corret format of credential value");
+		String string_vendor = request.getParameter("vendorId");
+		if (string_vendor != null && !string_vendor.equals("")) {
+			try {
+				vendorAdd = Integer.parseInt(string_vendor);
+			} catch (NumberFormatException e) {
+				errorMessage = new ErrorMessage("Vendor Parameter Error", "not corret format of credential value");
+				request.getSession().setAttribute("error", errorMessage);
+				response.sendRedirect(getServletContext().getContextPath() + "/cart");
+				return;
+			}
+		} else {
+			errorMessage = new ErrorMessage("Vendor Parameter Error", "not corret format of credential value");
 			request.getSession().setAttribute("error", errorMessage);
 			response.sendRedirect(getServletContext().getContextPath() + "/cart");
 			return;
 		}
 		if (vendorAdd == null || vendorAdd < 0) {
 
-			errorMessage= new ErrorMessage("Vendor Parameter Error", "missing or empty credential value");
+			errorMessage = new ErrorMessage("Vendor Parameter Error", "missing or empty credential value");
 			request.getSession().setAttribute("error", errorMessage);
 			response.sendRedirect(getServletContext().getContextPath() + "/cart");
 			return;
 		}
 
-	
-		id = request.getParameter("itemId");
-		if(id != null && !id.equals("")) {
-		      try {
-		        itemAdd = Integer.parseInt(id);
-		        
-		      }catch(NumberFormatException e) {
-		    	  errorMessage= new ErrorMessage("Item Parameter Error", "not corret format of credential value");
-					request.getSession().setAttribute("error", errorMessage);
-					response.sendRedirect(getServletContext().getContextPath() + "/cart");
-					return;
-		      }
-		}
-		else {
-			errorMessage= new ErrorMessage("Item Parameter Error", "not corret format of credential value");
+		String string_item = request.getParameter("itemId");
+		if (string_item != null && !string_item.equals("")) {
+			try {
+				itemAdd = Integer.parseInt(string_item);
+
+			} catch (NumberFormatException e) {
+				errorMessage = new ErrorMessage("Item Parameter Error", "not corret format of credential value");
+				request.getSession().setAttribute("error", errorMessage);
+				response.sendRedirect(getServletContext().getContextPath() + "/cart");
+				return;
+			}
+		} else {
+			errorMessage = new ErrorMessage("Item Parameter Error", "not corret format of credential value");
 			request.getSession().setAttribute("error", errorMessage);
 			response.sendRedirect(getServletContext().getContextPath() + "/cart");
 			return;
 		}
 		if (itemAdd == null || itemAdd < 0) {
 
-			errorMessage= new ErrorMessage("Item Parameter Error", "missing or empty credential value");
+			errorMessage = new ErrorMessage("Item Parameter Error", "missing or empty credential value");
 			request.getSession().setAttribute("error", errorMessage);
 			response.sendRedirect(getServletContext().getContextPath() + "/cart");
 			return;
 		}
 
 		// Set if item is added from search or home pages
-		id = request.getParameter("quantity");
-		if(id != null && !id.equals("")) {
-		      try {
-		        quantity = Integer.parseInt(id);
-		      }catch(NumberFormatException e) {
-		    	  errorMessage= new ErrorMessage("Quantity Parameter Error", "not corret format of credential value");
-					request.getSession().setAttribute("error", errorMessage);
-					response.sendRedirect(getServletContext().getContextPath() + "/cart");
-					return;
-		      }
-		}else {
-			 errorMessage= new ErrorMessage("Quantity Parameter Error", "not corret format of credential value");
+		String string_quantity = request.getParameter("quantity");
+		if (string_quantity != null && !string_quantity.equals("")) {
+			try {
+				quantity = Integer.parseInt(string_quantity);
+			} catch (NumberFormatException e) {
+				errorMessage = new ErrorMessage("Quantity Parameter Error", "not corret format of credential value");
 				request.getSession().setAttribute("error", errorMessage);
 				response.sendRedirect(getServletContext().getContextPath() + "/cart");
 				return;
+			}
+			/*
+		} else {
+			errorMessage = new ErrorMessage("Quantity Parameter Error 2 ", "not corret format of credential value");
+			request.getSession().setAttribute("error", errorMessage);
+			response.sendRedirect(getServletContext().getContextPath() + "/cart");
+			return;
+			*/
 		}
 			//only positive values
 		if(quantity<1) {
