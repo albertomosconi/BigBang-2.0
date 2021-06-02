@@ -26,21 +26,21 @@ public class QueryFilter implements Filter {
 		String requestURI = req.getRequestURI();
 
 		if (session.isNew() || session.getAttribute("user") == null) {
-			if (isPathResource(requestURI) || requestURI.endsWith("/login") || requestURI.endsWith("/register")) {
+			if (isPathResource(requestURI) || requestURI.endsWith("/login.html") || requestURI.endsWith("/login") || requestURI.endsWith("/register.html") || requestURI.endsWith("/register")) {
 				chain.doFilter(request, response);
 				return;
 			} else {
-				String loginPath = req.getServletContext().getContextPath() + "/login";
+				String loginPath = req.getServletContext().getContextPath() + "/login.html";
 				res.sendRedirect(loginPath);
 				return;
 			}
 		}
 
 		List<String> allowedPaths = new ArrayList<>(
-				Arrays.asList("/home", "/cart", "/orders", "/search", "/doAddCart", "/doOrder", "/logout", "/doView"));
+				Arrays.asList("/home", "/cart", "/orders", "/search", "/doAddCart", "/doOrder", "/logout", "/doView", "/home.html"));
 
 		if (!allowedPaths.contains(requestURI.replace(req.getContextPath(), "")) && !isPathResource(requestURI)) {
-			String homePath = req.getServletContext().getContextPath() + "/home";
+			String homePath = req.getServletContext().getContextPath() + "/home.html";
 			res.sendRedirect(homePath);
 			return;
 		}

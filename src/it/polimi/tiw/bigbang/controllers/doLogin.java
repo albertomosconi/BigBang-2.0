@@ -3,10 +3,12 @@ package it.polimi.tiw.bigbang.controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.Enumeration;
 import java.util.HashMap;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -14,6 +16,9 @@ import javax.servlet.http.HttpServletResponse;
 //import org.apache.commons.lang.StringEscapeUtils;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.context.WebContext;
+
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import it.polimi.tiw.bigbang.beans.ErrorMessage;
 import it.polimi.tiw.bigbang.beans.User;
@@ -23,6 +28,7 @@ import it.polimi.tiw.bigbang.utils.AuthUtils;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
 import it.polimi.tiw.bigbang.utils.TemplateEngineProvider;
 
+@MultipartConfig
 public class doLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
@@ -49,7 +55,7 @@ public class doLogin extends HttpServlet {
 			throws ServletException, IOException {
 
 		ErrorMessage errorMessage = null;
-
+		
 		// obtain and escape params
 		String email = null;
 		String pwd = null;
@@ -64,7 +70,8 @@ public class doLogin extends HttpServlet {
 
 		} catch (Exception e) {
 			// for debugging only e.printStackTrace();
-			response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Missing credential value");
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().println("Missing credential value");
 			return;
 		}
 
@@ -74,59 +81,30 @@ public class doLogin extends HttpServlet {
 		try {
 			user = userDao.checkCredentials(email, AuthUtils.encryptString(pwd));
 		} catch (DatabaseException e) {
-			errorMessage = new ErrorMessage("Database Error", e.getBody());
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("error", errorMessage);
-			String path = "login";
-			templateEngine.process(path, ctx, response.getWriter());
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println(e.getBody());
 			return;
 		}
 
 		// If the user exists, add info to the session and go to home page, otherwise
 		// show login page with error message
-
 		String path;
 		if (user == null) {
-			errorMessage = new ErrorMessage("Invalid Credentials",
-					"The credentials you entered are not valid, please try again.");
-			final WebContext ctx = new WebContext(request, response, servletContext, request.getLocale());
-			ctx.setVariable("error", errorMessage);
-			path = "login";
-			templateEngine.process(path, ctx, response.getWriter());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().println("Invalid Credentials");
 			return;
 		} else {
 			request.getSession().setAttribute("user", user);
-
-			/*
-			 * // just for debugging HashMap<Vendor, List<SelectedItem>> cart = new
-			 * HashMap<Vendor, List<SelectedItem>>(); // catch information about vendor for
-			 * (int i = 1; i < 3; i++) {
-			 * 
-			 * ItemDAO itemDAO = new ItemDAO(connection); Item item = new Item(); try { item
-			 * = itemDAO.findItemsBySingleId(i); } catch (SQLException e) {
-			 * e.printStackTrace(); }
-			 * 
-			 * // catch price PriceDAO priceDAO = new PriceDAO(connection); Price price =
-			 * new Price(); try { price = priceDAO.findPriceBySingleItemId(i, i); } catch
-			 * (SQLException e) { e.printStackTrace(); }
-			 * 
-			 * // catch information about item VendorDAO vendorDAO = new
-			 * VendorDAO(connection); Vendor vendor = new Vendor(); try { vendor =
-			 * vendorDAO.findFullBySingleId(i); } catch (SQLException e) {
-			 * e.printStackTrace(); }
-			 * 
-			 * SelectedItem selectedItem = new SelectedItem(); selectedItem.setItem(item);
-			 * selectedItem.setQuantity(i+1); selectedItem.setCost(price.getPrice());
-			 * List<SelectedItem> ls = new ArrayList<SelectedItem>(); ls.add(selectedItem);
-			 * cart.put(vendor, ls); }
-			 */
-
-			// request.getSession().setAttribute("cart", cart);
-
 			// [VendorId || ItemId, Quantity]
 			request.getSession().setAttribute("cartSession", new HashMap<Integer, HashMap<Integer, Integer>>());
-			path = getServletContext().getContextPath() + "/home";
-			response.sendRedirect(path);
+//			path = getServletContext().getContextPath() + "/home";
+//			response.sendRedirect(path);
+			response.setStatus(HttpServletResponse.SC_OK);
+			response.setContentType("application/json");
+			response.setCharacterEncoding("UTF-8");
+			Gson gson = new GsonBuilder().create();
+			String userString = gson.toJson(user);
+			response.getWriter().println(userString);
 		}
 	}
 
