@@ -1,0 +1,8 @@
+GET /view -> last viewed
+POST /view?itemID={id} -> save viewed item
+GET /search?keyword={word}
+GET /cart
+POST /cart?itemID={id}&vendorID={vID}&quantity={q}&sub={T/F}
+GET /orders
+POST /orders?vendorID={vID}
+POST /logout

@@ -103,12 +103,12 @@
 	</servlet-mapping>
 	
 	<servlet>
-		<servlet-name>doView</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.doView</servlet-class>
+		<servlet-name>View</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.View</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>doView</servlet-name>
-		<url-pattern>/doView</url-pattern>
+		<servlet-name>View</servlet-name>
+		<url-pattern>/view</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>
