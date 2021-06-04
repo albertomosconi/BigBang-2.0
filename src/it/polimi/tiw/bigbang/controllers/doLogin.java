@@ -3,7 +3,6 @@ package it.polimi.tiw.bigbang.controllers;
 import java.io.IOException;
 import java.sql.Connection;
 import java.sql.SQLException;
-import java.util.Enumeration;
 import java.util.HashMap;
 
 import javax.servlet.ServletContext;

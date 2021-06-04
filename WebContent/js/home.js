@@ -29,7 +29,45 @@ function goHome() {
 }
 
 function goCart() {
-  alert('go cart');
+  doRequest('cart', 'GET', (req) => {
+    if (req.readyState == XMLHttpRequest.DONE) {
+      var responseBody = req.responseText;
+      switch (req.status) {
+        case 200:
+        
+          // request was successful, go to cart page
+          var cart = JSON.parse(responseBody);
+          var pageContainer = document.getElementById('pageContainer');
+          
+          // create heading
+          document.getElementById('pageContainer').innerHTML ="";
+          var heading = document.createElement('h1');
+          heading.textContent = 'Items in your cart';
+          pageContainer.appendChild(heading);
+          
+          // create cart
+          var cartContainer = buildCart(cart);
+          pageContainer.appendChild(cartContainer);
+          break;
+
+	case 204:
+	
+		// create heading
+			var pageContainer = document.getElementById('pageContainer');
+          document.getElementById('pageContainer').innerHTML ="";
+          var heading = document.createElement('h1');
+          heading.textContent = 'Items in your cart';
+          pageContainer.appendChild(heading);
+	
+        default:
+        
+          // request failed, display error
+          errorContainer.style.display = 'block';
+          document.getElementById('errorBody').textContent = responseBody;
+          break;
+      }
+    }
+  });
 }
 
 function goOrders() {

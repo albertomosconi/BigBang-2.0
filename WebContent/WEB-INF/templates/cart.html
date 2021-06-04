@@ -8,9 +8,7 @@
 		<div class="animation">
 			Items in your cart <i class="fa fa-shopping-cart"></i>
 		</div>
-		<div th:each="cart : ${cart}"
-			th:with="vendor=${cart.key},itemselected=${cart.value}">
-			<div class="vendor-section card">
+		<div class="vendor-section card">
 				<div class="vendor-head">
 					<div class="vendor-name" th:text="${vendor.name}">Vendor name</div>
 					<div class="vendor-rate">

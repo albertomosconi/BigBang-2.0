@@ -15,8 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import it.polimi.tiw.bigbang.beans.ErrorMessage;
 import it.polimi.tiw.bigbang.beans.Item;
@@ -30,27 +30,16 @@ import it.polimi.tiw.bigbang.dao.VendorDAO;
 import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
 import it.polimi.tiw.bigbang.utils.OrderUtils;
-import it.polimi.tiw.bigbang.utils.TemplateEngineProvider;
 
-public class goCart extends HttpServlet {
+public class Cart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletContext servletContext;
 	private Connection connection;
-	private TemplateEngine templateEngine;
 
 	public void init() throws ServletException {
 		servletContext = getServletContext();
 		connection = DBConnectionProvider.getConnection(servletContext);
-		templateEngine = TemplateEngineProvider.getTemplateEngine(servletContext);
 	}
-
-	
-	/**
-	 * ERRORI GESTITI: 
-	 * -errore propagato da doAddCart
-	 * -cartSession non presente nella sessione --> print empty cart 
-	 * -errori di interrogazioni al db
-	 */
 	
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
@@ -74,15 +63,9 @@ public class goCart extends HttpServlet {
 			//rebuilt old cart and shipping
 			cart = (HashMap<Vendor, List<SelectedItem>>) session.getAttribute("cartOld");
 			shipping = (HashMap<Vendor, float[]>) session.getAttribute("shippingOld");
-			
-			String path = "cart";
-			request.getSession().setAttribute("error", null);
-			final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-			webContext.setVariable("cart", cart);
-			webContext.setVariable("shipping", shipping);
-			webContext.setVariable("user", user);
-			webContext.setVariable("error", errorMessage);
-			templateEngine.process(path, webContext, response.getWriter());
+		
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().println("Server error: could not add items to cart");
 			return;
 			
 		}else {
@@ -95,26 +78,15 @@ public class goCart extends HttpServlet {
 			cartSession = (HashMap<Integer, HashMap<Integer, Integer>>) session.getAttribute("cartSession");
 		} catch (NumberFormatException | NullPointerException e) {
 
-
-			errorMessage= new ErrorMessage("Session Error", "resources not found");
-			String path = "cart";
-			final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-			webContext.setVariable("cart", cart);
-			webContext.setVariable("shipping", shipping);
-			webContext.setVariable("user", user);
-			webContext.setVariable("error", errorMessage);
-			templateEngine.process(path, webContext, response.getWriter());
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().println("Server error: cart not found");
 			return;
 		}
 
 		if (cartSession.isEmpty()) {
 		
-			String path = "cart";
-			final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-			webContext.setVariable("cart", cart);
-			webContext.setVariable("shipping", shipping);
-			webContext.setVariable("user", user);
-			templateEngine.process(path, webContext, response.getWriter());
+			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
+			response.getWriter().println("Cart is empty");
 			return;
 		}
 
@@ -130,14 +102,9 @@ public class goCart extends HttpServlet {
 
 				vendorCurrent = vendorDAO.fineOneByVendorId(vendor);
 			} catch (DatabaseException e) {
-				errorMessage = new ErrorMessage("Database Error", e.getBody());
-				String path = "cart";
-				final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-				webContext.setVariable("cart", cart);
-				webContext.setVariable("shipping", shipping);
-				webContext.setVariable("user", user);
-				webContext.setVariable("error", errorMessage);
-				templateEngine.process(path, webContext, response.getWriter());
+			
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().println("Database error: " + e.getBody());
 				return;	
 			}
 
@@ -152,14 +119,10 @@ public class goCart extends HttpServlet {
 				try {
 					itemCurrent = itemDAO.findOneByItemId(item);
 				} catch (DatabaseException e) {
-					errorMessage = new ErrorMessage("Database Error", e.getBody());
-					String path = "cart";
-					final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-					webContext.setVariable("cart", cart);
-					webContext.setVariable("shipping", shipping);
-					webContext.setVariable("user", user);
-					webContext.setVariable("error", errorMessage);
-					templateEngine.process(path, webContext, response.getWriter());
+					
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					response.getWriter().println("Database error: " + e.getBody());
+				
 					return;	
 				}
 
@@ -169,14 +132,9 @@ public class goCart extends HttpServlet {
 				try {
 					price = priceDAO.findOneByItemIdAndVendorId(item, vendor);
 				} catch (DatabaseException e) {
-					errorMessage = new ErrorMessage("Database Error", e.getBody());
-					String path = "cart";
-					final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
-					webContext.setVariable("cart", cart);
-					webContext.setVariable("shipping", shipping);
-					webContext.setVariable("user", user);
-					webContext.setVariable("error", errorMessage);
-					templateEngine.process(path, webContext, response.getWriter());
+					
+					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+					response.getWriter().println("Database error: " + e.getBody());
 					return;	
 				}
 
@@ -207,19 +165,45 @@ public class goCart extends HttpServlet {
 
 			shipping.put(vendor, costs);
 		}
-
-		String path = "cart";
-		final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
 		
 		//necessary just for manage errors
 		request.getSession().setAttribute("cartOld", cart);
 		request.getSession().setAttribute("shippingOld", shipping);
+
+		Gson gson = new GsonBuilder().create();
+		String cartJson = gson.toJson(cart);
 		
-		webContext.setVariable("error", errorMessage);
-		webContext.setVariable("cart", cart);
-		webContext.setVariable("shipping", shipping);
-		webContext.setVariable("user", user);
-		templateEngine.process(path, webContext, response.getWriter());
+		/**
+		 * JSON structure
+		 * 
+		 * {Vendor,
+		 * 	[item1,
+		 * 	item2,
+		 * 	...
+		 * 	],
+		 * Shipping,
+		 * Total},
+		 * 
+		 */
+		cartJson = "[";
+		for(Vendor vendors: cart.keySet()) {
+			cartJson+="{\"vendor\":"+ gson.toJson(vendors)+ ",[";
+			for(SelectedItem items: cart.get(vendors)) {
+				cartJson+="{\"item\":"+ gson.toJson(items)+",";
+			}
+			cartJson = cartJson.substring(0,cartJson.length()-1);
+			cartJson+= "],";
+			cartJson+="{\"shipping\":"+ gson.toJson(shipping.get(vendors)[0])+ ",";
+			cartJson+="{\"total\":"+ gson.toJson(shipping.get(vendors)[1])+ "},";
+		}
+		cartJson = cartJson.substring(0,cartJson.length()-1);
+		cartJson+="]";
+		
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setContentType("application/json");
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().println(cartJson);
+		
 	}
 
 	public void destroy() {
