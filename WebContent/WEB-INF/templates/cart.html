@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org">
-<head th:replace="partials/head :: common_head('cart')">
-</head>
-<body>
-	<div th:replace="~{partials/header :: header}"></div>
-	<section>
-		<div class="animation">
-			Items in your cart <i class="fa fa-shopping-cart"></i>
-		</div>
+
 		<div class="vendor-section card">
 				<div class="vendor-head">
 					<div class="vendor-name" th:text="${vendor.name}">Vendor name</div>

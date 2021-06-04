@@ -177,7 +177,7 @@ public class Cart extends HttpServlet {
 		 * JSON structure
 		 * 
 		 * {Vendor,
-		 * 	[item1,
+		 * 	[item1: {,
 		 * 	item2,
 		 * 	...
 		 * 	],
@@ -187,15 +187,15 @@ public class Cart extends HttpServlet {
 		 */
 		cartJson = "[";
 		for(Vendor vendors: cart.keySet()) {
-			cartJson+="{\"vendor\":"+ gson.toJson(vendors)+ ",[";
-			for(SelectedItem items: cart.get(vendors)) {
-				cartJson+="{\"item\":"+ gson.toJson(items)+",";
-			}
-			cartJson = cartJson.substring(0,cartJson.length()-1);
-			cartJson+= "],";
-			cartJson+="{\"shipping\":"+ gson.toJson(shipping.get(vendors)[0])+ ",";
-			cartJson+="{\"total\":"+ gson.toJson(shipping.get(vendors)[1])+ "},";
-		}
+			cartJson+="{\"vendorName\":\""+ vendors.getName()+"\",\"vednorScore\":"+ vendors.getScore()+",\"items\":[";
+			      for(SelectedItem items: cart.get(vendors)) {
+			        cartJson+="{\"itemName\":\"" + items.getItem().getName()+"\",\"quantity\":"+items.getQuantity()+",\"price\":"+items.getCost()+"},";
+			      }
+			      cartJson = cartJson.substring(0,cartJson.length()-1);
+			      cartJson+= "],";
+			      cartJson+="\"shipping\":"+ shipping.get(vendors)[0]+ ",";
+			      cartJson+="\"total\":"+ shipping.get(vendors)[1]+ "},";
+			      }
 		cartJson = cartJson.substring(0,cartJson.length()-1);
 		cartJson+="]";
 		

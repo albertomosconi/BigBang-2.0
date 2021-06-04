@@ -45,6 +45,7 @@ function goCart() {
           heading.textContent = 'Items in your cart';
           pageContainer.appendChild(heading);
           
+          console.log(cart);
           // create cart
           var cartContainer = buildCart(cart);
           pageContainer.appendChild(cartContainer);

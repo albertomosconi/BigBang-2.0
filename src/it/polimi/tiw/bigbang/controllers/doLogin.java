@@ -95,7 +95,14 @@ public class doLogin extends HttpServlet {
 		} else {
 			request.getSession().setAttribute("user", user);
 			// [VendorId || ItemId, Quantity]
-			request.getSession().setAttribute("cartSession", new HashMap<Integer, HashMap<Integer, Integer>>());
+			//debugging
+			HashMap<Integer, HashMap<Integer, Integer>> cart = new HashMap<Integer, HashMap<Integer, Integer>>();
+			HashMap<Integer, Integer> item = new HashMap<Integer, Integer>();
+			item.put(1,1);
+			cart.put(1, item);
+			request.getSession().setAttribute("cartSession", cart);
+//			
+			//request.getSession().setAttribute("cartSession", new HashMap<Integer, HashMap<Integer, Integer>>());
 //			path = getServletContext().getContextPath() + "/home";
 //			response.sendRedirect(path);
 			response.setStatus(HttpServletResponse.SC_OK);
