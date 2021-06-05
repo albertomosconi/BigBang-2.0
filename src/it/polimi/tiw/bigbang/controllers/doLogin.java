@@ -99,7 +99,11 @@ public class doLogin extends HttpServlet {
 			HashMap<Integer, HashMap<Integer, Integer>> cart = new HashMap<Integer, HashMap<Integer, Integer>>();
 			HashMap<Integer, Integer> item = new HashMap<Integer, Integer>();
 			item.put(1,1);
+			item.put(2, 2);
 			cart.put(1, item);
+			HashMap<Integer, Integer> item2 = new HashMap<Integer, Integer>();
+			item2.put(8, 8);
+			cart.put(2, item2);
 			request.getSession().setAttribute("cartSession", cart);
 //			
 			//request.getSession().setAttribute("cartSession", new HashMap<Integer, HashMap<Integer, Integer>>());

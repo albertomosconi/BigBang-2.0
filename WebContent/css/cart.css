@@ -103,13 +103,13 @@ table {
 	font-weight: bold;
 }
 
-.order-button {
+.order-cart-button {
 	display: flex;
 	flex-direction: row;
 	justify-content: flex-end;
 }
 
-.order {
+.order-cart {
 	padding-top: 10px;
 	border-radius: 5px;
 	background-color: #b80c09;
@@ -122,14 +122,14 @@ table {
 	margin: 5px;
 }
 
-.order span {
+.order-cart span {
 	cursor: pointer;
 	display: inline-block;
 	position: relative;
 	transition: 0.5s;
 }
 
-.order span:after {
+.order-cart span:after {
 	content: '\00bb';
 	position: absolute;
 	opacity: 0;
@@ -138,17 +138,17 @@ table {
 	transition: 0.5s;
 }
 
-.order:hover span {
+.order-cart:hover span {
 	padding-right: 25px;
 }
 
-.order:hover span:after {
+.order-cart:hover span:after {
 	opacity: 1;
 	right: 0;
 }
 
 .prices-setting {
-	display: flex;
+	text-align: right;
 	flex-direction: row;
 	justify-content: flex-end;
 }
