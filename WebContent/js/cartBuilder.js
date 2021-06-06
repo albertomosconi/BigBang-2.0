@@ -19,21 +19,17 @@ function buildCart(cart) {
     var vendorRate = document.createElement('div');
     vendorRate.classList.add('vendor-rate');
     
-  /*
-    for(i=0; i<vendor.vendorScore; i++){
-      var coloredStar = document.createElement('span');
-      coloredStar.classList.add('fa fa-star checked');
-      vendorRate.appendChild(coloredStar);
+   	for(i=0; i<vendor.vendorScore; i++){
+	    var vendorStar = document.createElement('div');
+	    vendorStar.innerHTML = coloredStarGeneretor();
+	    vendorRate.appendChild(vendorStar);
     }
 
-
-	bs = 'fa fa-star'
-    for(i=0; i< 5 - vendor.vendorScore; i++){
-      var blackStar = document.createElement('span');
-      blackStar.classList.add(bs);
-      vendorRate.appendChild(blackStar);
+   	for(i=0; i<5-vendor.vendorScore; i++){
+	    var vendorStar = document.createElement('div');
+	    vendorStar.innerHTML = blackStarGeneretor();
+	    vendorRate.appendChild(vendorStar);
     }
-    */
 
     vendorHeader.appendChild(vendorName);
     vendorHeader.appendChild(vendorRate);
@@ -64,6 +60,10 @@ function buildCart(cart) {
       //decrementButton.type('submit');
       decrementButton.classList.add('increment-decrement-button');
       decrementButton.textContent = '-';
+      decrementButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        doAddCart(vendor.vendorId, item.itemId ,null,true);
+      });
 
       itemQuantity.appendChild(decrementButton);
 
@@ -77,6 +77,10 @@ function buildCart(cart) {
       //incrementButton.type('submit');
       incrementButton.classList.add('increment-decrement-button');
       incrementButton.textContent = '+';
+      incrementButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        doAddCart(vendor.vendorId, item.itemId,null,null);
+      });
     
       itemQuantity.appendChild(incrementButton);
 
@@ -137,6 +141,10 @@ function buildCart(cart) {
     var orderButton = document.createElement('button');
     orderButton.classList.add('order-cart');
     orderButton.textContent = 'Order';
+    orderButton.addEventListener('click', (e) => {
+        e.preventDefault();
+        doOrders();
+      });
 
     form.appendChild(orderButton);
 

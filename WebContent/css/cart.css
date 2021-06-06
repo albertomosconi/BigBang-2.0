@@ -4,7 +4,15 @@
 	justify-content: space-between;
 }
 
+.title{
+	display: flex;
+}
+
 .vendor-head {
+	display: flex;
+}
+
+.vendor-rate{
 	display: flex;
 	flex-direction: row;
 	justify-content: space-between;

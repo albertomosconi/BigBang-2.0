@@ -35,3 +35,17 @@ function initializeHome() {
   linkButton('goOrdersLink', () => goOrders());
   linkButton('doLogoutLink', () => doLogout());
 }
+
+blackStarGeneretor = function() {
+return `<span class="fa fa-star"></span>`;
+}
+
+coloredStarGeneretor = function() {
+return `<span class="fa fa-star checked"></span>`;
+}
+
+
+
+
+
+

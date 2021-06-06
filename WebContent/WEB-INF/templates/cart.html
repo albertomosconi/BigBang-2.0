@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="partials/head :: common_head('cart')">
+</head>
+<body>
+	<div th:replace="~{partials/header :: header}"></div>
+	<section>
+		<h1>
+			<div class="animation">
+				Items in your cart <i class="fa fa-shopping-cart"></i>
+			</div>
+		</h1>
+		<div th:each="cart : ${cart}"
+			th:with="vendor=${cart.key},itemselected=${cart.value}">
+			<div class="vendor-section">
+				<div class="vendor-head">
+					<div class="vendor-name">[[${vendor.name}]]</div>
+					<div class="vendor-rate">
+						<th:block th:each="i : ${#numbers.sequence(0, vendor.score - 1)}">
+							<span class="fa fa-star checked"></span>
+						</th:block>
+						<th:block th:if="${vendor.score != 5}"
+							th:each="i : ${#numbers.sequence(0, 4 - vendor.score)}">
+							<span class="fa fa-star"></span>
+						</th:block>
+					</div>
+				</div>
+				<table class="table-item">
+					<tr class="item" th:each="entry : ${itemselected}">
+						<td>
+							<div class="item-name" th:text="${entry.item.name}">Item
+								name</div>
+						</td>
+						<td>
+							<div class="prices-setting-bis">
+								<div
+									th:text="${#numbers.formatDecimal(entry.cost, 1, 'COMMA', 2, 'POINT')}"></div>
+								<div class="single-price-setting">&euro;/cad.</div>
+							</div>
+						</td>
+						<td>
+							<div class="item-quantity">
+								<form
+									th:action="@{|/doAddCart?vendorId=${vendor.id}&itemId=${entry.item.id}&sub=true|}"
+									method="POST">
+									<button class="increment-decrement-button" type="submit">-</button>
+								</form>
+								<div class="item-number" th:text="${entry.quantity}">3</div>
+								<form
+									th:action="@{|/doAddCart?vendorId=${vendor.id}&itemId=${entry.item.id}|}"
+									method="POST">
+									<button class="increment-decrement-button" type="submit">+</button>
+								</form>
+							</div>
+						</td>
+						<td>
+							<div class="prices-setting">
+								<div class="item-amount"
+									th:text="${#numbers.formatDecimal(entry.cost*entry.quantity, 1, 'COMMA', 2, 'POINT')}"></div>
+								<span>&euro;</span>
+							</div>
+						</td>
+					</tr>
+				</table>
+				<div class="footer">
+					<div class="text">
+						<div class="subtotal">Sub-Total:</div>
+						<div class="shipping">Shipping Cost:</div>
+						<div class="total">Total:</div>
+					</div>
+					<div class="prices">
+						<div class="subtotal-price">
+							<div th:each="shipping : ${shipping}"
+								th:with="vendor2=${shipping.key},costs=${shipping.value}">
+								<div th:if="${vendor2.id == vendor.id}">
+									<div class="prices-setting">
+										<div
+											th:text="${#numbers.formatDecimal(costs[1], 1, 'COMMA', 2, 'POINT')}"></div>
+										<span>&euro;</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="shipping-price">
+							<div th:each="shipping : ${shipping}"
+								th:with="vendor2=${shipping.key},costs=${shipping.value}">
+								<div th:if="${vendor2.id == vendor.id}">
+									<div class="prices-setting">
+										<div
+											th:text="${#numbers.formatDecimal(costs[0], 1, 'COMMA', 2, 'POINT')}"></div>
+										<span>&euro;</span>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="total-price">
+							<div th:each="shipping : ${shipping}"
+								th:with="vendor2=${shipping.key},costs=${shipping.value}">
+								<div th:if="${vendor2.id == vendor.id}">
+									<div class="prices-setting">
+										<div
+											th:text="${#numbers.formatDecimal(costs[2], 1, 'COMMA', 2, 'POINT')}"></div>
+										<span>&euro;</span>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<form class="order-button"
+					th:action="@{|/doOrder?vendorId=${vendor.id}|}" method="POST">
+					<button class="order" type="submit">
+						<span>Order</span>
+					</button>
+				</form>
+			</div>
+		</div>
+	</section>
+</body>
+</html>

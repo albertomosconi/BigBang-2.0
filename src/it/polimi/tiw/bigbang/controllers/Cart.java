@@ -187,9 +187,9 @@ public class Cart extends HttpServlet {
 		 */
 		cartJson = "[";
 		for(Vendor vendors: cart.keySet()) {
-			cartJson+="{\"vendorName\":\""+ vendors.getName()+"\",\"vendorScore\":"+ vendors.getScore()+",\"items\":[";
+			cartJson+="{\"vendorName\":\""+ vendors.getName()+"\",\"vendorScore\":"+ vendors.getScore()+",\"vendorId\":"+ vendors.getId()+",\"items\":[";
 			      for(SelectedItem items: cart.get(vendors)) {
-			        cartJson+="{\"itemName\":\"" + items.getItem().getName()+"\",\"quantity\":"+items.getQuantity()+",\"price\":"+items.getCost()+"},";
+			        cartJson+="{\"itemId\":" + items.getItem().getId()+ ",\"itemName\":\"" + items.getItem().getName()+"\",\"quantity\":"+items.getQuantity()+",\"price\":"+items.getCost()+"},";
 			      }
 			      cartJson = cartJson.substring(0,cartJson.length()-1);
 			      cartJson+= "],";
