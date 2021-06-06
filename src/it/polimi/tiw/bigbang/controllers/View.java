@@ -81,7 +81,7 @@ public class View extends HttpServlet {
 		List<ExtendedItem> extendedItems = new ArrayList<>();
 		ExtendedItemDAO extendedItemDAO = new ExtendedItemDAO(connection);
 		
-		extendedItems = extendedItemDAO.findManyItemsDetailsByItemsId(items);
+		extendedItems = extendedItemDAO.findManyItemsDetailsByCompressedItems(items);
 		
 //		private int id;
 //		private String name;
