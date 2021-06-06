@@ -29,7 +29,7 @@
             }
           }
         },
-        form,
+        form
       );
     } else {
       form.reportValidity();

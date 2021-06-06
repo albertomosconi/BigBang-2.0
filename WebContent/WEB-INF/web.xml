@@ -9,13 +9,13 @@
 		<param-value>jdbc:mysql://localhost:3306/ProgTIW</param-value>
 	</context-param>
 	<context-param>
-		<param-name>dbUser</param-name>
-		<param-value>gruppo43</param-value>
-	</context-param>
-	<context-param>
-		<param-name>dbPassword</param-name>
-		<param-value>gruppo43</param-value>
-	</context-param>
+	<param-name>dbUser</param-name>
+    <param-value>gruppo43</param-value>
+  </context-param>
+  <context-param>
+    <param-name>dbPassword</param-name>
+    <param-value>gruppo43</param-value>
+  </context-param>
 	<context-param>
 		<param-name>dbDriver</param-name>
 		<param-value>com.mysql.cj.jdbc.Driver</param-value>
@@ -76,11 +76,11 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>goCart</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.goCart</servlet-class>
+		<servlet-name>Cart</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.Cart</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>goCart</servlet-name>
+		<servlet-name>Cart</servlet-name>
 		<url-pattern>/cart</url-pattern>
 	</servlet-mapping>
 
