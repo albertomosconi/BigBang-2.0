@@ -7,10 +7,7 @@
   document.getElementById('loginButton').addEventListener('click', (e) => {
     e.preventDefault();
     if (form.checkValidity()) {
-      doRequest(
-        'login',
-        'POST',
-        (req) => {
+      doRequest('login', 'POST', (req) => {
           if (req.readyState == XMLHttpRequest.DONE) {
             var responseBody = req.responseText;
             switch (req.status) {

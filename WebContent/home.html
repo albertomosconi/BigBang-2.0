@@ -23,6 +23,7 @@
 <script src="./js/home.js" charset="utf-8" defer></script>
 <script src="./js/homeBuilder.js" charset="utf-8" defer></script>
 <script src="./js/cartBuilder.js" charset="utf-8" defer></script>
+<script src="./js/search.js" charset="utf-8" defer></script>
 </head>
 <body>
 	<header>
@@ -31,8 +32,9 @@
 				<img class="header-logo" src="./images/logo-light.png" />
 			</a>
 		</div>
-		<form action="/search" method="GET">
-			<input type="text" name="keyword" placeholder="search..." />
+		<form id="searchForm" action="#">
+			<input id="keyword" type="text" name="keyword" placeholder="search..." />
+			<!-- <button type="submit" id="idButton"><i class="fa fa-search"></i></button> -->
 		</form>
 		<nav>
 			<a href="#" id="goCartLink" >Cart <i class="fa fa-shopping-cart"></i></a>

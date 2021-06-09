@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
+import javax.servlet.annotation.MultipartConfig;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -28,6 +29,7 @@ import it.polimi.tiw.bigbang.dao.ItemDAO;
 import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
 
+@MultipartConfig
 public class Search extends HttpServlet{
   private static final long serialVersionUID = 1L;
 	private ServletContext servletContext;
@@ -73,7 +75,11 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
     // Get the search parameter, so the items asked to be viewed
 		String wordSearched = null;
 		try {
+			System.out.println(request.toString());
+			System.out.println(request.getParameter("keyword"));
+
 			wordSearched = request.getParameter("keyword");
+
 			if (wordSearched == null || wordSearched.isEmpty()) {
 				throw new Exception("Missing or empty credential value");
 			}
@@ -109,9 +115,9 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 		session.removeAttribute("clearViewItemList");
 
     //get only the id of the items viewed(if there is)
-	ArrayList<Integer> idItemViewed = new ArrayList();
+	ArrayList<Integer> idItemViewed = new ArrayList<>();
     if (viewItem != null){
-	
+
 		for (ExtendedItem item : viewItem) {
 			idItemViewed.add(item.getId());
 		}
@@ -121,7 +127,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
   Gson gson = new GsonBuilder().create();
 
     //WORD searched by the client
-  String keyword = wordSearched;
+  //String keyword = wordSearched;
 
     //the list of ITEM returned by the search
   String extendedItemsJson = "[";
@@ -147,20 +153,19 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
   String extendedItemString = gson.toJson(extendedItemsJson);
 
     //list of item ID of wich have to be visualized
-  String idViewed = "";
-  idViewed = gson.toJson(idItemViewed);
+  //String idViewed = "";
+  //idViewed = gson.toJson(idItemViewed);
 
     //put all 3 in an array list of string and write it in the response
-  ArrayList<String> JSONRequest = new ArrayList();
-  JSONRequest.add(keyword);
-  JSONRequest.add(extendedItemString);
-  JSONRequest.add(idViewed);
+  //ArrayList<String> JSONRequest = new ArrayList();
+  //JSONRequest.add(keyword);
+  //JSONRequest.add(extendedItemString);
+  //JSONRequest.add(idViewed);
 
   response.setStatus(HttpServletResponse.SC_OK);
   response.setContentType("application/json");
   response.setCharacterEncoding("UTF-8");
-
-  response.getWriter().println(JSONRequest);
+  response.getWriter().println(extendedItemString);
 
 
 }

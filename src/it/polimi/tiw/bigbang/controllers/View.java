@@ -30,7 +30,7 @@ public class View extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletContext servletContext;
     private Connection connection;
-    
+
     public void init() throws ServletException {
 		servletContext = getServletContext();
 		connection = DBConnectionProvider.getConnection(servletContext);
@@ -77,12 +77,12 @@ public class View extends HttpServlet {
 					break;
 			}
 		}
-		
+
 		List<ExtendedItem> extendedItems = new ArrayList<>();
 		ExtendedItemDAO extendedItemDAO = new ExtendedItemDAO(connection);
-		
+
 		extendedItems = extendedItemDAO.findManyItemsDetailsByCompressedItems(items);
-		
+
 //		private int id;
 //		private String name;
 //		private String description;
@@ -109,11 +109,11 @@ public class View extends HttpServlet {
 		}
 		extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length()-1);
 		extendedItemsJson+="]";
-		
+
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
-		
+
 		String extendedItemString = gson.toJson(extendedItems);
 		response.getWriter().println(extendedItemsJson);
 	}

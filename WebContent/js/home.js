@@ -34,11 +34,11 @@ function goCart() {
       var responseBody = req.responseText;
       switch (req.status) {
         case 200:
-        
+
           // request was successful, go to cart page
           var cart = JSON.parse(responseBody);
           var pageContainer = document.getElementById('pageContainer');
-          
+
           // create heading
           document.getElementById('pageContainer').innerHTML ="";
           var heading = document.createElement('h1');
@@ -47,9 +47,9 @@ function goCart() {
            var icon = document.createElement('div');
 	   	icon.innerHTML =  `<i class="fa fa-shopping-cart"></i>`;
 	    	heading.appendChild(icon);
- 
+
           pageContainer.appendChild(heading);
-          
+
           console.log(cart);
           // create cart
           var cartContainer = buildCart(cart);
@@ -57,16 +57,16 @@ function goCart() {
           break;
 
 	case 204:
-	
+
 		// create heading
 			var pageContainer = document.getElementById('pageContainer');
           document.getElementById('pageContainer').innerHTML ="";
           var heading = document.createElement('h1');
           heading.textContent = 'Items in your cart';
           pageContainer.appendChild(heading);
-	
+
         default:
-        
+
           // request failed, display error
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
@@ -74,6 +74,45 @@ function goCart() {
       }
     }
   });
+}
+
+function doSearch(keyword, viewed = null){
+  console.log(keyword);
+  doRequest('search?keyword=' +keyword, 'GET', (req) =>{
+    var responseBody = req.responseText;
+    switch (req.status) {
+      case 200:
+      // request was successful, go to search page
+      console.log(responseBody);
+      var itemsSearch = JSON.parse(responseBody);
+      var pageContainer = document.getElementById('pageContainer');
+
+      console.log(itemsSearch);
+
+      var searchContainer = listSearched(keyword, itemsSearch, viewed);
+      pageContainer.appendChild(searchContainer);
+      break;
+      }
+
+
+  });
+}
+
+function doView(idItem, itemsSearch, keyword){
+  doRequest('view', 'POST', (req) =>{
+    var responseBody = req.responseText;
+    switch (req.status) {
+      case 200:
+      //request was successfully, go to search page with the new visualized
+      var pageContainer = document.getElementById('pageContainer');
+      var searchContainer = listSearched(keyword, itemsSearch, idItem);
+      pageContainer.appendChild(searchContainer);
+
+        break;
+      default:
+
+    }
+  })
 }
 
 function doOrders() {
@@ -91,20 +130,20 @@ function doLogout() {
 function doAddCart(vendor,item,quantity,sub){
 
   var path = 'doAddCart?vendorId=' + vendor + '&itemId='+item;
-  
+
   if(quantity!=null) path+= '&quantity='+quantity;
   if(sub!=null && sub==true) path+= '&sub=true';
-  
+
   doRequest(path, 'POST', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       var responseBody = req.responseText;
       switch (req.status) {
         case 200:
-        
+
           // request was successful, go to cart page
           var cart = JSON.parse(responseBody);
           var pageContainer = document.getElementById('pageContainer');
-          
+
           // create heading
           document.getElementById('pageContainer').innerHTML ="";
           var heading = document.createElement('h1');
@@ -113,9 +152,9 @@ function doAddCart(vendor,item,quantity,sub){
            var icon = document.createElement('div');
       icon.innerHTML =  `<i class="fa fa-shopping-cart"></i>`;
         heading.appendChild(icon);
- 
+
           pageContainer.appendChild(heading);
-          
+
           console.log(cart);
           // create cart
           var cartContainer = buildCart(cart);
@@ -123,16 +162,16 @@ function doAddCart(vendor,item,quantity,sub){
           break;
 
   case 204:
-  
+
     // create heading
       var pageContainer = document.getElementById('pageContainer');
           document.getElementById('pageContainer').innerHTML ="";
           var heading = document.createElement('h1');
           heading.textContent = 'Items in your cart';
           pageContainer.appendChild(heading);
-  
+
         default:
-        
+
           // request failed, display error
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
