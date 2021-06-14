@@ -114,7 +114,7 @@ public class View extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 
-		String extendedItemString = gson.toJson(extendedItems);
+//		String extendedItemString = gson.toJson(extendedItems);
 		response.getWriter().println(extendedItemsJson);
 	}
 

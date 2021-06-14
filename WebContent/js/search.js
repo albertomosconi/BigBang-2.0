@@ -1,94 +1,92 @@
-function listSearched(keyword, items, viewed){
+function listSearched(keyword, items, viewed) {
   var section = document.createElement('section');
 
-/*
+  /*
 searchMessage = new SearchMessage(items,keyword,
 document.getElementById("keyword"),document.getElementById("number_items_search"));
 searchMessage.show();*/
-var infoSearch = document.createElement('h2');
-infoSearch.textContent = 'Your search for '+keyword+ ' returned ' +items.size()+ ' results.';
-section.appendChild(infoSearch);
+  var infoSearch = document.createElement('h2');
+  infoSearch.textContent =
+    'Your search for ' + keyword + ' returned ' + items.length + ' results.';
+  section.appendChild(infoSearch);
 
-var itemsContainer = document.createElement('div');
+  var itemsContainer = document.createElement('div');
+  console.log(`items`, items.length);
 
-if (viewed == null) {
-  // no item visualized in the page
-  items.forEach((item, i) => {
-    var singleContainer = new CompressedItem(item);
-    itemsContainer.appendChild(singleContainer);
-    //itemsCompressed.show();
-  });
-
-}
-else{
-  items.forEach((item, i) => {
-    if (viewed.includes(item.id)) {
-      //this item is Visualized
-      var singleContainer = new ExtendedItem(item);
-      itemsContainer.appendChild(singleContainer);
-    }
-    else{
+  if (viewed == null) {
+    // no item visualized in the page
+    items.forEach((item, i) => {
       var singleContainer = new CompressedItem(item);
       itemsContainer.appendChild(singleContainer);
-    }
-  });
-
-}
-
+      //itemsCompressed.show();
+    });
+  } else {
+    items.forEach((item, i) => {
+      if (viewed.includes(item.id)) {
+        //this item is Visualized
+        // var singleContainer = new ExtendedItem(item);
+        var singleContainer = buildExtendedItem(item);
+        itemsContainer.appendChild(singleContainer);
+      } else {
+        var singleContainer = new CompressedItem(item);
+        itemsContainer.appendChild(singleContainer);
+      }
+    });
+  }
+  section.appendChild(itemsContainer);
+  return section;
 }
 
 //after a search fill the first h2 of HTML whit this two info:
 //the word searched and the number of item returned
 //the two container are the attribute (id) of the two span in HTML page were to put these info
-function SearchMessage(_items, _keyword, container1, container2){
+function SearchMessage(_items, _keyword, container1, container2) {
   this.items = _items;
   this.keyword = _keyword;
-  this.show = function(){
+  this.show = function () {
     container1.textContent = this.keyword;
     container2.textContent = this.items.size();
-  }
+  };
 }
 
-function CompressedItem(item){
+function CompressedItem(item) {
   //var container = document.createElement('div');
   var itemContainer, id, name, price, viewButton;
-    console.log(item);
+  console.log(item);
 
-    itemContainer=document.createElement('div');
-    itemContainer.classList.add('item-card');
-    itemContainer.classList.add('card');
+  itemContainer = document.createElement('div');
+  itemContainer.classList.add('item-card');
+  itemContainer.classList.add('card');
 
-    // item ID
-    id = document.createElement('h1');
-    id.classList.add('item-id');
-    id.textContent = item['id'];
-    itemContainer.appendChild(id);
+  // item ID
+  id = document.createElement('h1');
+  id.classList.add('item-id');
+  id.textContent = item['id'];
+  itemContainer.appendChild(id);
 
-    // item NAME
-    name = document.createElement('h1');
-    name.classList.add('item-name');
-    name.textContent = item['name'];
-    itemContainer.appendChild(name);
+  // item NAME
+  name = document.createElement('h1');
+  name.classList.add('item-name');
+  name.textContent = item['name'];
+  itemContainer.appendChild(name);
 
-    // item lower PPRICE
-    price = document.createElement('h1');
-    price.classList.add('item-price');
-    price.textContent = item['priceList'][0]['price'] + '&euro;'
-    itemContainer.appendChild(price);
+  // item lower PPRICE
+  price = document.createElement('h1');
+  price.classList.add('item-price');
+  price.textContent = item['priceList'][0]['price'] + '€';
+  itemContainer.appendChild(price);
 
-    //buttom for Visualized the item
-    viewButton = document.createElement('button');
-    viewButton.textContent = 'View';
-    itemContainer.appendChild(viewButton);
+  //buttom for Visualized the item
+  viewButton = document.createElement('button');
+  viewButton.textContent = 'View';
+  itemContainer.appendChild(viewButton);
 
+  // container.appendChild(itemContainer);
 
-    container.appendChild(itemContainer);
-
-
-  return container;
+  return itemContainer;
 }
 
-function ExtendedItem(item){
+function ExtendedItem(item) {
   console.log(item);
   var image, name, category, description, vendors;
   var container = document.createElement('div');
@@ -161,6 +159,5 @@ function ExtendedItem(item){
 
   container.appendChild(vendors);
 
-
-return container;
+  return container;
 }

@@ -150,7 +150,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
   }
   extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length()-1);
   extendedItemsJson+="]";
-  String extendedItemString = gson.toJson(extendedItemsJson);
+//  String extendedItemString = gson.toJson(extendedItemsJson);
 
     //list of item ID of wich have to be visualized
   //String idViewed = "";
@@ -165,7 +165,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
   response.setStatus(HttpServletResponse.SC_OK);
   response.setContentType("application/json");
   response.setCharacterEncoding("UTF-8");
-  response.getWriter().println(extendedItemString);
+  response.getWriter().println(extendedItemsJson);
 
 
 }
