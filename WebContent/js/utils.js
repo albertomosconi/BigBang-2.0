@@ -42,6 +42,10 @@ function initializeHome() {
 
   //search form
   var keyword = document.getElementById('keyword');
+    //save the keyword in the sessionStorage, and remove the old visualized
+  sessionStorage.setItem('keyword', keyword);
+  sessionStorage.removeItem('viewItem');
+  
   keyword.addEventListener("keydown", (e) =>{
     if (e.code === "Enter") {
       e.preventDefault();
@@ -59,6 +63,8 @@ function initializeHome() {
       }
     }
   })
+
+
 }
 
 blackStarGeneretor = function() {

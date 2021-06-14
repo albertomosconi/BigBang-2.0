@@ -1,12 +1,14 @@
-function listSearched(keyword, items, viewed){
+function listSearched(items){
   var section = document.createElement('section');
+  var keyword = sessionStorage.getItem('keyword');
+  var viewed = sessionStorage.getItem('viewItem');
 
 /*
 searchMessage = new SearchMessage(items,keyword,
 document.getElementById("keyword"),document.getElementById("number_items_search"));
 searchMessage.show();*/
 var infoSearch = document.createElement('h2');
-infoSearch.textContent = 'Your search for '+keyword+ ' returned ' +items.size()+ ' results.';
+infoSearch.textContent = 'Your search for '+keyword+ ' returned ' +items.lenght+ ' results.';
 section.appendChild(infoSearch);
 
 var itemsContainer = document.createElement('div');
@@ -14,11 +16,13 @@ var itemsContainer = document.createElement('div');
 if (viewed == null) {
   // no item visualized in the page
   items.forEach((item, i) => {
+    var compressedId = document.createElement('div');
+    compressedId.id = item['id'];
     var singleContainer = new CompressedItem(item);
-    itemsContainer.appendChild(singleContainer);
+    compressedId.appendChild(singleContainer);
+    itemsContainer.appendChild(compressedId);
     //itemsCompressed.show();
   });
-
 }
 else{
   items.forEach((item, i) => {
@@ -28,8 +32,11 @@ else{
       itemsContainer.appendChild(singleContainer);
     }
     else{
+      var compressedId = document.createElement('div');
+      compressedId.id = item['id'];
       var singleContainer = new CompressedItem(item);
-      itemsContainer.appendChild(singleContainer);
+      compressedId.appendChild(singleContainer);
+      itemsContainer.appendChild(compressedId);
     }
   });
 
@@ -78,7 +85,12 @@ function CompressedItem(item){
 
     //buttom for Visualized the item
     viewButton = document.createElement('button');
+    viewButton.classList.add('view-item');
     viewButton.textContent = 'View';
+    viewButton.addEventListener('click', (e)=>{
+      e.preventDefault();
+      doView(id, item);
+    });
     itemContainer.appendChild(viewButton);
 
 
@@ -86,6 +98,19 @@ function CompressedItem(item){
 
 
   return container;
+}
+
+function buildExtendedItem(idItem, item){
+  //add the itemId visualized in the session sessionStorage
+  var visualized = sessionStorage.getItem('viewItem');
+  visualized.add(idItem);
+  sessionStorage.setItem('viewItem', visualized);
+
+  //now make the item visualized(extended)
+  var itemContainer = document.getElementById('idItem');
+  itemContainer.innerHTML = "";
+  var extendedItem = ExtendedItem(item);
+  itemContainer.appendChild(extendedItem);
 }
 
 function ExtendedItem(item){

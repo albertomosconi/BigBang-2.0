@@ -84,12 +84,12 @@ function doSearch(keyword, viewed = null){
       case 200:
       // request was successful, go to search page
       console.log(responseBody);
-      var itemsSearch = JSON.parse(responseBody);
+      var itemsSearch = jQuery.parseJSON(responseBody);
       var pageContainer = document.getElementById('pageContainer');
 
       console.log(itemsSearch);
 
-      var searchContainer = listSearched(keyword, itemsSearch, viewed);
+      var searchContainer = listSearched(itemsSearch);
       pageContainer.appendChild(searchContainer);
       break;
       }
@@ -98,18 +98,20 @@ function doSearch(keyword, viewed = null){
   });
 }
 
-function doView(idItem, itemsSearch, keyword){
-  doRequest('view', 'POST', (req) =>{
+function doView(idItem, item){
+  doRequest('view?idItem=', 'POST', (req) =>{
     var responseBody = req.responseText;
     switch (req.status) {
       case 200:
       //request was successfully, go to search page with the new visualized
-      var pageContainer = document.getElementById('pageContainer');
-      var searchContainer = listSearched(keyword, itemsSearch, idItem);
-      pageContainer.appendChild(searchContainer);
+      buildExtendedItem(idItem, item);
+      break;
 
-        break;
       default:
+      // request failed, display error
+      errorContainer.style.display = 'block';
+      document.getElementById('errorBody').textContent = responseBody;
+      break;
 
     }
   })
