@@ -37,6 +37,7 @@ function goCart() {
       switch (req.status) {
         case 200:
           // request was successful, go to cart page
+          //ripetitivo--> eliminare quando finisco il debug
           window.sessionStorage.setItem("cartSession",responseBody);
           var cart = JSON.parse(responseBody);
           var pageContainer = document.getElementById('pageContainer');

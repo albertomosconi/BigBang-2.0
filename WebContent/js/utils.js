@@ -138,13 +138,22 @@ function buildExtendedItem(item) {
       var cartString = sessionStorage.getItem('cartSession');
       var cartJson = JSON.parse(cartString);
       var total = 0;
+      var cartSummary = document.createElement("span");
       if(cartJson != null){
       cartJson.forEach((vendorCart, k)=>{
         if(vendorCart.vendorId == item['vendorList'][i]['id']){
-
+          subtotalPrice = 0;
           vendorCart.items.forEach((itemCart, j) => {
             total = total + itemCart.quantity;
+            subtotalPrice = subtotalPrice + itemCart.price * itemCart.quantity;
+            var cartItem = document.createElement("span");
+            cartItem.textContent = itemCart.quantity + " x " + itemCart.itemName;
+            cartSummary.appendChild(cartItem);
+            cartSummary.appendChild(document.createElement('br'));
         });
+        var cartSubtotal = document.createElement("span");
+        cartSubtotal.textContent = "Subtotal " + Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(subtotalPrice);
+        cartSummary.appendChild(cartSubtotal);
       }
       });
     }
@@ -155,10 +164,29 @@ function buildExtendedItem(item) {
   itemsInCart.textContent = 'in your cart are sold by this vendor';
   itemsInCartText.appendChild(itemsInCartStrong);
   itemsInCartText.appendChild(itemsInCart);
-  /*
-    itemsInCartText.innerHTML =
-      '<strong>3 items</strong> in your cart are sold by this vendor';
-  */
+
+  //var popup = document.createElement('div');
+  itemsInCartText.classList.add("popup");
+
+  var popupContainer = document.createElement('span');
+  popupContainer.classList.add('popuptext');
+  popupContainer.id = 'myPopup'+item['vendorList'][i]['id']+item['id'];
+
+if(cartSummary.children.length == 0){
+  cartSummary.textContent="No item in your cart are sold by this vendor :( ";
+}  popupContainer.appendChild(cartSummary);
+
+    itemsInCartText.addEventListener('mouseover',(e)=>{
+      var popup = document.getElementById("myPopup"+item['vendorList'][i]['id']+item['id']);
+      popup.classList.toggle("show");
+    });
+
+    itemsInCartText.addEventListener('mouseout',(e)=>{
+      var popup = document.getElementById("myPopup"+item['vendorList'][i]['id']+item['id']);
+      popup.classList.toggle("show");
+    });
+
+    itemsInCartText.appendChild(popupContainer);
     itemVendor.appendChild(itemsInCartText);
     itemVendor.appendChild(document.createElement('br'));
 
