@@ -205,22 +205,26 @@ th {
 	background-color: #fff;
 }
 
-/* Popup container  */
+
+
+/* Popup container */
+
+.cartSubtotal{
+font-style: italic;
+color: #b80c09;
+font-weight: bold;
+}
 
 .popup {
   position: relative;
   display: inline-block;
   cursor: pointer;
-  -webkit-user-select: none;
-  -moz-user-select: none;
-  -ms-user-select: none;
-  user-select: none;
 }
 
-/* The actual popup */
+/* The actual popup (appears on top) */
 .popup .popuptext {
   visibility: hidden;
-  width: 160px;
+  width: 200px;
   background-color: #24252a;
   color: #fff;
   text-align: center;
@@ -231,7 +235,6 @@ th {
   bottom: 125%;
   left: 50%;
   margin-left: -80px;
-
 }
 
 /* Popup arrow */
@@ -244,19 +247,18 @@ th {
   border-width: 5px;
   border-style: solid;
   border-color: #24252a transparent transparent transparent;
-  padding: 5px;
 }
 
-/* Toggle this class - hide and show the popup */
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
 .popup .show {
   visibility: visible;
   -webkit-animation: fadeIn 1s;
-  animation: fadeIn 1s;
+  animation: fadeIn 1s
 }
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
-  from {opacity: 0;} 
+  from {opacity: 0;}
   to {opacity: 1;}
 }
 

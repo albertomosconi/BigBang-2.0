@@ -152,6 +152,7 @@ function buildExtendedItem(item) {
             cartSummary.appendChild(document.createElement('br'));
         });
         var cartSubtotal = document.createElement("span");
+        cartSubtotal.classList.add("cartSubtotal");
         cartSubtotal.textContent = "Subtotal " + Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(subtotalPrice);
         cartSummary.appendChild(cartSubtotal);
       }
@@ -174,7 +175,8 @@ function buildExtendedItem(item) {
 
 if(cartSummary.children.length == 0){
   cartSummary.textContent="No item in your cart are sold by this vendor :( ";
-}  popupContainer.appendChild(cartSummary);
+}
+popupContainer.appendChild(cartSummary);
 
     itemsInCartText.addEventListener('mouseover',(e)=>{
       var popup = document.getElementById("myPopup"+item['vendorList'][i]['id']+item['id']);
@@ -188,6 +190,7 @@ if(cartSummary.children.length == 0){
 
     itemsInCartText.appendChild(popupContainer);
     itemVendor.appendChild(itemsInCartText);
+    itemVendor.appendChild(document.createElement('br'));
     itemVendor.appendChild(document.createElement('br'));
 
     var shippingCostTitle = document.createElement('h4');
