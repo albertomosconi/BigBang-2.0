@@ -59,14 +59,6 @@ function initializeHome() {
   });
 }
 
-blackStarGeneretor = function () {
-  return `<span class="fa fa-star"></span>`;
-};
-
-coloredStarGeneretor = function () {
-  return `<span class="fa fa-star checked"></span>`;
-};
-
 function buildExtendedItem(item) {
   console.log(`building extended item`, item);
   var itemContainer = document.createElement('div');
@@ -123,6 +115,7 @@ function buildExtendedItem(item) {
     form.appendChild(quantityInput);
     var addButton = document.createElement('button');
     addButton.textContent = 'Add to cart';
+
     form.appendChild(addButton);
     priceRow.appendChild(form);
 
@@ -141,8 +134,31 @@ function buildExtendedItem(item) {
     itemVendor.appendChild(soldByText);
 
     var itemsInCartText = document.createElement('p');
+
+      var cartString = sessionStorage.getItem('cartSession');
+      var cartJson = JSON.parse(cartString);
+      var total = 0;
+      if(cartJson != null){
+      cartJson.forEach((vendorCart, k)=>{
+        if(vendorCart.vendorId == item['vendorList'][i]['id']){
+
+          vendorCart.items.forEach((itemCart, j) => {
+            total = total + itemCart.quantity;
+        });
+      }
+      });
+    }
+
+  var itemsInCartStrong = document.createElement('strong');
+  itemsInCartStrong.textContent = total + " items ";
+  var itemsInCart = document.createElement('span');
+  itemsInCart.textContent = 'in your cart are sold by this vendor';
+  itemsInCartText.appendChild(itemsInCartStrong);
+  itemsInCartText.appendChild(itemsInCart);
+  /*
     itemsInCartText.innerHTML =
       '<strong>3 items</strong> in your cart are sold by this vendor';
+  */
     itemVendor.appendChild(itemsInCartText);
     itemVendor.appendChild(document.createElement('br'));
 

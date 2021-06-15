@@ -96,6 +96,7 @@ public class doLogin extends HttpServlet {
 			request.getSession().setAttribute("user", user);
 			// [VendorId || ItemId, Quantity]
 			//debugging
+			
 			HashMap<Integer, HashMap<Integer, Integer>> cart = new HashMap<Integer, HashMap<Integer, Integer>>();
 			HashMap<Integer, Integer> item = new HashMap<Integer, Integer>();
 			item.put(1,1);
