@@ -15,7 +15,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.thymeleaf.TemplateEngine;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -30,7 +29,6 @@ import it.polimi.tiw.bigbang.dao.ExtendedItemDAO;
 import it.polimi.tiw.bigbang.dao.ItemDAO;
 import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
-import it.polimi.tiw.bigbang.utils.TemplateEngineProvider;
 
 @MultipartConfig
 public class Search extends HttpServlet{
@@ -90,42 +88,60 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 			return;
     }
 
-  //Gson library convers java objects in JSON and send throw the net
-  Gson gson = new GsonBuilder().create();
+    System.out.println(extendedItemSearch.toString());
 
-    //WORD searched by the client
-  //String keyword = wordSearched;
+    //Gson library convers java objects in JSON and send throw the net
+    Gson gson = new GsonBuilder().create();
 
-    //the list of ITEM returned by the search
-  String extendedItemsJson = "[";
-  for (ExtendedItem extendedItem : extendedItemSearch) {
-    extendedItemsJson += "{\"id\":"+extendedItem.getId()+",\"name\":\""+extendedItem.getName()+"\",\"description\":\""+extendedItem.getDescription().replace("\"", "\\\"")+"\",\"category\":\""+extendedItem.getCategory()+"\",\"picture\":\""+extendedItem.getPicture()+"\",";
-    String vendorString = "[";
-    String priceString = "[";
-    for (Map.Entry<Vendor, Price> entry : extendedItem.getValue().entrySet()) {
-      Vendor v = entry.getKey();
-      Price p = entry.getValue();
-      vendorString += gson.toJson(v) + ",";
-      priceString += gson.toJson(p) + ",";
+      //WORD searched by the client
+    //String keyword = wordSearched;
+    String extendedItemsJson = "";
+
+    if (extendedItemSearch != null && !extendedItemSearch.isEmpty()) {
+      System.out.println("here in NOT empty");
+      //the list of ITEM returned by the search
+    extendedItemsJson = "[";
+    for (ExtendedItem extendedItem : extendedItemSearch) {
+      extendedItemsJson += "{\"id\":"+extendedItem.getId()+",\"name\":\""+extendedItem.getName()+"\",\"description\":\""+extendedItem.getDescription().replace("\"", "\\\"")+"\",\"category\":\""+extendedItem.getCategory()+"\",\"picture\":\""+extendedItem.getPicture()+"\",";
+      String vendorString = "[";
+      String priceString = "[";
+      for (Map.Entry<Vendor, Price> entry : extendedItem.getValue().entrySet()) {
+        Vendor v = entry.getKey();
+        Price p = entry.getValue();
+        vendorString += gson.toJson(v) + ",";
+        priceString += gson.toJson(p) + ",";
+      }
+      vendorString = vendorString.substring(0, vendorString.length()-1);
+      priceString = priceString.substring(0, priceString.length()-1);
+      vendorString+="]";
+      priceString+="]";
+      extendedItemsJson += "\"vendorList\":" + vendorString + ",";
+      extendedItemsJson += "\"priceList\":" + priceString + "},";
     }
-    vendorString = vendorString.substring(0, vendorString.length()-1);
-    priceString = priceString.substring(0, priceString.length()-1);
-    vendorString+="]";
-    priceString+="]";
-    extendedItemsJson += "\"vendorList\":" + vendorString + ",";
-    extendedItemsJson += "\"priceList\":" + priceString + "},";
+    extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length()-1);
+    extendedItemsJson+="]";
   }
-  extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length()-1);
-  extendedItemsJson+="]";
+  else{
+    System.out.println("here in empty");
+    extendedItemsJson = "";
+  }
 
-  String extendedItemString = gson.toJson(extendedItemsJson);
+  //  String extendedItemString = gson.toJson(extendedItemsJson);
 
-  System.out.println(extendedItemString);
+      //list of item ID of wich have to be visualized
+    //String idViewed = "";
+    //idViewed = gson.toJson(idItemViewed);
 
-  response.setStatus(HttpServletResponse.SC_OK);
-  response.setContentType("application/json");
-  response.setCharacterEncoding("UTF-8");
-  response.getWriter().println(extendedItemsJson);
+      //put all 3 in an array list of string and write it in the response
+    //ArrayList<String> JSONRequest = new ArrayList();
+    //JSONRequest.add(keyword);
+    //JSONRequest.add(extendedItemString);
+    //JSONRequest.add(idViewed);
+
+    response.setStatus(HttpServletResponse.SC_OK);
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().println(extendedItemsJson);
 
 
 }
