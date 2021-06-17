@@ -37,6 +37,8 @@ function goCart() {
       switch (req.status) {
         case 200:
           // request was successful, go to cart page
+          //ripetitivo--> eliminare quando finisco il debug
+          window.sessionStorage.setItem("cartSession",responseBody);
           var cart = JSON.parse(responseBody);
           var pageContainer = document.getElementById('pageContainer');
 
@@ -64,10 +66,11 @@ function goCart() {
           var heading = document.createElement('h1');
           heading.textContent = 'Items in your cart';
           pageContainer.appendChild(heading);
+          break;
 
         default:
           // request failed, display error
-          errorContainer.style.display = 'block';
+          errorMessage.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;
       }
@@ -157,6 +160,7 @@ function doAddCart(vendor, item, quantity, sub) {
       switch (req.status) {
         case 200:
           // request was successful, go to cart page
+          window.sessionStorage.setItem("cartSession",responseBody);
           var cart = JSON.parse(responseBody);
           var pageContainer = document.getElementById('pageContainer');
 
