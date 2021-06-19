@@ -56,7 +56,7 @@ public class Register extends HttpServlet {
     			System.out.println(surname);
     			email = request.getParameter("email");
     			System.out.println(email);
-    			pwd = request.getParameter("pwd");
+    			pwd = request.getParameter("psw");
     			System.out.println(pwd);
     			confirmPwd = request.getParameter("confirmPwd");
     			System.out.println(confirmPwd);
@@ -98,5 +98,3 @@ public class Register extends HttpServlet {
 
         }
 }
-
-      
