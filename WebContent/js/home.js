@@ -87,14 +87,11 @@ function doSearch(keyword, viewed = null) {
       switch (req.status) {
         case 200:
           // request was successful, go to search page
-          if (!!responseBody) {
-            //create an empty Array
-            var itemsSearch = new Array();
-          }
-          else{
+          
+          
             //the response is not empty
             var itemsSearch = JSON.parse(responseBody);
-          }
+        
 
           var pageContainer = document.getElementById('pageContainer');
 

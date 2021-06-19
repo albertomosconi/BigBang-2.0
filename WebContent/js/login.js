@@ -35,13 +35,14 @@
 
   document.getElementById('register').addEventListener('click', (e) => {
     e.preventDefault();
-    form.innerHTML = "";
+    var formBox = document.getElementById('form-box');
+    formBox.innerHTML = "";
     //form.style.display = 'none';
-    var container = document.getElementById('form-box');
+    //var container = document.getElementById('form-box');
     var registerForm = showRegister();
     registerForm.style.display = 'block';
 
-    container.appendChild(registerForm);
+    formBox.appendChild(registerForm);
     console.log(registerForm);
     registerForm.style.display = 'block';
   })

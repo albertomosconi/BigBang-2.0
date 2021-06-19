@@ -52,10 +52,12 @@ public class Visualize extends HttpServlet {
 		View view = null;
 		try {
 			idItemAsked = Integer.parseInt(request.getParameter("idItem"));
+			System.out.println(idItemAsked);
 			//wordSearchedString = request.getParameter("keyword");
 
 				// check the paramether from session
 			if (idItemAsked == null || idItemAsked < 0 /*|| wordSearchedString == null || wordSearchedString.isEmpty()*/) {
+				
 				throw new Exception("Id asked to be viewed not valid or problem in word searched error");
 			}
 
@@ -67,6 +69,7 @@ public class Visualize extends HttpServlet {
 		} catch (Exception e) {
 				//check KO
 			e.printStackTrace();
+			
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().println("Request Error, Problem in finding idItem to visualized!");
 			return;
@@ -78,6 +81,7 @@ public class Visualize extends HttpServlet {
 			viewDAO.createOneViewByUserIdAndItemId(idUser, idItemAsked);
 		}catch (DatabaseException e1) {
 			e1.printStackTrace();
+			
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().println("Database Error");
 			return;

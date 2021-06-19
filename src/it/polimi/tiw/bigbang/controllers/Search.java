@@ -123,7 +123,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
   }
   else{
     System.out.println("here in empty");
-    extendedItemsJson = "";
+    extendedItemsJson = "[]";
   }
 
   //  String extendedItemString = gson.toJson(extendedItemsJson);
