@@ -87,11 +87,11 @@ function doSearch(keyword, viewed = null) {
       switch (req.status) {
         case 200:
           // request was successful, go to search page
-          
-          
+
+
             //the response is not empty
             var itemsSearch = JSON.parse(responseBody);
-        
+
 
           var pageContainer = document.getElementById('pageContainer');
 
@@ -142,7 +142,22 @@ function goOrders() {
 }
 
 function doLogout() {
-  alert('do logout');
+  doRequest('logout', 'GET', (req)=>{
+    if (req.readyState == XMLHttpRequest.DONE) {
+      switch (req.status) {
+        case 200:
+         // request was successful, go to login page
+         sessionStorage.clear();
+         window.location.href = 'login.html';
+          break;
+        default:
+        errorContainer.style.display = 'block';
+        document.getElementById('errorBody').textContent = responseBody;
+        break;
+      }
+
+    }
+  })
 }
 
 function doAddCart(vendor, item, quantity, sub) {
