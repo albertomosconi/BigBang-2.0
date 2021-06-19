@@ -137,11 +137,36 @@ function doView(idItem, item){
 }
 
 function doOrders() {
-  alert('do orders');
 }
 
 function goOrders() {
-  alert('go orders');
+  doRequest("orders", "GET", req => {
+    if (req.readyState == XMLHttpRequest.DONE) {
+      document.getElementById('pageContainer').innerHTML = '';
+      let responseBody = req.responseText;
+      switch (req.status) {
+        case 200:
+          // request successful
+          let orders = JSON.parse(responseBody);
+          let pageContainer = document.getElementById('pageContainer');
+          console.log(orders)
+          // create heading
+          let heading = document.createElement('h1');
+          heading.textContent = 'Your orders';
+          pageContainer.appendChild(heading);
+          // create list
+          let listContainer = buildOrdersList(orders);
+          pageContainer.appendChild(listContainer);
+          break;
+
+          default:
+            // request failed, display error
+            errorContainer.style.display = 'block';
+            document.getElementById('errorBody').textContent = responseBody;
+            break;
+      }
+    }
+  })
 }
 
 function doLogout() {
