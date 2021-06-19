@@ -41,22 +41,28 @@ function showRegister(){
   var registerButton = document.createElement('button');
   registerButton.type = 'submit';
   registerButton.classList.add("registerButton");
+  registerButton.textContent = 'Register';
   registerButton.id = 'registerButton';
     //space between inputs
-  var space = document.createElement('br');
+  var space1 = document.createElement('br');
+  var space2 = document.createElement('br');
+  var space3 = document.createElement('br');
+  var space4 = document.createElement('br');
+  var space5 = document.createElement('br');
+  var space6 = document.createElement('br');
 
   actualForm.appendChild(name);
-  actualForm.appendChild(space);
+  actualForm.appendChild(space1);
   actualForm.appendChild(surname);
-  actualForm.appendChild(space);
+  actualForm.appendChild(space2);
   actualForm.appendChild(email);
-  actualForm.appendChild(space);
+  actualForm.appendChild(space3);
   actualForm.appendChild(psw);
-  actualForm.appendChild(space);
+  actualForm.appendChild(space4);
   actualForm.appendChild(confirmPsw);
-  actualForm.appendChild(space);
+  actualForm.appendChild(space5);
   actualForm.appendChild(address);
-  actualForm.appendChild(space);
+  actualForm.appendChild(space6);
   actualForm.appendChild(registerButton);
 
   formContainer.appendChild(actualForm);
@@ -73,11 +79,13 @@ function showRegister(){
           switch (req.status) {
             case 200:
             //hide the register form
-            secondForm.innerHTML = "";
+            actualForm.innerHTML = "";
             //secondForm.style.display = 'none';
             //set visible the login form
             var loginForm = restoreLogin();
             document.getElementById('form-box').appendChild(loginForm);
+            //var loginForm = document.getElementById('form-box');
+            //loginForm.style.display = 'block';
             break;
             default:
               // request failed, display error
@@ -88,7 +96,7 @@ function showRegister(){
     }
 
   },
-secondForm);
+actualForm);
 } else{
   form.reportValidity();
 }
@@ -97,7 +105,7 @@ return secondForm;
 }
 
 function restoreLogin(){
-  var externalBox = createElement('div');
+  var externalBox = document.createElement('div');
   externalBox.classList.add('box');
   externalBox.id = 'box';
 
@@ -109,6 +117,8 @@ function restoreLogin(){
   email.type = 'text';
   email.placeholder = 'email';
   email.name = 'email';
+  email.attributes.required = 'required';
+  email.focus();
   form.appendChild(email);
 
   var space = document.createElement('br');
@@ -118,6 +128,7 @@ function restoreLogin(){
   psw.type = 'password';
   psw.placeholder = 'password';
   psw.name = 'psw';
+  psw.attributes.required = 'required';
   form.appendChild(psw);
 
   var space2 = document.createElement('br');

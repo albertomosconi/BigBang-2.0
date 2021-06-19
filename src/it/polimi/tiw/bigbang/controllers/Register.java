@@ -47,18 +47,26 @@ public class Register extends HttpServlet {
         String pwd = null;
         String confirmPwd = null;
         String address = null;
+        System.out.println(request.toString());
 
         try {
     			name = request.getParameter("name");
+    			System.out.println(name);
     			surname = request.getParameter("surname");
+    			System.out.println(surname);
     			email = request.getParameter("email");
-    			pwd = request.getParameter("pwd");
+    			System.out.println(email);
+    			pwd = request.getParameter("psw");
+    			System.out.println(pwd);
     			confirmPwd = request.getParameter("confirmPwd");
+    			System.out.println(confirmPwd);
     			address = request.getParameter("address");
     			if (name == null || surname == null || email == null || pwd == null || address == null || name.isEmpty() || surname.isEmpty() || email.isEmpty() || pwd.isEmpty() || address.isEmpty()) {
     				throw new Exception("Missing or empty credential value");
     			}
     		} catch (Exception e) {
+    			e.printStackTrace();
+    			System.out.println("Problem 1");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     			response.getWriter().println("Missing credential value");
     			return;
@@ -66,6 +74,7 @@ public class Register extends HttpServlet {
 
         if (!pwd.equals(confirmPwd)) {
           //check the same psw even on Server side
+        	System.out.println("Problem 2");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     			response.getWriter().println("No matching passwords");
     			return;
@@ -76,6 +85,8 @@ public class Register extends HttpServlet {
     		try {
     			userDAO.createUser(name, surname, email, AuthUtils.encryptString(pwd), address);
     		} catch (DatabaseException e) {
+    			e.printStackTrace();
+    			System.out.println("Problem 3");
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().println("Database Error");
     			return;
@@ -87,5 +98,3 @@ public class Register extends HttpServlet {
 
         }
 }
-
-      

@@ -35,13 +35,16 @@
 
   document.getElementById('register').addEventListener('click', (e) => {
     e.preventDefault();
-    form.innerHTML = "";
-    //form.style.display = 'none';
-    var container = document.getElementById('form-box');
+    var formBox = document.getElementById('form-box');
+    //formBox.innerHTML = "";
+    formBox.style.display = 'none';
+    var formBox2 = document.createElement('form2-box');
+    //var container = document.getElementById('form-box');
     var registerForm = showRegister();
     registerForm.style.display = 'block';
 
-    container.appendChild(registerForm);
+    //formBox.appendChild(registerForm);
+    formBox2.appendChild(registerForm);
     console.log(registerForm);
     registerForm.style.display = 'block';
   })
