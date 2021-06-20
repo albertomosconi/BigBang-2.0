@@ -123,6 +123,10 @@ function buildExtendedItem(item) {
     form.appendChild(quantityInput);
     var addButton = document.createElement('button');
     addButton.textContent = 'Add to cart';
+    addButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      doAddCart(item.vendorList[i].id, item.id, quantityInput.value);
+    });
     form.appendChild(addButton);
     priceRow.appendChild(form);
 
