@@ -38,13 +38,16 @@
     var formBox = document.getElementById('form-box');
     //formBox.innerHTML = "";
     formBox.style.display = 'none';
-    var formBox2 = document.createElement('form2-box');
+    var formBox2 = document.createElement('form');
+    formBox2.id = 'form2-box';
     //var container = document.getElementById('form-box');
     var registerForm = showRegister();
     registerForm.style.display = 'block';
 
     //formBox.appendChild(registerForm);
     formBox2.appendChild(registerForm);
+    var formContainer = document.getElementById('formContainer');
+    formContainer.appendChild(formBox2);
     console.log(registerForm);
     registerForm.style.display = 'block';
   })

@@ -79,13 +79,9 @@ function showRegister(){
           switch (req.status) {
             case 200:
             //hide the register form
-            actualForm.innerHTML = "";
-            //secondForm.style.display = 'none';
-            //set visible the login form
-            var loginForm = restoreLogin();
-            document.getElementById('form-box').appendChild(loginForm);
-            //var loginForm = document.getElementById('form-box');
-            //loginForm.style.display = 'block';
+            secondForm.innerHTML = "";
+            var loginForm = document.getElementById('form-box');
+            loginForm.style.display = 'block';
             break;
             default:
               // request failed, display error
