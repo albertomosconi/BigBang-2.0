@@ -37,6 +37,8 @@ function goCart() {
       switch (req.status) {
         case 200:
           // request was successful, go to cart page
+          //ripetitivo--> eliminare quando finisco il debug
+          window.sessionStorage.setItem("cartSession",responseBody);
           var cart = JSON.parse(responseBody);
           var pageContainer = document.getElementById('pageContainer');
 
@@ -64,10 +66,11 @@ function goCart() {
           var heading = document.createElement('h1');
           heading.textContent = 'Items in your cart';
           pageContainer.appendChild(heading);
+          break;
 
         default:
           // request failed, display error
-          errorContainer.style.display = 'block';
+          errorMessage.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;
       }
@@ -78,50 +81,108 @@ function goCart() {
 function doSearch(keyword, viewed = null) {
   console.log(keyword);
   doRequest('search?keyword=' + keyword, 'GET', (req) => {
-    var responseBody = req.responseText;
-    document.getElementById('pageContainer').innerHTML = '';
-    switch (req.status) {
-      case 200:
-        // request was successful, go to search page
-        console.log(responseBody);
-        var itemsSearch = JSON.parse(responseBody);
-        var pageContainer = document.getElementById('pageContainer');
+    if (req.readyState == XMLHttpRequest.DONE) {
+      var responseBody = req.responseText;
+      document.getElementById('pageContainer').innerHTML = '';
+      switch (req.status) {
+        case 200:
+          // request was successful, go to search page
 
-        console.log(itemsSearch, itemsSearch.length);
 
-        var searchContainer = listSearched(keyword, itemsSearch, viewed);
+            //the response is not empty
+            var itemsSearch = JSON.parse(responseBody);
+
+
+          var pageContainer = document.getElementById('pageContainer');
+
+          console.log(itemsSearch, itemsSearch.length);
+
+        var searchContainer = listSearched(itemsSearch);
         pageContainer.appendChild(searchContainer);
         break;
+        }
     }
+
+
+
   });
 }
 
-function doView(idItem, itemsSearch, keyword) {
-  doRequest('view', 'POST', (req) => {
+function doView(idItem, item){
+  doRequest('view?idItem=' +idItem, 'POST', (req) =>{
+    if (req.readyState == XMLHttpRequest.DONE) {
     var responseBody = req.responseText;
     switch (req.status) {
       case 200:
-        //request was successfully, go to search page with the new visualized
-        var pageContainer = document.getElementById('pageContainer');
+      //request was successfully, go to search page with the new visualized
+      /*
+      var pageContainer = document.getElementById('pageContainer');
         var searchContainer = listSearched(keyword, itemsSearch, idItem);
-        pageContainer.appendChild(searchContainer);
-
+        pageContainer.appendChild(searchContainer);*/
+        buildExtendedItemBox(idItem, item);
         break;
+
       default:
+      // request failed, display error
+      errorContainer.style.display = 'block';
+      document.getElementById('errorBody').textContent = responseBody;
+      break;
+
     }
+  }
   });
 }
 
 function doOrders() {
-  alert('do orders');
 }
 
 function goOrders() {
-  alert('go orders');
+  doRequest("orders", "GET", req => {
+    if (req.readyState == XMLHttpRequest.DONE) {
+      document.getElementById('pageContainer').innerHTML = '';
+      let responseBody = req.responseText;
+      switch (req.status) {
+        case 200:
+          // request successful
+          let orders = JSON.parse(responseBody);
+          let pageContainer = document.getElementById('pageContainer');
+          console.log(orders)
+          // create heading
+          let heading = document.createElement('h1');
+          heading.textContent = 'Your orders';
+          pageContainer.appendChild(heading);
+          // create list
+          let listContainer = buildOrdersList(orders);
+          pageContainer.appendChild(listContainer);
+          break;
+
+          default:
+            // request failed, display error
+            errorContainer.style.display = 'block';
+            document.getElementById('errorBody').textContent = responseBody;
+            break;
+      }
+    }
+  })
 }
 
 function doLogout() {
-  alert('do logout');
+  doRequest('logout', 'GET', (req)=>{
+    if (req.readyState == XMLHttpRequest.DONE) {
+      switch (req.status) {
+        case 200:
+         // request was successful, go to login page
+         sessionStorage.clear();
+         window.location.href = 'login.html';
+          break;
+        default:
+        errorContainer.style.display = 'block';
+        document.getElementById('errorBody').textContent = responseBody;
+        break;
+      }
+
+    }
+  })
 }
 
 function doAddCart(vendor, item, quantity, sub) {
@@ -136,6 +197,7 @@ function doAddCart(vendor, item, quantity, sub) {
       switch (req.status) {
         case 200:
           // request was successful, go to cart page
+          window.sessionStorage.setItem("cartSession",responseBody);
           var cart = JSON.parse(responseBody);
           var pageContainer = document.getElementById('pageContainer');
 

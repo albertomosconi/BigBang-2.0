@@ -37,7 +37,7 @@ public class QueryFilter implements Filter {
 		}
 
 		List<String> allowedPaths = new ArrayList<>(
-				Arrays.asList("/home", "/cart", "/orders", "/search", "/doAddCart", "/doOrder", "/logout", "/view", "/home.html"));
+				Arrays.asList("/home", "/cart", "/orders", "/search", "/register", "/doAddCart", "/doOrder", "/logout", "/view", "/home.html"));
 
 		if (!allowedPaths.contains(requestURI.replace(req.getContextPath(), "")) && !isPathResource(requestURI)) {
 			String homePath = req.getServletContext().getContextPath() + "/home.html";
@@ -48,7 +48,7 @@ public class QueryFilter implements Filter {
 		// pass the request along the filter chain
 		chain.doFilter(request, response);
 	}
-	
+
 	private boolean isPathResource(String path) {
 		return path.endsWith(".css") || path.endsWith(".jpg") || path.endsWith(".js")|| path.endsWith(".png");
 	}

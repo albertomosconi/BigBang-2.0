@@ -17,9 +17,10 @@
 <!-- javascript -->
 <script src="./js/utils.js" charset="utf-8" defer></script>
 <script src="./js/login.js" charset="utf-8" defer></script>
+<script src="./js/register.js" charset="utf-8" defer></script>
 </head>
 <body>
-	<div class="container">
+	<div class="container" id="mainContainer">
 		<div class="loginImg">
 			<img src="./images/shoppingSpecular.jpg" alt="loginImg">
 		</div>
@@ -28,8 +29,9 @@
 				<img src="./images/logo.png" alt="logo">
 				<h3>a new frontier of e-commerce</h3>
 				<br>
+				<div class="form-box" id="form-box">
 				<form id="loginForm" action="#">
-					<input type="email" placeholder="email" name="email" required autofocus /> 
+					<input type="email" placeholder="email" name="email" required autofocus />
 					<br /><br />
 					<input type="password" placeholder="password" name="pwd" required />
 					<br /><br />
@@ -37,9 +39,10 @@
 					<div class="errorMessage" id="errorMessage">
 						<h3>Error</h3>
 						<p id="errorBody"></p>
-					</div>		
+					</div>
 				</form>
-				<a href="/register" class="register">register</a>
+				<a href="/register" class="register" id="register">register</a>
+			</div>
 			</div>
 		</div>
 	</div>

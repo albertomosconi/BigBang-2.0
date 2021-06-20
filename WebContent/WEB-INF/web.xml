@@ -49,11 +49,11 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>doLogout</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.doLogout</servlet-class>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.Logout</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>doLogout</servlet-name>
+		<servlet-name>Logout</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 
@@ -121,11 +121,11 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>doRegister</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.doRegister</servlet-class>
+		<servlet-name>Register</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.Register</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>doRegister</servlet-name>
+		<servlet-name>Register</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 </web-app>

@@ -18,26 +18,21 @@ function buildCart(cart) {
 
     var vendorRate = document.createElement('div');
     vendorRate.classList.add('vendor-rate');
+
+    for (let r = 0; r < 5; r++) {
+      var vendorStar = document.createElement('span');
+      vendorStar.classList.add('fa', 'fa-star');
+      if (r < vendor.vendorScore) vendorStar.classList.add('checked');
+      vendorRate.appendChild(vendorStar);
+    }
     
-   	for(i=0; i<vendor.vendorScore; i++){
-	    var vendorStar = document.createElement('div');
-	    vendorStar.innerHTML = coloredStarGeneretor();
-	    vendorRate.appendChild(vendorStar);
-    }
-
-   	for(i=0; i<5-vendor.vendorScore; i++){
-	    var vendorStar = document.createElement('div');
-	    vendorStar.innerHTML = blackStarGeneretor();
-	    vendorRate.appendChild(vendorStar);
-    }
-
     vendorHeader.appendChild(vendorName);
     vendorHeader.appendChild(vendorRate);
 
     var tableItem = document.createElement('table');
     tableItem.classList.add('table-item');
 
-   
+
     vendor.items.forEach((item, j) => {
 
       //ITEM NAME - ITEM PRICE - ITEM QUANTITY - ITEM TOTAL
@@ -68,7 +63,7 @@ function buildCart(cart) {
       itemQuantity.appendChild(decrementButton);
 
       var quantityNumber = document.createElement('div');
-      quantityNumber.textContent = item.quantity; 
+      quantityNumber.textContent = item.quantity;
       quantityNumber.classList.add('item-number');
 
       itemQuantity.appendChild(quantityNumber);
@@ -81,7 +76,7 @@ function buildCart(cart) {
         e.preventDefault();
         doAddCart(vendor.vendorId, item.itemId,null,null);
       });
-    
+
       itemQuantity.appendChild(incrementButton);
 
       var itemPriceTotal = document.createElement('td');
@@ -163,6 +158,6 @@ function buildCart(cart) {
 
     container.appendChild(vendorContainer);
   });
-  
+
    return container;
 }

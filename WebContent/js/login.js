@@ -32,4 +32,20 @@
       form.reportValidity();
     }
   });
+
+  document.getElementById('register').addEventListener('click', (e) => {
+    e.preventDefault();
+    var formBox = document.getElementById('form-box');
+    //formBox.innerHTML = "";
+    formBox.style.display = 'none';
+    var formBox2 = document.createElement('form2-box');
+    //var container = document.getElementById('form-box');
+    var registerForm = showRegister();
+    registerForm.style.display = 'block';
+
+    //formBox.appendChild(registerForm);
+    formBox2.appendChild(registerForm);
+    console.log(registerForm);
+    registerForm.style.display = 'block';
+  })
 })();

@@ -46,16 +46,18 @@ public class Visualize extends HttpServlet {
 
 		//get the id of the item of which the user ask the visualization
 		Integer idItemAsked = null;
-		String wordSearchedString = null;
+		//String wordSearchedString = null;
 
 		//create a variable for the new View created
 		View view = null;
 		try {
-			idItemAsked = Integer.parseInt(request.getParameter("viewId"));
-			wordSearchedString = request.getParameter("keyword");
+			idItemAsked = Integer.parseInt(request.getParameter("idItem"));
+			System.out.println(idItemAsked);
+			//wordSearchedString = request.getParameter("keyword");
 
 				// check the paramether from session
-			if (idItemAsked == null || idItemAsked < 0 || wordSearchedString == null || wordSearchedString.isEmpty()) {
+			if (idItemAsked == null || idItemAsked < 0 /*|| wordSearchedString == null || wordSearchedString.isEmpty()*/) {
+				
 				throw new Exception("Id asked to be viewed not valid or problem in word searched error");
 			}
 
@@ -67,6 +69,7 @@ public class Visualize extends HttpServlet {
 		} catch (Exception e) {
 				//check KO
 			e.printStackTrace();
+			
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().println("Request Error, Problem in finding idItem to visualized!");
 			return;
@@ -78,6 +81,7 @@ public class Visualize extends HttpServlet {
 			viewDAO.createOneViewByUserIdAndItemId(idUser, idItemAsked);
 		}catch (DatabaseException e1) {
 			e1.printStackTrace();
+			
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().println("Database Error");
 			return;
@@ -85,6 +89,7 @@ public class Visualize extends HttpServlet {
 
 		//saving the viewId in the session
 							//probably this will be useless
+							/*
 		List<Integer> idItemViewed = new ArrayList<Integer>();
 		if(session.getAttribute("itemViewed")!=null) {
 			idItemViewed = (List<Integer>) session.getAttribute("itemViewed");
@@ -94,7 +99,7 @@ public class Visualize extends HttpServlet {
 		session.setAttribute("itemViewed", idItemViewed);
 
 		//reloading the search page set this boolean attribute to false to not lost this and all old item viewed yet
-		session.setAttribute("clearViewItemList", false);
+		session.setAttribute("clearViewItemList", false);*/
 
 		response.setStatus(HttpServletResponse.SC_OK);
 	  response.setContentType("application/json");

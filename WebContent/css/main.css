@@ -1,206 +1,290 @@
-*, *::before, *::after {
-	box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
-body, h1, h2, h3, h4, h5, h6, p, a, button {
-	margin: 0;
-	font-family: "Hind", sans-serif;
+body,
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+p,
+a,
+button {
+  margin: 0;
+  font-family: "Hind", sans-serif;
 }
 
-h1, h2, h3, h4, h5, h6 {
-	font-weight: 700;
-	font-family: "Montserrat", sans-serif;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-weight: 700;
+  font-family: "Montserrat", sans-serif;
 }
 
 a {
-	color: inherit;
-	text-decoration: none;
+  color: inherit;
+  text-decoration: none;
 }
 
 ul {
-	list-style: none;
+  list-style: none;
 }
 
 i {
-	font-size: 3rem;
+  font-size: 3rem;
 }
 
 header {
-	position: sticky;
-	top: 0;
-	left: 0;
-	z-index: 1000;
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px 5%;
-	background-color: #24252a;
-	color: #fff;
-	justify-content: space-between;
+  position: sticky;
+  top: 0;
+  left: 0;
+  z-index: 1000;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 5%;
+  background-color: #24252a;
+  color: #fff;
+  justify-content: space-between;
 }
 
 header div {
-	flex: 1 1 20%;
+  flex: 1 1 20%;
 }
 
 .header-logo {
-	height: 70px;
+  height: 70px;
 }
 
 nav {
-	flex: 1 1 30%;
-	min-width: 42ch;
+  flex: 1 1 30%;
+  min-width: 42ch;
 }
 
 nav a {
-	display: inline-block;
-	padding: 5px 10px;
-	margin: 0 5px;
+  display: inline-block;
+  padding: 5px 10px;
+  margin: 0 5px;
 }
 
 nav a:hover {
-	color: #24252a;
-	background-color: #fff;
-	transition: 200ms;
+  color: #24252a;
+  background-color: #fff;
+  transition: 200ms;
 }
 
 input {
-	padding: 10px;
+  padding: 10px;
 }
 
 header form {
-	flex: 1 1 50%;
+  flex: 1 1 50%;
 }
 
 header form input {
-	width: 100%;
+  width: 100%;
 }
 
 button {
-	padding: 5px 10px;
+  padding: 5px 10px;
 }
 
 section {
-	width: 90%;
-	margin: auto;
-	padding-top: 20px;
+  width: 90%;
+  margin: auto;
+  padding-top: 20px;
 }
 
 th {
-	text-align: left;
-}
-
-.text-muted {
-	color: gray;
-}
-
-.errorMessage {
-	color: white;
-	background-color: #b80c09;
-	padding: 20px;
-	margin: 20px 5%;
-	width: 90%;
-}
-
-.card {
-	padding: 20px;
-	margin: 20px 0 40px 0;
-	box-shadow: 5px 6px 4px 0px rgba(0, 0, 0, 0.28);
-	border-radius: 5px;
-	background-color: #f3f3f3;
-	border: 1px solid grey;
-}
-
-.item-card {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-content: space-between;
-}
-
-.item-card img {
-	height: 350px;
-}
-
-.product-title {
-	font-size: 2rem;
-}
-
-.product-info {
-	width: 40%;
-	margin: 0 20px;
-}
-
-.product-category {
-	display: inline-block;
-	color: #fff;
-	background-color: #b80c09;
-	padding: 5px 20px;
-	margin: 5px 0;
-	border-radius: 5px;
+  text-align: left;
 }
 
 .checked {
-	color: #b80c09;
+  color: #f3a712;
+}
+
+.text-muted {
+  color: gray;
+}
+
+.errorMessage {
+  color: white;
+  background-color: #b80c09;
+  padding: 20px;
+  margin: 20px 5%;
+  width: 90%;
+}
+
+.card {
+  padding: 20px;
+  margin: 20px 0 40px 0;
+  box-shadow: 5px 6px 4px 0px rgba(0, 0, 0, 0.28);
+  border-radius: 5px;
+  background-color: #f3f3f3;
+  border: 1px solid grey;
+}
+
+.item-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.item-card img {
+  height: 350px;
+}
+
+.product-title {
+  font-size: 2rem;
+}
+
+.product-info {
+  width: 40%;
+  margin: 0 20px;
+}
+
+.product-category {
+  display: inline-block;
+  color: #fff;
+  background-color: #b80c09;
+  padding: 5px 20px;
+  margin: 5px 0;
+  border-radius: 5px;
 }
 
 .item-price-row {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .item-price-row form {
-	display: inline;
+  display: inline;
 }
 
 .item-price-row form input {
-	width: 60px;
-	border: 1px solid grey;
-	border-radius: 5px;
+  width: 60px;
+  border: 1px solid grey;
+  border-radius: 5px;
 }
 
 .item-price-row form button {
-	border: none;
-	background: #b80c09;
-	color: white;
-	font-weight: 700;
-	padding: 12px 20px;
-	margin: 5px 0;
-	border-radius: 5px;
+  border: none;
+  background: #b80c09;
+  color: white;
+  font-weight: 700;
+  padding: 12px 20px;
+  margin: 5px 0;
+  border-radius: 5px;
 }
 
 .item-price {
-	font-weight: 700;
-	font-size: 1.5rem;
+  font-weight: 700;
+  font-size: 1.5rem;
 }
 
 .vendors {
-	overflow-x: hidden;
-	overflow-y: scroll;
-	height: 400px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  height: 400px;
 }
 
 ::-webkit-scrollbar {
-	width: 8px;
+  width: 8px;
 }
 
 ::-webkit-scrollbar-track {
-	box-shadow: inset 0 0 5px grey;
-	border-radius: 10px;
+  box-shadow: inset 0 0 5px grey;
+  border-radius: 10px;
 }
 
 ::-webkit-scrollbar-thumb {
-	background: #b80c09;
-	border-radius: 10px;
+  background: #b80c09;
+  border-radius: 10px;
 }
 
 .item-vendor {
-	margin: 10px;
-	padding: 20px;
-	/* border-style: outset; */
-	border-radius: 5px;
-	border: 1px solid grey;
-	background-color: #fff;
+  margin: 10px;
+  padding: 20px;
+  /* border-style: outset; */
+  border-radius: 5px;
+  border: 1px solid grey;
+  background-color: #fff;
+}
+
+/* Popup container */
+
+.cartSubtotal {
+  font-style: italic;
+  /*color: #b80c09;*/
+  font-weight: bold;
+}
+
+.popup {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+}
+
+/* The actual popup (appears on top) */
+.popup .popuptext {
+  visibility: hidden;
+  width: 200px;
+  background-color: #24252a;
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 8px 8px;
+  position: absolute;
+  z-index: 1;
+  bottom: 125%;
+  left: 50%;
+  margin-left: -80px;
+}
+
+/* Popup arrow */
+.popup .popuptext::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: #24252a transparent transparent transparent;
+}
+
+/* Toggle this class when clicking on the popup container (hide and show the popup) */
+.popup .show {
+  visibility: visible;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* Add animation (fade in the popup) */
+@-webkit-keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }

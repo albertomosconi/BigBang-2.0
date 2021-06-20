@@ -15,6 +15,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -38,6 +39,7 @@ public class Search extends HttpServlet{
     public void init() throws ServletException {
 		servletContext = getServletContext();
 		connection = DBConnectionProvider.getConnection(servletContext);
+
 }
 
 @SuppressWarnings("unchecked")
@@ -51,32 +53,12 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
   //create the variable to store a possible error
   ErrorMessage errorMessage;
 
-  //get the lists of item searched yet or viewed yet by the session, if there are
-  List<ExtendedItem> viewItem = (List<ExtendedItem>) session.getAttribute("itemViewed");
-  List<ExtendedItem> extendedItemSearch = (List<ExtendedItem>) session.getAttribute("itemSearch");
-
-  //as default remove all viewed items because is a new search
-  /* so if is set, get the boolean from the session that
-  say if the views have to be cleaned or not */
-  boolean clearViewedItemList = true;
-  if(session.getAttribute("clearViewItemList")!=null) {
-    clearViewedItemList = (boolean)session.getAttribute("clearViewItemList");
-  }
-
-  /* now check if is a new search
-    so remove all the old viewed Items */
-  if (clearViewedItemList) {
-    //each time I do a new search, remove all old items searched and visualized
     request.getSession().removeAttribute("itemSearch");
-    request.getSession().removeAttribute("itemViewed");
-    viewItem = null;
-    }
+
 
     // Get the search parameter, so the items asked to be viewed
 		String wordSearched = null;
 		try {
-			System.out.println(request.toString());
-			System.out.println(request.getParameter("keyword"));
 
 			wordSearched = request.getParameter("keyword");
 
@@ -94,7 +76,7 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
     ItemDAO itemDAO = new ItemDAO(connection);
 		ExtendedItemDAO extendedItemDAO = new ExtendedItemDAO(connection);
 		List<Item> compressedItems = new ArrayList<>();
-		extendedItemSearch = new ArrayList<>();
+		List<ExtendedItem> extendedItemSearch = new ArrayList<>();
 		try {
 			compressedItems = itemDAO.findManyByWord(wordSearched);
 			extendedItemSearch = extendedItemDAO.findManyItemsDetailsByCompressedItems(compressedItems);
@@ -106,66 +88,60 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 			return;
     }
 
-    if (viewItem == null) {
-			//no item visualized yet
-			viewItem = new ArrayList<>();
-		}
+    System.out.println(extendedItemSearch.toString());
 
-		//not needed anymore
-		session.removeAttribute("clearViewItemList");
+    //Gson library convers java objects in JSON and send throw the net
+    Gson gson = new GsonBuilder().create();
 
-    //get only the id of the items viewed(if there is)
-	ArrayList<Integer> idItemViewed = new ArrayList<>();
-    if (viewItem != null){
+      //WORD searched by the client
+    //String keyword = wordSearched;
+    String extendedItemsJson = "";
 
-		for (ExtendedItem item : viewItem) {
-			idItemViewed.add(item.getId());
-		}
-  }
-
-  //Gson library convers java objects in JSON and send throw the net
-  Gson gson = new GsonBuilder().create();
-
-    //WORD searched by the client
-  //String keyword = wordSearched;
-
-    //the list of ITEM returned by the search
-  String extendedItemsJson = "[";
-  for (ExtendedItem extendedItem : extendedItemSearch) {
-    extendedItemsJson += "{\"id\":"+extendedItem.getId()+",\"name\":\""+extendedItem.getName()+"\",\"description\":\""+extendedItem.getDescription().replace("\"", "\\\"")+"\",\"category\":\""+extendedItem.getCategory()+"\",\"picture\":\""+extendedItem.getPicture()+"\",";
-    String vendorString = "[";
-    String priceString = "[";
-    for (Map.Entry<Vendor, Price> entry : extendedItem.getValue().entrySet()) {
-      Vendor v = entry.getKey();
-      Price p = entry.getValue();
-      vendorString += gson.toJson(v) + ",";
-      priceString += gson.toJson(p) + ",";
+    if (extendedItemSearch != null && !extendedItemSearch.isEmpty()) {
+      System.out.println("here in NOT empty");
+      //the list of ITEM returned by the search
+    extendedItemsJson = "[";
+    for (ExtendedItem extendedItem : extendedItemSearch) {
+      extendedItemsJson += "{\"id\":"+extendedItem.getId()+",\"name\":\""+extendedItem.getName()+"\",\"description\":\""+extendedItem.getDescription().replace("\"", "\\\"")+"\",\"category\":\""+extendedItem.getCategory()+"\",\"picture\":\""+extendedItem.getPicture()+"\",";
+      String vendorString = "[";
+      String priceString = "[";
+      for (Map.Entry<Vendor, Price> entry : extendedItem.getValue().entrySet()) {
+        Vendor v = entry.getKey();
+        Price p = entry.getValue();
+        vendorString += gson.toJson(v) + ",";
+        priceString += gson.toJson(p) + ",";
+      }
+      vendorString = vendorString.substring(0, vendorString.length()-1);
+      priceString = priceString.substring(0, priceString.length()-1);
+      vendorString+="]";
+      priceString+="]";
+      extendedItemsJson += "\"vendorList\":" + vendorString + ",";
+      extendedItemsJson += "\"priceList\":" + priceString + "},";
     }
-    vendorString = vendorString.substring(0, vendorString.length()-1);
-    priceString = priceString.substring(0, priceString.length()-1);
-    vendorString+="]";
-    priceString+="]";
-    extendedItemsJson += "\"vendorList\":" + vendorString + ",";
-    extendedItemsJson += "\"priceList\":" + priceString + "},";
+    extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length()-1);
+    extendedItemsJson+="]";
   }
-  extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length()-1);
-  extendedItemsJson+="]";
-//  String extendedItemString = gson.toJson(extendedItemsJson);
+  else{
+    System.out.println("here in empty");
+    extendedItemsJson = "[]";
+  }
 
-    //list of item ID of wich have to be visualized
-  //String idViewed = "";
-  //idViewed = gson.toJson(idItemViewed);
+  //  String extendedItemString = gson.toJson(extendedItemsJson);
 
-    //put all 3 in an array list of string and write it in the response
-  //ArrayList<String> JSONRequest = new ArrayList();
-  //JSONRequest.add(keyword);
-  //JSONRequest.add(extendedItemString);
-  //JSONRequest.add(idViewed);
+      //list of item ID of wich have to be visualized
+    //String idViewed = "";
+    //idViewed = gson.toJson(idItemViewed);
 
-  response.setStatus(HttpServletResponse.SC_OK);
-  response.setContentType("application/json");
-  response.setCharacterEncoding("UTF-8");
-  response.getWriter().println(extendedItemsJson);
+      //put all 3 in an array list of string and write it in the response
+    //ArrayList<String> JSONRequest = new ArrayList();
+    //JSONRequest.add(keyword);
+    //JSONRequest.add(extendedItemString);
+    //JSONRequest.add(idViewed);
+
+    response.setStatus(HttpServletResponse.SC_OK);
+    response.setContentType("application/json");
+    response.setCharacterEncoding("UTF-8");
+    response.getWriter().println(extendedItemsJson);
 
 
 }
