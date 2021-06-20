@@ -131,15 +131,20 @@ function buildExtendedItem(item) {
     itemVendor.appendChild(priceRow);
 
     var soldByText = document.createElement('p');
-    soldByText.innerHTML = 'sold by <strong>' + item['vendorList'][i]['name'];
+    soldByText.textContent = "sold by "
+    let vendorName = document.createElement("strong")
+    vendorName.textContent = item['vendorList'][i]['name']
+    soldByText.appendChild(vendorName)
+    //soldByText.innerHTML = 'sold by <strong>' + item['vendorList'][i]['name'];
     var ratingContainer = document.createElement('div');
     for (let r = 0; r < 5; r++) {
       var vendorStar = document.createElement('span');
       vendorStar.classList.add('fa', 'fa-star');
       if (r < item.vendorList[i].score) vendorStar.classList.add('checked');
-      ratingContainer.appendChild(vendorStar);
+      //ratingContainer.appendChild(vendorStar);
+      soldByText.appendChild(vendorStar)
     }
-    soldByText.appendChild(ratingContainer);
+    //soldByText.appendChild(ratingContainer);
     itemVendor.appendChild(soldByText);
 
     var itemsInCartText = document.createElement('p');
@@ -160,6 +165,8 @@ function buildExtendedItem(item) {
             cartSummary.appendChild(cartItem);
             cartSummary.appendChild(document.createElement('br'));
         });
+        let br = document.createElement("br")
+        cartSummary.appendChild(br)
         var cartSubtotal = document.createElement("span");
         cartSubtotal.classList.add("cartSubtotal");
         cartSubtotal.textContent = "Subtotal " + Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(subtotalPrice);

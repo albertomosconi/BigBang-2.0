@@ -10,6 +10,7 @@ function buildOrdersList(orders) {
         card.appendChild(idDateText)
         
         let orderInfo = document.createElement("div")
+        orderInfo.classList.add("order-info")
         let subcontainer = document.createElement("div")
         let vendorNameRatingText = document.createElement("h2")
         let vendorName = document.createElement("strong")
