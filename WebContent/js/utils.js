@@ -203,18 +203,16 @@ function buildExtendedItem(item) {
 
     itemsInCartText.addEventListener('mouseover', (e) => {
       var popup = document.getElementById(
-        'myPopup' + item['vendorList'][i]['id'] + item['id'],
-      );
+        'myPopup' + item['vendorList'][i]['id'] + item['id']);
       popup.classList.toggle('show');
     });
 
     itemsInCartText.addEventListener('mouseout', (e) => {
       var popup = document.getElementById(
-        'myPopup' + item['vendorList'][i]['id'] + item['id'],
-      );
+        'myPopup' + item['vendorList'][i]['id'] + item['id']);
       popup.classList.toggle('show');
     });
-
+    
     itemsInCartText.appendChild(popupContainer);
     itemVendor.appendChild(itemsInCartText);
     itemVendor.appendChild(document.createElement('br'));
