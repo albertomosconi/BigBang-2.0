@@ -29,6 +29,7 @@ function goHome() {
   });
 }
 
+/*
 function goCart() {
   doRequest('cart', 'GET', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
@@ -76,6 +77,31 @@ function goCart() {
       }
     }
   });
+}
+*/
+
+function goCart() {
+      document.getElementById('pageContainer').innerHTML = '';
+
+          var pageContainer = document.getElementById('pageContainer');
+
+          // create heading
+          var heading = document.createElement('h1');
+          heading.textContent = 'Items in your cart';
+          heading.classList.add('title');
+          var icon = document.createElement('div');
+          icon.innerHTML = `<i class="fa fa-shopping-cart"></i>`;
+          heading.appendChild(icon);
+
+          pageContainer.appendChild(heading);
+
+          // create cart
+          var cartString = window.sessionStorage.getItem("cartSession");
+          if(cartString!=null){
+          var cart = JSON.parse(cartString);
+          var cartContainer = buildCart(cart);
+          pageContainer.appendChild(cartContainer);
+        }
 }
 
 function doSearch(keyword, viewed = null) {
