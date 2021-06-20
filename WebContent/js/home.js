@@ -109,7 +109,7 @@ function doSearch(keyword, viewed = null) {
 }
 
 function doView(idItem, item){
-  doRequest('view?idItem=' +idItem, 'POST', (req) =>{
+  doRequest('visualize?idItem=' +idItem, 'POST', (req) =>{
     if (req.readyState == XMLHttpRequest.DONE) {
     var responseBody = req.responseText;
     switch (req.status) {
