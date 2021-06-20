@@ -1,175 +1,171 @@
 @charset "ISO-8859-1";
 
 .vendor-section {
-	justify-content: space-between;
+  justify-content: space-between;
 }
 
-.title{
-	display: flex;
+.title {
+  display: flex;
 }
 
 .vendor-head {
-	display: flex;
+  display: flex;
 }
 
-.vendor-rate{
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-	align-items: center;
-	padding: 10px;
+.vendor-rate {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
 }
 
 .vendor-name {
-	font-size: 25px;
-	font-weight: bold;
+  font-size: 25px;
+  font-weight: bold;
 }
 
 table {
-	width: 100%;
-	border-bottom: 2px solid #ddd;
+  width: 100%;
+  border-bottom: 2px solid #ddd;
 }
 
-.table-item{
-	 border-collapse: collapse;
+.table-item {
+  border-collapse: collapse;
 }
 
 .item {
-	text-align: left;
-	padding: 10px;
+  text-align: left;
+  padding: 10px;
 }
 
 .item:hover {
-	background-color: #ddd;
+  background-color: #ddd;
 }
 
 .item-quantity {
-	display: flex;
-	flex-direction: row;
-	justify-content: space-around;
-	align-items: center;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
 }
 
 .increment-decrement-button {
-	border-radius: 50%;
-	background-color: #f3f3f3;
-	border: #f3f3f3;
+  border-radius: 50%;
+  background-color: #f3f3f3;
+  border: #f3f3f3;
 }
 
 .increment-decrement-button:hover {
-	background-color: #e7e7e7;
+  background-color: #e7e7e7;
 }
 
 .footer {
-	display: flex;
-	justify-content: flex-end;
-	align-items: center;
-	padding: 2px;
-	padding-top: 8px;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 2px;
+  padding-top: 8px;
 }
 
 .text {
-	text-align: left;
+  text-align: left;
 }
 
 .prices {
-	text-align: right;
-	display: block;
+  text-align: right;
+  display: block;
 }
 
 .subtotal {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .subtotal-price {
-	padding-left: 8px;
+  padding-left: 8px;
 }
 
 .shipping {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	font-style: italic;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-style: italic;
 }
 
 .shipping-price {
-	padding-left: 8px;
-	font-style: italic;
+  padding-left: 8px;
+  font-style: italic;
 }
 
 .total {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
-	font-weight: bold;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+  font-weight: bold;
 }
 
 .total-price {
-	padding-left: 8px;
-	font-weight: bold;
+  padding-left: 8px;
+  font-weight: bold;
 }
 
 .order-cart-button {
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-end;
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .order-cart {
-	padding-top: 10px;
-	border-radius: 5px;
-	background-color: #b80c09;
-	border: none;
-	color: #FFFFFF;
-	font-size: 20px;
-	width: 100px;
-	transition: all 0.5s;
-	cursor: pointer;
-	margin: 5px;
+  padding-top: 10px;
+  border-radius: 5px;
+  background-color: #b80c09;
+  border: none;
+  color: #ffffff;
+  font-size: 20px;
+  width: 100px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
 }
 
 .order-cart span {
-	cursor: pointer;
-	display: inline-block;
-	position: relative;
-	transition: 0.5s;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
 }
 
 .order-cart span:after {
-	content: '\00bb';
-	position: absolute;
-	opacity: 0;
-	top: 0;
-	right: -20px;
-	transition: 0.5s;
+  content: "\00bb";
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
 }
 
 .order-cart:hover span {
-	padding-right: 25px;
+  padding-right: 25px;
 }
 
 .order-cart:hover span:after {
-	opacity: 1;
-	right: 0;
+  opacity: 1;
+  right: 0;
 }
 
 .prices-setting {
-	text-align: right;
-	flex-direction: row;
-	justify-content: flex-end;
+  text-align: right;
+  flex-direction: row;
+  justify-content: flex-end;
 }
 
 .prices-setting-bis {
-	display: flex;
-	flex-direction: row;
-	justify-content: center;
-	align-items: center;
-}
-
-.checked{
-	color: #F3A712;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .animation {
@@ -178,7 +174,7 @@ table {
   white-space: nowrap;
   animation-name: example;
   animation-duration: 5s;
-  animation-direction: linear; 
+  animation-direction: linear;
 }
 
 @keyframes example {

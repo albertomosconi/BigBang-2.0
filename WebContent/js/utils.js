@@ -40,14 +40,13 @@ function initializeHome() {
   //search form
   var keyword = document.getElementById('keyword');
 
-
-  keyword.addEventListener("keydown", (e) =>{
-    if (e.code === "Enter") {
+  keyword.addEventListener('keydown', (e) => {
+    if (e.code === 'Enter') {
       e.preventDefault();
       //save the keyword in the sessionStorage, and remove the old visualized
-    sessionStorage.setItem('keyword', keyword.value);
-    //var v = '';
-    sessionStorage.removeItem('viewItem');
+      sessionStorage.setItem('keyword', keyword.value);
+      //var v = '';
+      sessionStorage.removeItem('viewItem');
       console.log(keyword);
       if (keyword.checkValidity()) {
         //call the method that handle the search
@@ -55,7 +54,7 @@ function initializeHome() {
         console.log(searchForm);
 
         doSearch(keyword.value);
-         keyword.value = '';
+        keyword.value = '';
       } else {
         errorContainer.style.display = 'block';
         document
@@ -64,8 +63,6 @@ function initializeHome() {
       }
     }
   });
-
-
 }
 
 function buildExtendedItem(item) {
@@ -124,77 +121,98 @@ function buildExtendedItem(item) {
     form.appendChild(quantityInput);
     var addButton = document.createElement('button');
     addButton.textContent = 'Add to cart';
-
+    addButton.addEventListener('click', (e) => {
+      e.preventDefault();
+      doAddCart(item.vendorList[i].id, item.id, quantityInput.value);
+    });
     form.appendChild(addButton);
     priceRow.appendChild(form);
 
     itemVendor.appendChild(priceRow);
 
     var soldByText = document.createElement('p');
-    soldByText.innerHTML = 'sold by <strong>' + item['vendorList'][i]['name'];
+    soldByText.textContent = 'sold by ';
+    let vendorName = document.createElement('strong');
+    vendorName.textContent = item['vendorList'][i]['name'];
+    soldByText.appendChild(vendorName);
+    //soldByText.innerHTML = 'sold by <strong>' + item['vendorList'][i]['name'];
     var ratingContainer = document.createElement('div');
     for (let r = 0; r < 5; r++) {
       var vendorStar = document.createElement('span');
       vendorStar.classList.add('fa', 'fa-star');
       if (r < item.vendorList[i].score) vendorStar.classList.add('checked');
-      ratingContainer.appendChild(vendorStar);
+      //ratingContainer.appendChild(vendorStar);
+      soldByText.appendChild(vendorStar);
     }
-    soldByText.appendChild(ratingContainer);
+    //soldByText.appendChild(ratingContainer);
     itemVendor.appendChild(soldByText);
 
     var itemsInCartText = document.createElement('p');
 
-      var cartString = sessionStorage.getItem('cartSession');
-      var cartJson = JSON.parse(cartString);
-      var total = 0;
-      var cartSummary = document.createElement("span");
-      if(cartJson != null){
-      cartJson.forEach((vendorCart, k)=>{
-        if(vendorCart.vendorId == item['vendorList'][i]['id']){
+    var cartString = sessionStorage.getItem('cartSession');
+    var cartJson = JSON.parse(cartString);
+    var total = 0;
+    var cartSummary = document.createElement('span');
+    if (cartJson != null) {
+      cartJson.forEach((vendorCart, k) => {
+        if (vendorCart.vendorId == item['vendorList'][i]['id']) {
           subtotalPrice = 0;
           vendorCart.items.forEach((itemCart, j) => {
             total = total + itemCart.quantity;
             subtotalPrice = subtotalPrice + itemCart.price * itemCart.quantity;
-            var cartItem = document.createElement("span");
-            cartItem.textContent = itemCart.quantity + " x " + itemCart.itemName;
+            var cartItem = document.createElement('span');
+            cartItem.textContent =
+              itemCart.quantity + ' x ' + itemCart.itemName;
             cartSummary.appendChild(cartItem);
             cartSummary.appendChild(document.createElement('br'));
-        });
-        var cartSubtotal = document.createElement("span");
-        cartSubtotal.classList.add("cartSubtotal");
-        cartSubtotal.textContent = "Subtotal " + Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(subtotalPrice);
-        cartSummary.appendChild(cartSubtotal);
-      }
+          });
+          let br = document.createElement('br');
+          cartSummary.appendChild(br);
+          var cartSubtotal = document.createElement('span');
+          cartSubtotal.classList.add('cartSubtotal');
+          cartSubtotal.textContent =
+            'Subtotal ' +
+            Intl.NumberFormat('de-DE', {
+              style: 'currency',
+              currency: 'EUR',
+            }).format(subtotalPrice);
+          cartSummary.appendChild(cartSubtotal);
+        }
       });
     }
 
-  var itemsInCartStrong = document.createElement('strong');
-  itemsInCartStrong.textContent = total + " items ";
-  var itemsInCart = document.createElement('span');
-  itemsInCart.textContent = 'in your cart are sold by this vendor';
-  itemsInCartText.appendChild(itemsInCartStrong);
-  itemsInCartText.appendChild(itemsInCart);
+    var itemsInCartStrong = document.createElement('strong');
+    itemsInCartStrong.textContent = total + ' items ';
+    var itemsInCart = document.createElement('span');
+    itemsInCart.textContent = 'in your cart are sold by this vendor';
+    itemsInCartText.appendChild(itemsInCartStrong);
+    itemsInCartText.appendChild(itemsInCart);
 
-  //var popup = document.createElement('div');
-  itemsInCartText.classList.add("popup");
+    //var popup = document.createElement('div');
+    itemsInCartText.classList.add('popup');
 
-  var popupContainer = document.createElement('span');
-  popupContainer.classList.add('popuptext');
-  popupContainer.id = 'myPopup'+item['vendorList'][i]['id']+item['id'];
+    var popupContainer = document.createElement('span');
+    popupContainer.classList.add('popuptext');
+    popupContainer.id = 'myPopup' + item['vendorList'][i]['id'] + item['id'];
 
-if(cartSummary.children.length == 0){
-  cartSummary.textContent="No item in your cart are sold by this vendor :( ";
-}
-popupContainer.appendChild(cartSummary);
+    if (cartSummary.children.length == 0) {
+      cartSummary.textContent =
+        'No item in your cart are sold by this vendor :( ';
+    }
+    popupContainer.appendChild(cartSummary);
 
-    itemsInCartText.addEventListener('mouseover',(e)=>{
-      var popup = document.getElementById("myPopup"+item['vendorList'][i]['id']+item['id']);
-      popup.classList.toggle("show");
+    itemsInCartText.addEventListener('mouseover', (e) => {
+      var popup = document.getElementById(
+        'myPopup' + item['vendorList'][i]['id'] + item['id'],
+      );
+      popup.classList.toggle('show');
     });
 
-    itemsInCartText.addEventListener('mouseout',(e)=>{
-      var popup = document.getElementById("myPopup"+item['vendorList'][i]['id']+item['id']);
-      popup.classList.toggle("show");
+    itemsInCartText.addEventListener('mouseout', (e) => {
+      var popup = document.getElementById(
+        'myPopup' + item['vendorList'][i]['id'] + item['id'],
+      );
+      popup.classList.toggle('show');
     });
 
     itemsInCartText.appendChild(popupContainer);

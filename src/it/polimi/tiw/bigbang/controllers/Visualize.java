@@ -34,6 +34,7 @@ public class Visualize extends HttpServlet {
   @SuppressWarnings("unchecked")
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
+	  System.out.println("Enter in Visualize");
 		HttpSession session = request.getSession();
 
 		//get the user by the session
@@ -56,7 +57,7 @@ public class Visualize extends HttpServlet {
 			//wordSearchedString = request.getParameter("keyword");
 
 				// check the paramether from session
-			if (idItemAsked == null || idItemAsked < 0 /*|| wordSearchedString == null || wordSearchedString.isEmpty()*/) {
+			if (idItemAsked == null || idItemAsked < 0) {
 				
 				throw new Exception("Id asked to be viewed not valid or problem in word searched error");
 			}
@@ -79,6 +80,7 @@ public class Visualize extends HttpServlet {
 		ViewDAO viewDAO = new ViewDAO(connection);
 		try {
 			viewDAO.createOneViewByUserIdAndItemId(idUser, idItemAsked);
+			System.out.println("Do the post in DB");
 		}catch (DatabaseException e1) {
 			e1.printStackTrace();
 			
