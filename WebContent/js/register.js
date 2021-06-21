@@ -1,6 +1,5 @@
 function showRegister(){
   //if clicked the link for the registration
-  //form.style.display = 'none';
   var secondForm = document.createElement('div');
   secondForm.classList.add('registerForm');
   var formContainer = document.createElement('div');
@@ -12,31 +11,37 @@ function showRegister(){
   name.type = 'text';
   name.placeholder = 'name';
   name.name = 'name';
+  name.required = 'required';
     //surname
   var surname = document.createElement('input');
   surname.type = 'text';
   surname.placeholder = 'surname';
   surname.name = 'surname';
+  surname.required = 'required';
     //email
   var email = document.createElement('input');
   email.type = 'email';
   email.placeholder = 'email';
   email.name = 'email';
+  email.required = 'required';
     //password1
   var psw = document.createElement('input');
   psw.type = 'password';
   psw.placeholder = 'password';
   psw.name = 'psw';
+  psw.required = 'required';
     //password2
   var confirmPsw = document.createElement('input');
   confirmPsw.type = 'password';
   confirmPsw.placeholder = 'password';
   confirmPsw.name = 'confirmPwd';
+  confirmPsw.required = 'required';
     //address
   var address = document.createElement('input');
   address.type = 'text';
   address.placeholder = 'address';
   address.name = 'address';
+  address.required = 'required';
     //button
   var registerButton = document.createElement('button');
   registerButton.type = 'submit';
@@ -72,17 +77,19 @@ function showRegister(){
 
   registerButton.addEventListener('click', (e) =>{
     e.preventDefault();
-    if (actualForm.checkValidity) {
+    if ((actualForm.checkValidity()) && (psw.value === confirmPsw.value)) {
       doRequest('register', 'POST', (req) => {
         if (req.readyState == XMLHttpRequest.DONE) {
           var responseBody = req.responseText;
           switch (req.status) {
             case 200:
-            //hide the register form
-            secondForm.innerHTML = "";
-            var loginForm = document.getElementById('form-box');
-            loginForm.style.display = 'block';
-            break;
+              //hide the register form
+              secondForm.innerHTML = "";
+              //restore the login form
+              var loginForm = document.getElementById('form-box');
+              loginForm.style.display = 'block';
+              break;
+
             default:
               // request failed, display error
               errorContainer.style.display = 'block';
@@ -90,61 +97,14 @@ function showRegister(){
               break;
       }
     }
-
   },
 actualForm);
 } else{
-  form.reportValidity();
+  actualForm.reportValidity();
+  if (psw.value !== confirmPsw.value) {
+    //show error msg 
+  }
 }
 });
 return secondForm;
-}
-
-function restoreLogin(){
-  var externalBox = document.createElement('div');
-  externalBox.classList.add('box');
-  externalBox.id = 'box';
-
-  var form = document.createElement('form');
-  form.id = "loginForm";
-  form.action = "#";
-
-  var email = document.createElement('input');
-  email.type = 'text';
-  email.placeholder = 'email';
-  email.name = 'email';
-  email.attributes.required = 'required';
-  email.focus();
-  form.appendChild(email);
-
-  var space = document.createElement('br');
-  form.appendChild(space);
-
-  var psw = document.createElement('input');
-  psw.type = 'password';
-  psw.placeholder = 'password';
-  psw.name = 'psw';
-  psw.attributes.required = 'required';
-  form.appendChild(psw);
-
-  var space2 = document.createElement('br');
-  form.appendChild(space2);
-
-  var logButton = document.createElement('input');
-  logButton.type = 'button';
-  logButton.value = 'login';
-  logButton.classList.add('loginButton');
-  logButton.id = 'loginButton';
-  form.appendChild(logButton);
-
-  externalBox.appendChild(form);
-
-  var regLink = document.createElement('a');
-  regLink.href = '/register';
-  regLink.classList.add('register');
-  regLink.id = 'register';
-  externalBox.appendChild(regLink);
-
-  return externalBox;
-
 }

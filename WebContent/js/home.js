@@ -105,7 +105,7 @@ function goCart() {
 }
 
 function doSearch(keyword, viewed = null) {
-  console.log(keyword);
+  //function called after press send in search input
   doRequest('search?keyword=' + keyword, 'GET', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       var responseBody = req.responseText;
@@ -113,47 +113,34 @@ function doSearch(keyword, viewed = null) {
       switch (req.status) {
         case 200:
           // request was successful, go to search page
-
-
-            //the response is not empty
-            var itemsSearch = JSON.parse(responseBody);
-
+          var itemsSearch = JSON.parse(responseBody);
 
           var pageContainer = document.getElementById('pageContainer');
+          var searchContainer = listSearched(itemsSearch);
+          pageContainer.appendChild(searchContainer);
 
-          console.log(itemsSearch, itemsSearch.length);
-
-        var searchContainer = listSearched(itemsSearch);
-        pageContainer.appendChild(searchContainer);
-        break;
+          break;
         }
     }
-
-
-
   });
 }
 
 function doView(idItem, item){
+    //function called press the view button of an item
   doRequest('visualize?idItem=' +idItem, 'POST', (req) =>{
     if (req.readyState == XMLHttpRequest.DONE) {
-    var responseBody = req.responseText;
-    switch (req.status) {
-      case 200:
-      //request was successfully, go to search page with the new visualized
-      /*
-      var pageContainer = document.getElementById('pageContainer');
-        var searchContainer = listSearched(keyword, itemsSearch, idItem);
-        pageContainer.appendChild(searchContainer);*/
-        buildExtendedItemBox(idItem, item);
-        break;
+      var responseBody = req.responseText;
+      switch (req.status) {
+        case 200:
 
-      default:
-      // request failed, display error
-      errorContainer.style.display = 'block';
-      document.getElementById('errorBody').textContent = responseBody;
-      break;
+          buildExtendedItemBox(idItem, item);
+          break;
 
+        default:
+          // request failed, display error
+          errorContainer.style.display = 'block';
+          document.getElementById('errorBody').textContent = responseBody;
+          break;
     }
   }
   });
@@ -193,18 +180,21 @@ function goOrders() {
 }
 
 function doLogout() {
+    //function called after push the logout button
   doRequest('logout', 'GET', (req)=>{
     if (req.readyState == XMLHttpRequest.DONE) {
       switch (req.status) {
         case 200:
-         // request was successful, go to login page
-         sessionStorage.clear();
-         window.location.href = 'login.html';
+          // request was successful, go to login page
+          //clear the sessionStorage
+          sessionStorage.clear();
+          window.location.href = 'login.html';
           break;
+          
         default:
-        errorContainer.style.display = 'block';
-        document.getElementById('errorBody').textContent = responseBody;
-        break;
+          errorContainer.style.display = 'block';
+          document.getElementById('errorBody').textContent = responseBody;
+          break;
       }
 
     }

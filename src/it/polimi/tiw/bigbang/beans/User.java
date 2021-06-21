@@ -1,5 +1,8 @@
 package it.polimi.tiw.bigbang.beans;
 
+/* this class rapresents a Client that is registered in the site
+		and his information for the login and the address where to
+		send the orders */
 public class User {
 	private int id;
 	private String name;

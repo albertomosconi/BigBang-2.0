@@ -1,12 +1,14 @@
 package it.polimi.tiw.bigbang.beans;
 
+/* this class rapresents a standard item whith
+		his specific information	*/
 public class Item {
 	private int id;
 	private String name;
 	private String description;
 	private String category;
 	private String picture;
-	
+
 	public int getId() {
 		return id;
 	}
@@ -37,9 +39,9 @@ public class Item {
 	public void setPicture(String picture) {
 		this.picture = picture;
 	}
-	
-	
-	
-	
+
+
+
+
 
 }

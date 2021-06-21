@@ -45,16 +45,15 @@ function initializeHome() {
       e.preventDefault();
       //save the keyword in the sessionStorage, and remove the old visualized
       sessionStorage.setItem('keyword', keyword.value);
-      //var v = '';
       sessionStorage.removeItem('viewItem');
-      console.log(keyword);
+
       if (keyword.checkValidity()) {
         //call the method that handle the search
         var searchForm = document.getElementById('searchForm');
-        console.log(searchForm);
-
         doSearch(keyword.value);
+          //clean the search form
         keyword.value = '';
+        
       } else {
         errorContainer.style.display = 'block';
         document
@@ -212,7 +211,7 @@ function buildExtendedItem(item) {
         'myPopup' + item['vendorList'][i]['id'] + item['id']);
       popup.classList.toggle('show');
     });
-    
+
     itemsInCartText.appendChild(popupContainer);
     itemVendor.appendChild(itemsInCartText);
     itemVendor.appendChild(document.createElement('br'));

@@ -3,10 +3,14 @@ package it.polimi.tiw.bigbang.beans;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+/* this class rapresents a generic item whit its standard information
+		and the addiction of all selling info: such as witch vendors
+		sell it and the price for each one  */
+
 public class ExtendedItem {
-	private Item item;
-	private LinkedHashMap<Vendor,Price> value;
-	
+	private Item item;													//standard Item info 
+	private LinkedHashMap<Vendor,Price> value; 	//vendor whith his price
+
 	public int getId() {
 		return item.getId();
 	}

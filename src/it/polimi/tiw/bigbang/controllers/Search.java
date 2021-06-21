@@ -30,6 +30,10 @@ import it.polimi.tiw.bigbang.dao.ItemDAO;
 import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
 
+/* this Servlet is used when the client search an item typing an input in the field
+    the items returned are all the ones that have that word (or words) in the description, category or name */
+
+//used to indicate that the servlet on which it is declared expects requests to be made using the multipart/form-data MIME type
 @MultipartConfig
 public class Search extends HttpServlet{
   private static final long serialVersionUID = 1L;
@@ -47,21 +51,21 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
   HttpSession session = request.getSession();
 
-  //get the user by the session
+    //get the user by the session
   User user = (User) session.getAttribute("user");
 
-  //create the variable to store a possible error
+    //create the variable to store a possible error
   ErrorMessage errorMessage;
 
     request.getSession().removeAttribute("itemSearch");
 
 
-    // Get the search parameter, so the items asked to be viewed
+      // Get the search parameter, so the items asked to be viewed
 		String wordSearched = null;
 		try {
 
 			wordSearched = request.getParameter("keyword");
-
+          //check the validity
 			if (wordSearched == null || wordSearched.isEmpty()) {
 				throw new Exception("Missing or empty credential value");
 			}
@@ -78,7 +82,9 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 		List<Item> compressedItems = new ArrayList<>();
 		List<ExtendedItem> extendedItemSearch = new ArrayList<>();
 		try {
+          //find the items with the wordSearched in the name, description or category
 			compressedItems = itemDAO.findManyByWord(wordSearched);
+          //create the complete item with even the vendor and prices information
 			extendedItemSearch = extendedItemDAO.findManyItemsDetailsByCompressedItems(compressedItems);
 
 		} catch (DatabaseException e) {
@@ -88,17 +94,13 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 			return;
     }
 
-    System.out.println(extendedItemSearch.toString());
-
+      //convert the java object (Bean) into a String with Gson
     //Gson library convers java objects in JSON and send throw the net
     Gson gson = new GsonBuilder().create();
 
-      //WORD searched by the client
-    //String keyword = wordSearched;
     String extendedItemsJson = "";
 
     if (extendedItemSearch != null && !extendedItemSearch.isEmpty()) {
-      System.out.println("here in NOT empty");
       //the list of ITEM returned by the search
     extendedItemsJson = "[";
     for (ExtendedItem extendedItem : extendedItemSearch) {
@@ -122,27 +124,15 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
     extendedItemsJson+="]";
   }
   else{
-    System.out.println("here in empty");
+    //if the search returned 0 items
     extendedItemsJson = "[]";
   }
 
-  //  String extendedItemString = gson.toJson(extendedItemsJson);
-
-      //list of item ID of wich have to be visualized
-    //String idViewed = "";
-    //idViewed = gson.toJson(idItemViewed);
-
-      //put all 3 in an array list of string and write it in the response
-    //ArrayList<String> JSONRequest = new ArrayList();
-    //JSONRequest.add(keyword);
-    //JSONRequest.add(extendedItemString);
-    //JSONRequest.add(idViewed);
-
+      //the search went successfully
     response.setStatus(HttpServletResponse.SC_OK);
     response.setContentType("application/json");
     response.setCharacterEncoding("UTF-8");
     response.getWriter().println(extendedItemsJson);
-
 
 }
 

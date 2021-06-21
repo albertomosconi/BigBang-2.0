@@ -1,12 +1,13 @@
 package it.polimi.tiw.bigbang.beans;
 
+/* this class rapresents the shipping policy of a vendor */
 public class ShippingRange {
-	
-	private int id;
-	private int min;
-	private int max;
-	private float cost;
-	
+
+	private int id;				//vendor id
+	private int min;			//min amount of money to have a specific shipping cost
+	private int max;			//max 					""						""						""
+	private float cost;		//the shipping cost for this range
+
 	public int getId() {
 		return id;
 	}
@@ -31,7 +32,7 @@ public class ShippingRange {
 	public void setCost(float cost) {
 		this.cost = cost;
 	}
-	
-	
+
+
 
 }
