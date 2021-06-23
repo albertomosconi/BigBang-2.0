@@ -66,7 +66,7 @@ public class Visualize extends HttpServlet {
 
 		} catch (Exception e) {
 				//check KO
-			e.printStackTrace();
+
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().println("Request Error, Problem in finding idItem to visualized!");
 			return;
@@ -78,7 +78,7 @@ public class Visualize extends HttpServlet {
 			viewDAO.createOneViewByUserIdAndItemId(idUser, idItemAsked);
 
 		}catch (DatabaseException e1) {
-			e1.printStackTrace();
+			
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().println("Database Error");
 			return;

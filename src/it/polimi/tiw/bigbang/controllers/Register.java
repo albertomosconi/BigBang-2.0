@@ -72,15 +72,14 @@ public class Register extends HttpServlet {
     				throw new Exception("Missing or empty credential value");
     			}
     		} catch (Exception e) {
-    			e.printStackTrace();
+
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     			response.getWriter().println("Missing credential value");
     			return;
     		}
 
         if (!pwd.equals(confirmPwd)) {
-          //check the same psw even on Server side
-
+          	//check the same psw even on Server side
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
     			response.getWriter().println("No matching passwords");
     			return;
@@ -89,10 +88,11 @@ public class Register extends HttpServlet {
         	//create new user in the DB
     		UserDAO userDAO = new UserDAO(connection);
     		try {
+					
     			userDAO.createUser(name, surname, email, AuthUtils.encryptString(pwd), address);
 
     		} catch (DatabaseException e) {
-    			e.printStackTrace();
+
           response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
           response.getWriter().println("Database Error");
     			return;

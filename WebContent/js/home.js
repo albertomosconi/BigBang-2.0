@@ -112,7 +112,7 @@ function doSearch(keyword, viewed = null) {
       document.getElementById('pageContainer').innerHTML = '';
       switch (req.status) {
         case 200:
-          // request was successful, go to search page
+            // request was successful, go to search page
           var itemsSearch = JSON.parse(responseBody);
 
           var pageContainer = document.getElementById('pageContainer');
@@ -120,6 +120,13 @@ function doSearch(keyword, viewed = null) {
           pageContainer.appendChild(searchContainer);
 
           break;
+
+        default:
+            // request failed, display error
+          errorContainer.style.display = 'block';
+          document.getElementById('errorBody').textContent = responseBody;
+          break;
+
         }
     }
   });
@@ -190,7 +197,7 @@ function doLogout() {
           sessionStorage.clear();
           window.location.href = 'login.html';
           break;
-          
+
         default:
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;

@@ -70,8 +70,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 				throw new Exception("Missing or empty credential value");
 			}
 		} catch (Exception e) {
-      e.printStackTrace();
-      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);   //400
 			response.getWriter().println("Input Error");
 			return;
 
@@ -88,8 +88,8 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 			extendedItemSearch = extendedItemDAO.findManyItemsDetailsByCompressedItems(compressedItems);
 
 		} catch (DatabaseException e) {
-      e.printStackTrace();
-      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+      
+      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);   //400
       response.getWriter().println("Database Error");
 			return;
     }
