@@ -69,10 +69,20 @@ function CompressedItem(item) {
   itemContainer.appendChild(price);
 
   //buttom for Visualized the item
+  var viewDiv = document.createElement('div');
+  viewDiv.id = 'view';
+  viewDiv.classList.add('view');
   viewButton = document.createElement('button');
   viewButton.classList.add('view-button');
-  viewButton.textContent = 'View';
-  itemContainer.appendChild(viewButton);
+
+  var span = document.createElement('SPAN');
+  span.textContent = 'View';
+  //viewDiv.appendChild(span);
+
+  viewButton.appendChild(span);
+  viewDiv.appendChild(viewButton);
+  itemContainer.appendChild(viewDiv);
+  
   viewButton.addEventListener('click', (e) =>{
 
     //call the POST in the server

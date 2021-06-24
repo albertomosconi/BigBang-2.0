@@ -9,7 +9,7 @@ html{
 	justify-content: flex-end;
 }
 
-.view {
+.view-button {
 	padding-top: 10px;
 	border-radius: 5px;
 	background-color: #b80c09;
@@ -76,6 +76,3 @@ i{
 	margin-left: 10%;
 	margin-inline-start: 15px;
 }
-
-
-

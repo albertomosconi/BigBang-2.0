@@ -53,7 +53,7 @@ function initializeHome() {
         doSearch(keyword.value);
           //clean the search form
         keyword.value = '';
-        
+
       } else {
         errorContainer.style.display = 'block';
         document
@@ -244,4 +244,13 @@ function buildExtendedItem(item) {
   }
   itemContainer.appendChild(vendors);
   return itemContainer;
+}
+
+function scrollFunction(){
+  var topButton = document.getElementById('topBtn');
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    topButton.style.display = "block";
+  } else {
+    topButton.style.display = "none";
+  }
 }

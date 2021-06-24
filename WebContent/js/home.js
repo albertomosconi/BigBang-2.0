@@ -116,9 +116,23 @@ function doSearch(keyword, viewed = null) {
           var itemsSearch = JSON.parse(responseBody);
 
           var pageContainer = document.getElementById('pageContainer');
+            //items list
           var searchContainer = listSearched(itemsSearch);
           pageContainer.appendChild(searchContainer);
-
+            //top button
+          var topButton = document.createElement('button');
+          topButton.id = 'topBtn';
+          topButton.classList.add('topBtn');
+          topButton.textContent = 'Top';
+          // When the user scrolls down 20px from the top of the document, show the button
+          window.onscroll = function() {scrollFunction()};
+          // When the user clicks on the button, scroll to the top of the document
+          topButton.addEventListener('click', (e) => {
+            e.preventDefault;
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          });
+          pageContainer.appendChild(topButton);
           break;
 
         default:
