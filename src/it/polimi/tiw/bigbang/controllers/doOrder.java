@@ -55,8 +55,11 @@ public class doOrder extends HttpServlet {
 		Vendor vendor = new Vendor();
 		try {
 			vendor = vendorDAO.fineOneByVendorId(vendorID);
-		} catch (DatabaseException e1) {
-			e1.printStackTrace();
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println("Database error: "+e.getBody());
+			return;
 		}
 
 		// get all the items with their respective quantities for this vendor
@@ -67,8 +70,11 @@ public class doOrder extends HttpServlet {
 		List<Item> fullItems = new ArrayList<>();
 		try {
 			fullItems = itemDAO.findManyByItemsId(new ArrayList<>(items.keySet()));
-		} catch (DatabaseException e1) {
-			e1.printStackTrace();
+		} catch (DatabaseException e) {
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println("Database error: "+e.getBody());
+			return;
 		}
 
 		PriceDAO priceDAO = new PriceDAO(connection);
@@ -82,6 +88,9 @@ public class doOrder extends HttpServlet {
 				selectedItem.setCost(priceDAO.findOneByItemIdAndVendorId(i.getId(), vendorID).getPrice());
 			} catch (DatabaseException e) {
 				e.printStackTrace();
+				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+				response.getWriter().println("Database error: "+e.getBody());
+				return;
 			}
 			selectedItems.add(selectedItem);
 		}
@@ -93,9 +102,16 @@ public class doOrder extends HttpServlet {
 			orderDAO.createOrder(user.getId(), vendorID, shipping_cost, selectedItems);
 		} catch (DatabaseException e) {
 			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println("Database error: "+e.getBody());
+			return;
 		}
+		
+		cart.remove(vendorID);
+		session.setAttribute("cartSession", cart);
 
-		String path = getServletContext().getContextPath() + "/orders";
-		response.sendRedirect(path);
+		response.setStatus(HttpServletResponse.SC_OK);
+		response.setCharacterEncoding("UTF-8");
+		response.getWriter().println("order created successfully");
 	}
 }
