@@ -1,9 +1,8 @@
 function buildCart(cart) {
   var container = document.createElement('div');
-    console.log(cart.length);
+  console.log(cart.length);
 
-    cart.forEach((vendor, i) => {
-
+  cart.forEach((vendor, i) => {
     // VENDOR NAME - VENDOR RATE
     var vendorContainer = document.createElement('div');
     vendorContainer.classList.add('vendor-section');
@@ -25,16 +24,14 @@ function buildCart(cart) {
       if (r < vendor.vendorScore) vendorStar.classList.add('checked');
       vendorRate.appendChild(vendorStar);
     }
-    
+
     vendorHeader.appendChild(vendorName);
     vendorHeader.appendChild(vendorRate);
 
     var tableItem = document.createElement('table');
     tableItem.classList.add('table-item');
 
-
     vendor.items.forEach((item, j) => {
-
       //ITEM NAME - ITEM PRICE - ITEM QUANTITY - ITEM TOTAL
 
       var itemRow = document.createElement('tr');
@@ -46,7 +43,11 @@ function buildCart(cart) {
 
       var itemPrice = document.createElement('td');
       itemPrice.classList.add('price-setting-bis');
-      itemPrice.textContent = Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(item.price) +'/cad.';
+      itemPrice.textContent =
+        Intl.NumberFormat('de-DE', {
+          style: 'currency',
+          currency: 'EUR',
+        }).format(item.price) + '/cad.';
 
       var itemQuantity = document.createElement('td');
       itemQuantity.classList.add('item-quantity');
@@ -57,7 +58,7 @@ function buildCart(cart) {
       decrementButton.textContent = '-';
       decrementButton.addEventListener('click', (e) => {
         e.preventDefault();
-        doAddCart(vendor.vendorId, item.itemId ,null,true);
+        doAddCart(vendor.vendorId, item.itemId, null, true);
       });
 
       itemQuantity.appendChild(decrementButton);
@@ -68,13 +69,13 @@ function buildCart(cart) {
 
       itemQuantity.appendChild(quantityNumber);
 
-       var incrementButton = document.createElement('button');
+      var incrementButton = document.createElement('button');
       //incrementButton.type('submit');
       incrementButton.classList.add('increment-decrement-button');
       incrementButton.textContent = '+';
       incrementButton.addEventListener('click', (e) => {
         e.preventDefault();
-        doAddCart(vendor.vendorId, item.itemId,null,null);
+        doAddCart(vendor.vendorId, item.itemId, null, null);
       });
 
       itemQuantity.appendChild(incrementButton);
@@ -82,15 +83,17 @@ function buildCart(cart) {
       var itemPriceTotal = document.createElement('td');
       itemPriceTotal.classList.add('item-amount');
       itemPriceTotal.classList.add('prices-setting');
-      itemPriceTotal.textContent = Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(item.price*item.quantity);
+      itemPriceTotal.textContent = Intl.NumberFormat('de-DE', {
+        style: 'currency',
+        currency: 'EUR',
+      }).format(item.price * item.quantity);
 
       itemRow.appendChild(itemName);
-      itemRow.appendChild(itemPrice); 
+      itemRow.appendChild(itemPrice);
       itemRow.appendChild(itemQuantity);
-      itemRow.appendChild(itemPriceTotal); 
+      itemRow.appendChild(itemPriceTotal);
 
       tableItem.appendChild(itemRow);
-
     });
 
     var footer = document.createElement('div');
@@ -119,16 +122,25 @@ function buildCart(cart) {
     footerPrice.classList.add('prices');
 
     var subtotalPrice = document.createElement('div');
-    subtotalPrice .classList.add('subtotal-price');
-    subtotalPrice .textContent = Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(vendor.subtotal);;
+    subtotalPrice.classList.add('subtotal-price');
+    subtotalPrice.textContent = Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: 'EUR',
+    }).format(vendor.subtotal);
 
     var shippingPrice = document.createElement('div');
     shippingPrice.classList.add('shipping-price');
-    shippingPrice.textContent = Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(vendor.shipping);
+    shippingPrice.textContent = Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: 'EUR',
+    }).format(vendor.shipping);
 
     var totalPrice = document.createElement('div');
     totalPrice.classList.add('total');
-    totalPrice.textContent = Intl.NumberFormat('de-DE', { style: 'currency', currency: 'EUR' }).format(vendor.total);;
+    totalPrice.textContent = Intl.NumberFormat('de-DE', {
+      style: 'currency',
+      currency: 'EUR',
+    }).format(vendor.total);
 
     var form = document.createElement('form');
     form.classList.add('order-cart-button');
@@ -137,9 +149,9 @@ function buildCart(cart) {
     orderButton.classList.add('order-cart');
     orderButton.textContent = 'Order';
     orderButton.addEventListener('click', (e) => {
-        e.preventDefault();
-        doOrders();
-      });
+      e.preventDefault();
+      doOrders(vendor.vendorId);
+    });
 
     form.appendChild(orderButton);
 
@@ -159,5 +171,5 @@ function buildCart(cart) {
     container.appendChild(vendorContainer);
   });
 
-   return container;
+  return container;
 }

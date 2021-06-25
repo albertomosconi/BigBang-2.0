@@ -16,13 +16,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
-
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
-import it.polimi.tiw.bigbang.beans.ErrorMessage;
 import it.polimi.tiw.bigbang.beans.Item;
 import it.polimi.tiw.bigbang.beans.OrderInfo;
 import it.polimi.tiw.bigbang.beans.OrderedItem;
@@ -33,27 +29,21 @@ import it.polimi.tiw.bigbang.dao.OrderDAO;
 import it.polimi.tiw.bigbang.dao.VendorDAO;
 import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
-import it.polimi.tiw.bigbang.utils.TemplateEngineProvider;
 
 public class goOrders extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private TemplateEngine templateEngine;
 	private Connection connection;
 	private ServletContext servletContext;
 
 	@Override
 	public void init() throws ServletException {
 		servletContext = getServletContext();
-		templateEngine = TemplateEngineProvider.getTemplateEngine(servletContext);
 		connection = DBConnectionProvider.getConnection(servletContext);
 	}
 
 	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
-
-		String path = "orders";
-		final WebContext webContext = new WebContext(request, response, servletContext, request.getLocale());
 
 		HttpSession session = request.getSession();
 
@@ -63,10 +53,9 @@ public class goOrders extends HttpServlet {
 		try {
 			orders = orderDAO.findManyByUserID(user.getId());
 		} catch (DatabaseException e) {
-			ErrorMessage errorMessage = new ErrorMessage("Database Error", e.getBody());
-			webContext.setVariable("user", user);
-			webContext.setVariable("error", errorMessage);
-			templateEngine.process(path, webContext, response.getWriter());
+			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println("Database error: " + e.getBody());
 			return;
 		}
 
@@ -87,6 +76,9 @@ public class goOrders extends HttpServlet {
 			itemDetails = itemDAO.findManyByItemsId(itemIDs);
 		} catch (DatabaseException e) {
 			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println("Database error: "+e.getBody());
+			return;
 		}
 
 		VendorDAO vendorDAO = new VendorDAO(connection);
@@ -95,6 +87,9 @@ public class goOrders extends HttpServlet {
 			vendorDetails = vendorDAO.findManyByVendorsId(vendorIDs);
 		} catch (DatabaseException e) {
 			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println("Database error: "+e.getBody());
+			return;
 		}
 
 		Map<Integer, Item> itemDetailsMap = new HashMap<>();
@@ -130,12 +125,6 @@ public class goOrders extends HttpServlet {
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().println(ordersString);
-
-//		webContext.setVariable("user", user);
-//		webContext.setVariable("orders", orders);
-//		webContext.setVariable("itemDetails", itemDetailsMap);
-//		webContext.setVariable("vendorDetails", vendorDetailsMap);
-//		templateEngine.process(path, webContext, response.getWriter());
 	}
 
 	@Override
