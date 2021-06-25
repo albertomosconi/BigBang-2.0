@@ -1,4 +1,4 @@
-function showRegister(){
+function buildRegister(){
   //if clicked the link for the registration
   var secondForm = document.createElement('div');
   secondForm.classList.add('registerForm');
@@ -83,8 +83,11 @@ function showRegister(){
           var responseBody = req.responseText;
           switch (req.status) {
             case 200:
-              //hide the register form
-              secondForm.innerHTML = "";
+            // remove the error msg create bofore (if exist)
+            var errorContainer = document.getElementById('errorMessage');
+            if (errorContainer != null) {
+                errorContainer.innerHTML = '';
+            }
               //restore the login form
               var loginForm = document.getElementById('form-box');
               loginForm.style.display = 'block';
@@ -92,6 +95,7 @@ function showRegister(){
 
             default:
               // request failed, display error
+              var errorContainer = document.getElementById('errorMessage');
               errorContainer.style.display = 'block';
               document.getElementById('errorBody').textContent = responseBody;
               break;
@@ -102,7 +106,7 @@ actualForm);
 } else{
   actualForm.reportValidity();
   if (psw.value !== confirmPsw.value) {
-    //show error msg 
+    //show error msg
   }
 }
 });

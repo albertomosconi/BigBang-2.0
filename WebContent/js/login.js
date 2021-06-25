@@ -12,14 +12,22 @@
             var responseBody = req.responseText;
             switch (req.status) {
               case 200:
+              // remove the error msg create bofore (if exist)
+              var errorContainer = document.getElementById('errorMessage');
+              if (errorContainer != null) {
+                  errorContainer.innerHTML = '';
+              }
+
                 // request was successful, go to home page
                 var user = JSON.parse(responseBody);
                 console.log(user);
                 sessionStorage.setItem('user', responseBody);
                 window.location.href = 'home.html';
                 break;
+
               default:
                 // request failed, display error
+                var errorContainer = document.getElementById('errorMessage');
                 errorContainer.style.display = 'block';
                 document.getElementById('errorBody').textContent = responseBody;
                 break;
@@ -44,10 +52,10 @@
     var formBox2 = document.createElement('form');
     formBox2.id = 'form2-box';
 
-    var registerForm = showRegister();
+    var registerForm = buildRegister();
     registerForm.style.display = 'block';
     formBox2.appendChild(registerForm);
-    
+
     var formContainer = document.getElementById('formContainer');
     formContainer.appendChild(formBox2);
     registerForm.style.display = 'block';

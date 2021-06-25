@@ -58,7 +58,7 @@ function goCart() {
   }
 }
 
-function doSearch(keyword, viewed = null) {
+function buildSearch(keyword, viewed = null) {
   //function called after press send in search input
   doRequest('search?keyword=' + keyword, 'GET', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
@@ -66,6 +66,12 @@ function doSearch(keyword, viewed = null) {
       document.getElementById('pageContainer').innerHTML = '';
       switch (req.status) {
         case 200:
+          // remove the error msg create bofore (if exist)
+          var errorContainer = document.getElementById('errorMessage');
+          if (errorContainer != null) {
+              errorContainer.innerHTML = '';
+          }
+
           // request was successful, go to search page
           var itemsSearch = JSON.parse(responseBody);
 
@@ -91,6 +97,7 @@ function doSearch(keyword, viewed = null) {
 
         default:
           // request failed, display error
+          var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;
@@ -99,18 +106,25 @@ function doSearch(keyword, viewed = null) {
   });
 }
 
-function doView(idItem, item) {
+function buildView(idItem, item) {
   //function called press the view button of an item
   doRequest('visualize?idItem=' + idItem, 'POST', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       var responseBody = req.responseText;
       switch (req.status) {
         case 200:
+          // remove the error msg create bofore (if exist)
+          var errorContainer = document.getElementById('errorMessage');
+          if (errorContainer != null) {
+              errorContainer.innerHTML = '';
+            }
+          // visualized the item requested
           buildExtendedItemBox(idItem, item);
           break;
 
         default:
           // request failed, display error
+          var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;
@@ -187,6 +201,12 @@ function doLogout() {
     if (req.readyState == XMLHttpRequest.DONE) {
       switch (req.status) {
         case 200:
+          // remove the error msg create bofore (if exist)
+          var errorContainer = document.getElementById('errorMessage');
+          if (errorContainer != null) {
+              errorContainer.innerHTML = '';
+            }
+
           // request was successful, go to login page
           //clear the sessionStorage
           sessionStorage.clear();
@@ -194,6 +214,7 @@ function doLogout() {
           break;
 
         default:
+          var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;
