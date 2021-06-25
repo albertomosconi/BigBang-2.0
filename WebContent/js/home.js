@@ -81,6 +81,11 @@ function goCart() {
 */
 
 function goCart() {
+
+  //clear error container
+  var errorContainer = document.getElementById('errorMessage');
+  errorContainer.style.display = 'none';
+
   document.getElementById('pageContainer').innerHTML = '';
 
   var pageContainer = document.getElementById('pageContainer');
@@ -166,7 +171,8 @@ function doOrders(vendorId) {
             });
             window.sessionStorage.setItem(
               'cartSession',
-              JSON.stringify(newCart),
+              JSON.stringify(newCart)
+
             );
           }
           goOrders();
@@ -239,6 +245,11 @@ function doAddCart(vendor, item, quantity, sub) {
   if (quantity != null) path += '&quantity=' + quantity;
   if (sub != null && sub == true) path += '&sub=true';
 
+  document.getElementById('pageContainer').innerHTML = '';
+  //clear error container
+  var errorContainer = document.getElementById('errorMessage');
+  errorContainer.style.display = 'none';
+
   doRequest(path, 'POST', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       var responseBody = req.responseText;
@@ -269,13 +280,14 @@ function doAddCart(vendor, item, quantity, sub) {
         case 204:
           // create heading
           var pageContainer = document.getElementById('pageContainer');
-          document.getElementById('pageContainer').innerHTML = '';
+
           var heading = document.createElement('h1');
           heading.textContent = 'Items in your cart';
           pageContainer.appendChild(heading);
 
         default:
           // request failed, display error
+          var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;

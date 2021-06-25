@@ -45,32 +45,11 @@ public class Cart extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		// get active user
 		HttpSession session = request.getSession();
-		User user = (User) session.getAttribute("user");
-		
-		// space for errors
-		ErrorMessage errorMessage;
-		errorMessage = (ErrorMessage) session.getAttribute("error");
 
 		// Rebuilt cart from vendor id and list of item id
 		HashMap<Vendor, List<SelectedItem>> cart = null;
 		HashMap<Vendor, float[]> shipping = null;
-
-		//error added to session from doAddCart
-		if (errorMessage != null) {
-			
-			//rebuilt old cart and shipping
-			cart = (HashMap<Vendor, List<SelectedItem>>) session.getAttribute("cartOld");
-			shipping = (HashMap<Vendor, float[]>) session.getAttribute("shippingOld");
-		
-			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
-			response.getWriter().println("Server error: could not add items to cart");
-			return;
-			
-		}else {
-			errorMessage=null;
-		}
 
 		// Get items added to cart from session
 		HashMap<Integer, HashMap<Integer, Integer>> cartSession = new HashMap<Integer, HashMap<Integer, Integer>>();
@@ -137,7 +116,7 @@ public class Cart extends HttpServlet {
 					response.getWriter().println("Database error: " + e.getBody());
 					return;	
 				}
-
+				
 				SelectedItem selectedItem = new SelectedItem();
 				selectedItem.setItem(itemCurrent);
 				selectedItem.setQuantity(cartSession.get(vendor).get(item));
