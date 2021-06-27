@@ -51,9 +51,8 @@ function initializeHome() {
         //call the method that handle the search
         var searchForm = document.getElementById('searchForm');
         doSearch(keyword.value);
-          //clean the search form
+        //clean the search form
         keyword.value = '';
-        
       } else {
         errorContainer.style.display = 'block';
         document
@@ -113,6 +112,7 @@ function buildExtendedItem(item) {
     var form = document.createElement('form');
     // link form to add to cart method
     var quantityInput = document.createElement('input');
+    quantityInput.id = 'add' + item.id + 'to' + item.vendorList[i].id;
     quantityInput.type = 'number';
     quantityInput.min = 1;
     quantityInput.name = 'quantity';
@@ -122,7 +122,10 @@ function buildExtendedItem(item) {
     addButton.textContent = 'Add to cart';
     addButton.addEventListener('click', (e) => {
       e.preventDefault();
-      doAddCart(item.vendorList[i].id, item.id, quantityInput.value);
+      let addToCartButton = document.getElementById(
+        'add' + item.id + 'to' + item.vendorList[i].id,
+      );
+      doAddCart(item.vendorList[i].id, item.id, addToCartButton.value);
     });
     form.appendChild(addButton);
     priceRow.appendChild(form);
@@ -202,13 +205,15 @@ function buildExtendedItem(item) {
 
     itemsInCartText.addEventListener('mouseover', (e) => {
       var popup = document.getElementById(
-        'myPopup' + item['vendorList'][i]['id'] + item['id']);
+        'myPopup' + item['vendorList'][i]['id'] + item['id'],
+      );
       popup.classList.toggle('show');
     });
 
     itemsInCartText.addEventListener('mouseout', (e) => {
       var popup = document.getElementById(
-        'myPopup' + item['vendorList'][i]['id'] + item['id']);
+        'myPopup' + item['vendorList'][i]['id'] + item['id'],
+      );
       popup.classList.toggle('show');
     });
 
