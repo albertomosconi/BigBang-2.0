@@ -1,22 +1,25 @@
 (function () {
   // hide error container from page
   var form = document.getElementById('loginForm');
-  var errorContainer = form.children[form.childElementCount - 1];
+  var errorContainer = document.getElementById('errorMessage');
   errorContainer.style.display = 'none';
 
   document.getElementById('loginButton').addEventListener('click', (e) => {
     e.preventDefault();
     if (form.checkValidity()) {
-      doRequest('login', 'POST', (req) => {
+      doRequest(
+        'login',
+        'POST',
+        (req) => {
           if (req.readyState == XMLHttpRequest.DONE) {
             var responseBody = req.responseText;
             switch (req.status) {
               case 200:
-              // remove the error msg create bofore (if exist)
-              var errorContainer = document.getElementById('errorMessage');
-              if (errorContainer != null) {
+                // remove the error msg create bofore (if exist)
+                var errorContainer = document.getElementById('errorMessage');
+                if (errorContainer != null) {
                   errorContainer.innerHTML = '';
-              }
+                }
 
                 // request was successful, go to home page
                 var user = JSON.parse(responseBody);
@@ -34,7 +37,7 @@
             }
           }
         },
-        form
+        form,
       );
     } else {
       form.reportValidity();
@@ -45,10 +48,10 @@
     e.preventDefault();
     var formBox = document.getElementById('form-box');
 
-      //hide the login form
+    //hide the login form
     formBox.style.display = 'none';
 
-      //create a new form for the Registration
+    //create a new form for the Registration
     var formBox2 = document.createElement('form');
     formBox2.id = 'form2-box';
 
@@ -59,5 +62,5 @@
     var formContainer = document.getElementById('formContainer');
     formContainer.appendChild(formBox2);
     registerForm.style.display = 'block';
-  })
+  });
 })();

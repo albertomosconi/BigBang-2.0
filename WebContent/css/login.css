@@ -8,6 +8,15 @@
   clip-path: polygon(0 0, 100% 0%, 73% 100%, 0% 100%);
 }
 
+.registerImg {
+  height: 100vh;
+  width: 50%;
+}
+.registerImg img {
+  width: 100%;
+  clip-path: polygon(0 0, 100% 0%, 100% 100%, 27% 100%);
+}
+
 fieldset {
   border: none;
 }
@@ -31,8 +40,17 @@ fieldset {
   flex-direction: row;
 }
 
+input {
+  margin: 10px 0;
+}
+
 .register {
+  margin-top: 10px;
   text-decoration: underline;
+}
+
+.register:hover {
+  cursor: pointer;
 }
 
 .loginButton {

@@ -30,8 +30,9 @@ public class QueryFilter implements Filter {
 				chain.doFilter(request, response);
 				return;
 			} else {
-				String loginPath = req.getServletContext().getContextPath() + "/login.html";
-				res.sendRedirect(loginPath);
+				res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				res.setCharacterEncoding("UTF-8");
+				res.getWriter().println("Not logged in.");
 				return;
 			}
 		}
@@ -40,8 +41,9 @@ public class QueryFilter implements Filter {
 				Arrays.asList("/home", "/cart", "/orders", "/search", "/register", "/doAddCart", "/doOrder", "/logout", "/view", "/visualize", "/home.html"));
 
 		if (!allowedPaths.contains(requestURI.replace(req.getContextPath(), "")) && !isPathResource(requestURI)) {
-			String homePath = req.getServletContext().getContextPath() + "/home.html";
-			res.sendRedirect(homePath);
+			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
+			res.setCharacterEncoding("UTF-8");
+			res.getWriter().println("Unknown path.");
 			return;
 		}
 

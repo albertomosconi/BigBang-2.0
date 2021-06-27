@@ -21,7 +21,7 @@
 </head>
 <body>
 	<div class="container" id="mainContainer">
-		<div class="loginImg">
+		<div class="loginImg" id="loginImg">
 			<img src="./images/shoppingSpecular.jpg" alt="loginImg">
 		</div>
 		<div class="loginForm">
@@ -30,22 +30,22 @@
 				<h3>a new frontier of e-commerce</h3>
 				<br>
 				<div class="form-box" id="form-box">
-				<form id="loginForm" action="#">
-					<input type="email" placeholder="email" name="email" required autofocus />
-					<br /><br />
-					<input type="password" placeholder="password" name="pwd" required />
-					<br /><br />
-					<input type="button" value="login" class="loginButton" id="loginButton" />
-					<div class="errorMessage" id="errorMessage">
-						<h3>Error</h3>
-						<p id="errorBody"></p>
-					</div>
-				</form>
-				<a href="/register" class="register" id="register">register</a>
-			</div>
+					<form id="loginForm" action="#">
+						<input type="email" placeholder="email" name="email" required autofocus />
+						<br />
+						<input type="password" placeholder="password" name="pwd" required />
+						<br />
+						<input type="button" value="login" class="loginButton" id="loginButton" />
+						
+					</form>
+					<a class="register" id="register">register</a>
+				</div>
+				<div class="errorMessage" id="errorMessage">
+					<h3>Error</h3>
+					<p id="errorBody"></p>
+				</div>
 			</div>
 		</div>
 	</div>
-
 </body>
 </html>

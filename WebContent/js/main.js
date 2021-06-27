@@ -1,5 +1,7 @@
 function goHome() {
   console.log('go home');
+  var errorContainer = document.getElementById('errorMessage');
+  errorContainer.style.display = 'none';
   doRequest('view', 'GET', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       var responseBody = req.responseText;
@@ -58,19 +60,15 @@ function goCart() {
 }
 
 function doSearch(keyword, viewed = null) {
+  var errorContainer = document.getElementById('errorMessage');
+  errorContainer.style.display = 'none';
   //function called after press send in search input
   doRequest('search?keyword=' + keyword, 'GET', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       var responseBody = req.responseText;
-      document.getElementById('pageContainer').innerHTML = '';
       switch (req.status) {
         case 200:
-          // remove the error msg create bofore (if exist)
-          var errorContainer = document.getElementById('errorMessage');
-          if (errorContainer != null) {
-            errorContainer.innerHTML = '';
-          }
-
+          document.getElementById('pageContainer').innerHTML = '';
           // request was successful, go to search page
           var itemsSearch = JSON.parse(responseBody);
 
@@ -108,17 +106,14 @@ function doSearch(keyword, viewed = null) {
 }
 
 function doView(idItem, item) {
+  var errorContainer = document.getElementById('errorMessage');
+  errorContainer.style.display = 'none';
   //function called press the view button of an item
   doRequest('visualize?idItem=' + idItem, 'POST', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       var responseBody = req.responseText;
       switch (req.status) {
         case 200:
-          // remove the error msg create bofore (if exist)
-          var errorContainer = document.getElementById('errorMessage');
-          if (errorContainer != null) {
-            errorContainer.innerHTML = '';
-          }
           // visualized the item requested
           buildExtendedItemBox(idItem, item);
           break;
@@ -135,11 +130,14 @@ function doView(idItem, item) {
 }
 
 function doOrders(vendorId) {
+  var errorContainer = document.getElementById('errorMessage');
+  errorContainer.style.display = 'none';
   doRequest('doOrder?vendorId=' + vendorId, 'POST', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       let responseBody = req.responseText;
       switch (req.status) {
         case 200:
+          document.getElementById('pageContainer').innerHTML = '';
           let cartString = window.sessionStorage.getItem('cartSession');
           if (cartString != null) {
             let cart = JSON.parse(cartString);
@@ -166,12 +164,14 @@ function doOrders(vendorId) {
 }
 
 function goOrders() {
+  var errorContainer = document.getElementById('errorMessage');
+  errorContainer.style.display = 'none';
   doRequest('orders', 'GET', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
-      document.getElementById('pageContainer').innerHTML = '';
       let responseBody = req.responseText;
       switch (req.status) {
         case 200:
+          document.getElementById('pageContainer').innerHTML = '';
           // request successful
           let orders = JSON.parse(responseBody);
           let pageContainer = document.getElementById('pageContainer');
@@ -196,17 +196,13 @@ function goOrders() {
 }
 
 function doLogout() {
+  var errorContainer = document.getElementById('errorMessage');
+  errorContainer.style.display = 'none';
   //function called after push the logout button
   doRequest('logout', 'GET', (req) => {
     if (req.readyState == XMLHttpRequest.DONE) {
       switch (req.status) {
         case 200:
-          // remove the error msg create bofore (if exist)
-          var errorContainer = document.getElementById('errorMessage');
-          if (errorContainer != null) {
-            errorContainer.innerHTML = '';
-          }
-
           // request was successful, go to login page
           //clear the sessionStorage
           sessionStorage.clear();
@@ -229,7 +225,6 @@ function doAddCart(vendor, item, quantity, sub) {
   if (quantity != null) path += '&quantity=' + quantity;
   if (sub != null && sub == true) path += '&sub=true';
 
-  document.getElementById('pageContainer').innerHTML = '';
   //clear error container
   var errorContainer = document.getElementById('errorMessage');
   errorContainer.style.display = 'none';
@@ -239,6 +234,7 @@ function doAddCart(vendor, item, quantity, sub) {
       var responseBody = req.responseText;
       switch (req.status) {
         case 200:
+          document.getElementById('pageContainer').innerHTML = '';
           // request was successful, go to cart page
           window.sessionStorage.setItem('cartSession', responseBody);
           var cart = JSON.parse(responseBody);
@@ -263,7 +259,7 @@ function doAddCart(vendor, item, quantity, sub) {
         case 204:
           // create heading
           var pageContainer = document.getElementById('pageContainer');
-
+          pageContainer.innerHTML = '';
           var heading = document.createElement('h1');
           heading.textContent = 'Items in your cart';
           pageContainer.appendChild(heading);
@@ -273,24 +269,6 @@ function doAddCart(vendor, item, quantity, sub) {
           var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
-          // create heading
-          var pageContainer = document.getElementById('pageContainer');
-          var heading = document.createElement('h1');
-          heading.textContent = 'Items in your cart';
-          heading.classList.add('title');
-          var icon = document.createElement('div');
-          icon.innerHTML = `<i class="fa fa-shopping-cart"></i>`;
-          heading.appendChild(icon);
-
-          pageContainer.appendChild(heading);
-
-          // create cart
-          var cartString = window.sessionStorage.getItem('cartSession');
-          if (cartString != null) {
-            var cart = JSON.parse(cartString);
-            var cartContainer = buildCart(cart);
-            pageContainer.appendChild(cartContainer);
-          }
           break;
       }
     }
