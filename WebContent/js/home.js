@@ -30,7 +30,6 @@ function goHome() {
 }
 
 function goCart() {
-
   //clear error container
   var errorContainer = document.getElementById('errorMessage');
   errorContainer.style.display = 'none';
@@ -66,17 +65,40 @@ function doSearch(keyword, viewed = null) {
       document.getElementById('pageContainer').innerHTML = '';
       switch (req.status) {
         case 200:
+          // remove the error msg create bofore (if exist)
+          var errorContainer = document.getElementById('errorMessage');
+          if (errorContainer != null) {
+            errorContainer.innerHTML = '';
+          }
+
           // request was successful, go to search page
           var itemsSearch = JSON.parse(responseBody);
 
           var pageContainer = document.getElementById('pageContainer');
+          //items list
           var searchContainer = listSearched(itemsSearch);
           pageContainer.appendChild(searchContainer);
-
+          //top button
+          var topButton = document.createElement('button');
+          topButton.id = 'topBtn';
+          topButton.classList.add('topBtn');
+          topButton.textContent = 'Top';
+          // When the user scrolls down 20px from the top of the document, show the button
+          window.onscroll = function () {
+            scrollFunction();
+          };
+          // When the user clicks on the button, scroll to the top of the document
+          topButton.addEventListener('click', (e) => {
+            e.preventDefault;
+            document.body.scrollTop = 0;
+            document.documentElement.scrollTop = 0;
+          });
+          pageContainer.appendChild(topButton);
           break;
 
         default:
           // request failed, display error
+          var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;
@@ -92,11 +114,18 @@ function doView(idItem, item) {
       var responseBody = req.responseText;
       switch (req.status) {
         case 200:
+          // remove the error msg create bofore (if exist)
+          var errorContainer = document.getElementById('errorMessage');
+          if (errorContainer != null) {
+            errorContainer.innerHTML = '';
+          }
+          // visualized the item requested
           buildExtendedItemBox(idItem, item);
           break;
 
         default:
           // request failed, display error
+          var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;
@@ -120,8 +149,7 @@ function doOrders(vendorId) {
             });
             window.sessionStorage.setItem(
               'cartSession',
-              JSON.stringify(newCart)
-
+              JSON.stringify(newCart),
             );
           }
           goOrders();
@@ -173,6 +201,12 @@ function doLogout() {
     if (req.readyState == XMLHttpRequest.DONE) {
       switch (req.status) {
         case 200:
+          // remove the error msg create bofore (if exist)
+          var errorContainer = document.getElementById('errorMessage');
+          if (errorContainer != null) {
+            errorContainer.innerHTML = '';
+          }
+
           // request was successful, go to login page
           //clear the sessionStorage
           sessionStorage.clear();
@@ -180,6 +214,7 @@ function doLogout() {
           break;
 
         default:
+          var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
           break;
@@ -240,23 +275,23 @@ function doAddCart(vendor, item, quantity, sub) {
           document.getElementById('errorBody').textContent = responseBody;
           // create heading
           var pageContainer = document.getElementById('pageContainer');
-      		var heading = document.createElement('h1');
-      		heading.textContent = 'Items in your cart';
-      		heading.classList.add('title');
-      		var icon = document.createElement('div');
-      		icon.innerHTML = `<i class="fa fa-shopping-cart"></i>`;
-       		heading.appendChild(icon);
+          var heading = document.createElement('h1');
+          heading.textContent = 'Items in your cart';
+          heading.classList.add('title');
+          var icon = document.createElement('div');
+          icon.innerHTML = `<i class="fa fa-shopping-cart"></i>`;
+          heading.appendChild(icon);
 
-  		pageContainer.appendChild(heading);
+          pageContainer.appendChild(heading);
 
-  		// create cart
-  		var cartString = window.sessionStorage.getItem('cartSession');
-  		if (cartString != null) {
-    		var cart = JSON.parse(cartString);
-    		var cartContainer = buildCart(cart);
-   			 pageContainer.appendChild(cartContainer);
-    	}
-   		break;
+          // create cart
+          var cartString = window.sessionStorage.getItem('cartSession');
+          if (cartString != null) {
+            var cart = JSON.parse(cartString);
+            var cartContainer = buildCart(cart);
+            pageContainer.appendChild(cartContainer);
+          }
+          break;
       }
     }
   });

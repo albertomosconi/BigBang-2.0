@@ -250,3 +250,59 @@ function buildExtendedItem(item) {
   itemContainer.appendChild(vendors);
   return itemContainer;
 }
+
+function buildCompressedItem(item) {
+  var itemContainer, id, name, price, viewButton;
+
+  itemContainer = document.createElement('div');
+  itemContainer.classList.add('item-card');
+  itemContainer.classList.add('card');
+
+  // item ID
+  id = document.createElement('h1');
+  id.classList.add('item-id');
+  id.textContent = item['id'];
+  itemContainer.appendChild(id);
+
+  // item NAME
+  name = document.createElement('h1');
+  name.classList.add('item-name');
+  name.textContent = item['name'];
+  itemContainer.appendChild(name);
+
+  // item lower PPRICE
+  price = document.createElement('h1');
+  price.classList.add('item-price');
+  price.textContent = item['priceList'][0]['price'] + '€';
+  itemContainer.appendChild(price);
+
+  //buttom for Visualized the item
+  var viewDiv = document.createElement('div');
+  viewDiv.id = 'view';
+  viewDiv.classList.add('view');
+  viewButton = document.createElement('button');
+  viewButton.classList.add('view-button');
+
+  var span = document.createElement('SPAN');
+  span.textContent = 'View';
+
+  viewButton.appendChild(span);
+  viewDiv.appendChild(viewButton);
+  itemContainer.appendChild(viewDiv);
+
+  viewButton.addEventListener('click', (e) => {
+    //call the POST in the server
+    doView(id.textContent, item);
+  });
+
+  return itemContainer;
+}
+
+function scrollFunction() {
+  var topButton = document.getElementById('topBtn');
+  if (document.body.scrollTop > 20 || document.documentElement.scrollTop > 20) {
+    topButton.style.display = 'block';
+  } else {
+    topButton.style.display = 'none';
+  }
+}

@@ -17,7 +17,7 @@ if (viewed === null) {
   items.forEach((item, i) => {
     var compressedId = document.createElement('div');
     compressedId.id = item['id'];
-    var singleContainer = new CompressedItem(item);
+    var singleContainer = new buildCompressedItem(item);
     compressedId.appendChild(singleContainer);
     itemsContainer.appendChild(compressedId);
   });
@@ -31,56 +31,13 @@ else{
       itemsContainer.appendChild(singleContainer);
     } else {
       //this one not
-      var singleContainer = new CompressedItem(item);
+      var singleContainer = new buildCompressedItem(item);
       itemsContainer.appendChild(singleContainer);
     }
   });
 }
 section.appendChild(itemsContainer);
 return section;
-}
-
-
-function CompressedItem(item) {
-
-  var itemContainer, id, name, price, viewButton;
-  console.log(item);
-
-  itemContainer = document.createElement('div');
-  itemContainer.classList.add('item-card');
-  itemContainer.classList.add('card');
-
-  // item ID
-  id = document.createElement('h1');
-  id.classList.add('item-id');
-  id.textContent = item['id'];
-  itemContainer.appendChild(id);
-
-  // item NAME
-  name = document.createElement('h1');
-  name.classList.add('item-name');
-  name.textContent = item['name'];
-  itemContainer.appendChild(name);
-
-  // item lower PPRICE
-  price = document.createElement('h1');
-  price.classList.add('item-price');
-  price.textContent = item['priceList'][0]['price'] + '€';
-  itemContainer.appendChild(price);
-
-  //buttom for Visualized the item
-  viewButton = document.createElement('button');
-  viewButton.classList.add('view-button');
-  viewButton.textContent = 'View';
-  itemContainer.appendChild(viewButton);
-  viewButton.addEventListener('click', (e) =>{
-
-    //call the POST in the server
-    doView(id.textContent, item);
-
-  })
-
-  return itemContainer;
 }
 
 function buildExtendedItemBox(idItem, item){
