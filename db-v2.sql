@@ -34,6 +34,8 @@ INSERT INTO `item` (`id`,`name`,`description`,`category`,`picture`) VALUES (9,'P
 INSERT INTO `item` (`id`,`name`,`description`,`category`,`picture`) VALUES (42,'The Hitchhiker\'s Guide to the Galaxy',"The Hitchhiker's Guide to the Galaxy (sometimes referred to as HG2G, HHGTTG, H2G2, or tHGttG) is a comedy science fiction franchise created by Douglas Adams. Originally a 1978 radio comedy broadcast on BBC Radio 4, it was later adapted to other formats, including stage shows, novels, comic books, a 1981 TV series, a 1984 video game, and 2005 feature film.",'Books','hitchhikers_guide_to_the_galaxy.jpg');
 INSERT INTO `item` (`id`,`name`,`description`,`category`,`picture`) VALUES (10,'Murder on the Orient Express',"Murder on the Orient Express is a work of detective fiction by English writer Agatha Christie featuring the Belgian detective Hercule Poirot. It was first published in the United Kingdom by the Collins Crime Club on 1 January 1934. In the United States, it was published on 28 February 1934, under the title of Murder in the Calais Coach, by Dodd, Mead and Company. The UK edition retailed at seven shillings and sixpence (7/6) and the US edition at $2. The elegant train of the 1930s, the Orient Express, is stopped by heavy snowfall. A murder is discovered, and Poirot's trip home to London from the Middle East is interrupted to solve the case.",'Books','murder_on_the_orient_express.jpg');
 INSERT INTO `item` (`id`,`name`,`description`,`category`,`picture`) VALUES (11,'A cool hat',"A hat is a head covering which is worn for various reasons, including protection against weather conditions, ceremonial reasons such as university graduation, religious reasons, safety, or as a fashion accessory. In the past, hats were an indicator of social status. In the military, hats may denote nationality, branch of service, rank or regiment. Police typically wear distinctive hats such as peaked caps or brimmed hats, such as those worn by the Royal Canadian Mounted Police. Some hats have a protective function.",'Clothing','cool_hat.jpg');
+INSERT INTO `item` (`id`, `name`, `description`, `category`, `picture`) VALUES ('31', 'Penna a sfera Celena soft-touch con stilo', 'La penna a sfera Celena è provvista sul pulsante, di un pratico stilo che vi permetterà di usarlo su tutti i dispositivi touchscreen senza tralasciare fastidiose impronte digitali. È realizzata in pregiato metallo e dispone di un fusto Soft-Touch per una scrittura maneggevole. Inoltre è rifinita con brillanti elementi cromatici. L\'incisione laser duratura trasformerà questa penna a sfera in un vero esemplare unico.', 'Stationery', 'CELENASTY~BLACK0003_enlarged.jpg');
+
 
 -- -----------------------------------------------------
 -- Table `user`
@@ -266,6 +268,7 @@ INSERT INTO `price` (`id_vendor`, `id_item`, `price`) VALUES ('4', '9', '8.00');
 INSERT INTO `price` (`id_vendor`, `id_item`, `price`) VALUES ('5', '9', '4.50');
 INSERT INTO `price` (`id_vendor`, `id_item`, `price`) VALUES ('8', '5', '120.99');
 INSERT INTO `price` (`id_vendor`, `id_item`, `price`) VALUES ('8', '4', '7.99');
+INSERT INTO `price` (`id_vendor`, `id_item`, `price`) VALUES ('2', '31', '10.19');
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
