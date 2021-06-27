@@ -244,8 +244,7 @@ function doAddCart(vendor, item, quantity, sub) {
           var cart = JSON.parse(responseBody);
           var pageContainer = document.getElementById('pageContainer');
 
-          // create heading
-          document.getElementById('pageContainer').innerHTML = '';
+          // create headind
           var heading = document.createElement('h1');
           heading.textContent = 'Items in your cart';
           heading.classList.add('title');
@@ -274,7 +273,25 @@ function doAddCart(vendor, item, quantity, sub) {
           var errorContainer = document.getElementById('errorMessage');
           errorContainer.style.display = 'block';
           document.getElementById('errorBody').textContent = responseBody;
-          break;
+          // create heading
+          var pageContainer = document.getElementById('pageContainer');
+      		var heading = document.createElement('h1');
+      		heading.textContent = 'Items in your cart';
+      		heading.classList.add('title');
+      		var icon = document.createElement('div');
+      		icon.innerHTML = `<i class="fa fa-shopping-cart"></i>`;
+       		heading.appendChild(icon);
+
+  		pageContainer.appendChild(heading);
+
+  		// create cart
+  		var cartString = window.sessionStorage.getItem('cartSession');
+  		if (cartString != null) {
+    		var cart = JSON.parse(cartString);
+    		var cartContainer = buildCart(cart);
+   			 pageContainer.appendChild(cartContainer);
+    	}
+   		break;
       }
     }
   });

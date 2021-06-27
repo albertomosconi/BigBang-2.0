@@ -104,15 +104,15 @@ function buildCart(cart) {
 
     var subtotalText = document.createElement('div');
     subtotalText.classList.add('subtotal');
-    subtotalText.textContent = 'Sub-Total:';
+    subtotalText.textContent = 'Sub-Total: ';
 
     var shippingText = document.createElement('div');
     shippingText.classList.add('shipping');
-    shippingText.textContent = 'Shipping:';
+    shippingText.textContent = 'Shipping: ';
 
     var totalText = document.createElement('div');
     totalText.classList.add('total');
-    totalText.textContent = 'Total:';
+    totalText.textContent = 'Total: ';
 
     footerText.appendChild(subtotalText);
     footerText.appendChild(shippingText);
@@ -147,7 +147,9 @@ function buildCart(cart) {
 
     var orderButton = document.createElement('button');
     orderButton.classList.add('order-cart');
-    orderButton.textContent = 'Order';
+    orderButtonSpan = document.createElement('span');
+    orderButtonSpan.textContent = 'Order';
+    orderButton.appendChild(orderButtonSpan);
     orderButton.addEventListener('click', (e) => {
       e.preventDefault();
       doOrders(vendor.vendorId);
