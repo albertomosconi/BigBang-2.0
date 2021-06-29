@@ -18,13 +18,27 @@ public class ViewDAO {
 	public void createOneViewByUserIdAndItemId(int userId, int itemId) throws DatabaseException {
 		
 		String query = "INSERT into view (id_user, id_item, date) VALUES(?,?,?)";
+		
+		try {
+			con.setAutoCommit(false);
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		
 		try(PreparedStatement pstatement = con.prepareStatement(query);){
 			pstatement.setInt(1, userId);
 			pstatement.setInt(2, itemId);
 			pstatement.setTimestamp(3, new Timestamp(Calendar.getInstance().getTime().getTime()));
 			pstatement.executeUpdate();
+			con.commit();
+			con.setAutoCommit(true);
 		} catch (SQLException e) {
-			// TODO: handle exception
+			try {
+				con.rollback();
+				con.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			throw new DatabaseException("Unable to create a view in DB");
 		}
 	}

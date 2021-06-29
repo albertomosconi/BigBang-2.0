@@ -43,6 +43,13 @@ public class UserDAO {
 	public void createUser(String name, String surname, String email, String pwd,String address) throws DatabaseException {
 
 		String query = "INSERT INTO user (name,surname,email,password, address) VALUES (?,?,?,?,?)";
+		
+		try {
+			con.setAutoCommit(false);
+		} catch (SQLException e2) {
+			e2.printStackTrace();
+		}
+		
 		try (PreparedStatement preparedStatement = con.prepareStatement(query);) {
 			preparedStatement.setString(1, name);
 			preparedStatement.setString(2, surname);
@@ -50,7 +57,15 @@ public class UserDAO {
 			preparedStatement.setString(4, pwd);
 			preparedStatement.setString(5, address);
 			preparedStatement.executeUpdate();
+			con.commit();
+			con.setAutoCommit(true);
 		} catch (SQLException e) {
+			try {
+				con.rollback();
+				con.setAutoCommit(true);
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
 			throw new DatabaseException("could not create a new user!");
 		}
 
