@@ -9,6 +9,7 @@ function goHome() {
       switch (req.status) {
         case 200:
           // request was successful, go to home page
+          console.log(responseBody);
           var items = JSON.parse(responseBody);
 
           var pageContainer = document.getElementById('pageContainer');
@@ -70,6 +71,7 @@ function doSearch(keyword, viewed = null) {
         case 200:
           document.getElementById('pageContainer').innerHTML = '';
           // request was successful, go to search page
+          console.log(responseBody);
           var itemsSearch = JSON.parse(responseBody);
 
           var pageContainer = document.getElementById('pageContainer');
@@ -147,7 +149,7 @@ function doOrders(vendorId) {
             });
             window.sessionStorage.setItem(
               'cartSession',
-              JSON.stringify(newCart),
+              JSON.stringify(newCart)
             );
           }
           goOrders();

@@ -98,7 +98,7 @@ function buildRegister() {
     space6,
     registerButton,
     space7,
-    loginLink,
+    loginLink
   );
 
   formContainer.appendChild(actualForm);
@@ -143,7 +143,7 @@ function buildRegister() {
             }
           }
         },
-        actualForm,
+        actualForm
       );
     } else {
       actualForm.reportValidity();
