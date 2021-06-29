@@ -13,8 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 //import org.apache.commons.lang.StringEscapeUtils;
-import org.thymeleaf.TemplateEngine;
-import org.thymeleaf.context.WebContext;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -25,36 +23,23 @@ import it.polimi.tiw.bigbang.dao.UserDAO;
 import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.AuthUtils;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
-import it.polimi.tiw.bigbang.utils.TemplateEngineProvider;
 
 @MultipartConfig
 public class doLogin extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
-	private TemplateEngine templateEngine;
 	private ServletContext servletContext;
 
 	@Override
 	public void init() throws ServletException {
 		servletContext = getServletContext();
 		connection = DBConnectionProvider.getConnection(servletContext);
-		templateEngine = TemplateEngineProvider.getTemplateEngine(servletContext);
-	}
-
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response)
-			throws ServletException, IOException {
-		final WebContext ctx = new WebContext(request, response, getServletContext(), request.getLocale());
-		String path = "login";
-		templateEngine.process(path, ctx, response.getWriter());
 	}
 
 	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
-		ErrorMessage errorMessage = null;
-		
 		// obtain and escape params
 		String email = null;
 		String pwd = null;

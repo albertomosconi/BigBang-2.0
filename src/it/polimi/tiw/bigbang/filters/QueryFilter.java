@@ -26,7 +26,7 @@ public class QueryFilter implements Filter {
 		String requestURI = req.getRequestURI();
 
 		if (session.isNew() || session.getAttribute("user") == null) {
-			if (isPathResource(requestURI) || requestURI.endsWith("/login.html") || requestURI.endsWith("/login") || requestURI.endsWith("/register.html") || requestURI.endsWith("/register")) {
+			if (isPathResource(requestURI) || requestURI.endsWith("/") || requestURI.endsWith("/login.html") || requestURI.endsWith("/login") || requestURI.endsWith("/register.html") || requestURI.endsWith("/register")) {
 				chain.doFilter(request, response);
 				return;
 			} else {
