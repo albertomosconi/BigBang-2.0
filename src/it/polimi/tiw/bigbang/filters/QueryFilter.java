@@ -30,9 +30,10 @@ public class QueryFilter implements Filter {
 				chain.doFilter(request, response);
 				return;
 			} else {
-				res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				res.setCharacterEncoding("UTF-8");
-				res.getWriter().println("Not logged in.");
+				//res.setStatus(HttpServletResponse.SC_FORBIDDEN);
+				//res.setCharacterEncoding("UTF-8");
+				//res.getWriter().println("Not logged in.");
+				res.sendRedirect("login.html");
 				return;
 			}
 		}
