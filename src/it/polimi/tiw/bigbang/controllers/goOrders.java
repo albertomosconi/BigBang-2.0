@@ -118,7 +118,7 @@ public class goOrders extends HttpServlet {
 			ordersString = ordersString.substring(0, ordersString.length() - 1);
 			ordersString += "]},";
 		}
-		ordersString = ordersString.substring(0, ordersString.length() - 1);
+		if (!ordersString.equals("[")) ordersString = ordersString.substring(0, ordersString.length() - 1);
 		ordersString += "]";
 
 		response.setStatus(HttpServletResponse.SC_OK);
