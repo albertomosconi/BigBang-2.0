@@ -25,12 +25,9 @@
   font-weight: bold;
 }
 
-table {
+.table-item {
   width: 100%;
   border-bottom: 2px solid #ddd;
-}
-
-.table-item {
   border-collapse: collapse;
 }
 
@@ -138,7 +135,7 @@ table {
 }
 
 .order-cart span:after {
-  content: "\00bb";
+  content: '\00bb';
   position: absolute;
   opacity: 0;
   top: 0;
