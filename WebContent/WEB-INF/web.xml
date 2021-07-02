@@ -53,11 +53,11 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>Logout</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.Logout</servlet-class>
+		<servlet-name>doLogout</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.doLogout</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Logout</servlet-name>
+		<servlet-name>doLogout</servlet-name>
 		<url-pattern>/logout</url-pattern>
 	</servlet-mapping>
 
@@ -71,39 +71,30 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>Search</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.Search</servlet-class>
+		<servlet-name>doSearch</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.doSearch</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Search</servlet-name>
+		<servlet-name>doSearch</servlet-name>
 		<url-pattern>/search</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>Visualize</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.Visualize</servlet-class>
+		<servlet-name>doView</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.doView</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Visualize</servlet-name>
+		<servlet-name>doView</servlet-name>
 		<url-pattern>/visualize</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>Cart</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.Cart</servlet-class>
+		<servlet-name>getCart</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.getCart</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Cart</servlet-name>
+		<servlet-name>getCart</servlet-name>
 		<url-pattern>/cart</url-pattern>
-	</servlet-mapping>
-
-	<servlet>
-		<servlet-name>goHome</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.goHome</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>goHome</servlet-name>
-		<url-pattern>/home</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -116,20 +107,20 @@
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>View</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.View</servlet-class>
+		<servlet-name>getLastViewed</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.getLastViewed</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>View</servlet-name>
-		<url-pattern>/view</url-pattern>
+		<servlet-name>getLastViewed</servlet-name>
+		<url-pattern>/lastViewed</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
-		<servlet-name>Register</servlet-name>
-		<servlet-class>it.polimi.tiw.bigbang.controllers.Register</servlet-class>
+		<servlet-name>doRegister</servlet-name>
+		<servlet-class>it.polimi.tiw.bigbang.controllers.doRegister</servlet-class>
 	</servlet>
 	<servlet-mapping>
-		<servlet-name>Register</servlet-name>
+		<servlet-name>doRegister</servlet-name>
 		<url-pattern>/register</url-pattern>
 	</servlet-mapping>
 </web-app>

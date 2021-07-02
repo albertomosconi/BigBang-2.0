@@ -26,17 +26,18 @@ import it.polimi.tiw.bigbang.dao.ItemDAO;
 import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
 
-public class View extends HttpServlet {
+public class getLastViewed extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletContext servletContext;
-    private Connection connection;
+	private Connection connection;
 
-    public void init() throws ServletException {
+	public void init() throws ServletException {
 		servletContext = getServletContext();
 		connection = DBConnectionProvider.getConnection(servletContext);
 	}
 
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+	protected void doGet(HttpServletRequest request, HttpServletResponse response)
+			throws ServletException, IOException {
 
 		HttpSession session = request.getSession();
 
@@ -48,6 +49,9 @@ public class View extends HttpServlet {
 			items = itemDAO.findLastViewedByUserId(user.getId());
 		} catch (DatabaseException e) {
 			e.printStackTrace();
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println("Database error");
+			return;
 		}
 
 		if (items == null || items.isEmpty() || items.size() < 5) {
@@ -91,7 +95,10 @@ public class View extends HttpServlet {
 		Gson gson = new GsonBuilder().create();
 		String extendedItemsJson = "[";
 		for (ExtendedItem extendedItem : extendedItems) {
-			extendedItemsJson += "{\"id\":"+extendedItem.getId()+",\"name\":\""+extendedItem.getName()+"\",\"description\":\""+extendedItem.getDescription().replace("\"", "\\\"")+"\",\"category\":\""+extendedItem.getCategory()+"\",\"picture\":\""+extendedItem.getPicture()+"\",";
+			extendedItemsJson += "{\"id\":" + extendedItem.getId() + ",\"name\":\"" + extendedItem.getName()
+					+ "\",\"description\":\"" + extendedItem.getDescription().replace("\"", "\\\"")
+					+ "\",\"category\":\"" + extendedItem.getCategory() + "\",\"picture\":\""
+					+ extendedItem.getPicture() + "\",";
 			String vendorString = "[";
 			String priceString = "[";
 			for (Map.Entry<Vendor, Price> entry : extendedItem.getValue().entrySet()) {
@@ -100,15 +107,15 @@ public class View extends HttpServlet {
 				vendorString += gson.toJson(v) + ",";
 				priceString += gson.toJson(p) + ",";
 			}
-			vendorString = vendorString.substring(0, vendorString.length()-1);
-			priceString = priceString.substring(0, priceString.length()-1);
-			vendorString+="]";
-			priceString+="]";
+			vendorString = vendorString.substring(0, vendorString.length() - 1);
+			priceString = priceString.substring(0, priceString.length() - 1);
+			vendorString += "]";
+			priceString += "]";
 			extendedItemsJson += "\"vendorList\":" + vendorString + ",";
 			extendedItemsJson += "\"priceList\":" + priceString + "},";
 		}
-		extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length()-1);
-		extendedItemsJson+="]";
+		extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length() - 1);
+		extendedItemsJson += "]";
 
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType("application/json");
@@ -117,10 +124,4 @@ public class View extends HttpServlet {
 //		String extendedItemString = gson.toJson(extendedItems);
 		response.getWriter().println(extendedItemsJson);
 	}
-
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		doGet(request, response);
-	}
-
 }

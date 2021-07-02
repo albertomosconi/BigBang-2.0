@@ -34,20 +34,17 @@ public class doAddCart extends HttpServlet {
 
 	/**
 	 * ERRORI GESTITI: 
-	 * -cartSession non presente nella sessione 
-	 * -vendor null or vendor id <0 
-	 * -item null or item id<0
+	 * -cartSession non presente nella sessione
+	 * -vendor null or vendor id <0 -item null or item id<0 
 	 * -non esiste una corrispondenza tra vendor e item 
-	 * -decrementare l'item di un venditore non presente 
-	 * -decremenetare l'item non presente 
-	 * -ho veramente passato un intero
-	 * -quantity <=0
-	 * -non passo a sub il valore corretto
+	 * -decrementare l'item di un venditore non presente
+	 * -decremenetare l'item non presente -ho veramente passato un intero 
+	 * -quantity <= 0 
+	 * -non passo a sub il valore corretto 
 	 * -se metto sub dove dovrei invece incrementare --> decremento se item e vendor presetni
-	 * 
 	 */
 
-	@SuppressWarnings({ "unchecked", "unused"})
+	@SuppressWarnings({ "unchecked", "unused" })
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 
@@ -60,7 +57,7 @@ public class doAddCart extends HttpServlet {
 		try {
 			cartSession = (HashMap<Integer, HashMap<Integer, Integer>>) session.getAttribute("cartSession");
 		} catch (NumberFormatException | NullPointerException e) {
-			
+
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().println("Server error: could not add items to cart");
 			return;
@@ -72,7 +69,6 @@ public class doAddCart extends HttpServlet {
 		Integer quantity = 1;
 		boolean decrement = false;
 
-	
 		// Read variables from request
 
 		String string_vendor = request.getParameter("vendorId");
@@ -83,7 +79,7 @@ public class doAddCart extends HttpServlet {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				response.getWriter().println("Vendor Parameter Error: not corret format of credential value");
 				return;
-				
+
 			}
 		} else {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
@@ -129,15 +125,15 @@ public class doAddCart extends HttpServlet {
 				response.getWriter().println("Quantity Parameter Error: not corret format of credential value");
 				return;
 			}
-	
+
 		}
-			//only positive values
-		if(quantity<1) {
+		// only positive values
+		if (quantity < 1) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().println("Quantity Parameter Error: negative quantity ");
 			return;
 		}
-		
+
 		// Set if user wish decrement the number of items added to cart
 		if (request.getParameter("sub") != null && request.getParameter("sub").equals("true")) {
 			decrement = true;
@@ -154,27 +150,26 @@ public class doAddCart extends HttpServlet {
 			return;
 		}
 
-		if(price == null) {
+		if (price == null) {
 			response.setStatus(HttpServletResponse.SC_NOT_FOUND);
 			response.getWriter().println("Server error: vendor or item not found");
-			return;	
+			return;
 		}
-		
-		
+
 		// Search if vendor is present yet
 		boolean vendorIsPresent = false;
 		if (cartSession.containsKey(vendorAdd)) {
 			vendorIsPresent = true;
 		}
-		
-		//If vendor is not present and decrement --> error
-		if(!vendorIsPresent && decrement){
+
+		// If vendor is not present and decrement --> error
+		if (!vendorIsPresent && decrement) {
 			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 			response.getWriter().println("Vendor Parameter Error: vendor not present in cart - decrementation error");
 			return;
 		}
-		
-		if (!vendorIsPresent && !decrement) //vendor is not present
+
+		if (!vendorIsPresent && !decrement) // vendor is not present
 		{
 			HashMap<Integer, Integer> itemQuantity = new HashMap<Integer, Integer>();
 			itemQuantity.put(itemAdd, quantity);
@@ -188,17 +183,17 @@ public class doAddCart extends HttpServlet {
 				isPresent = true;
 			}
 
-			//item is not present and decrement
+			// item is not present and decrement
 			if (!isPresent && decrement) {
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				response.getWriter().println("Item Parameter Error: item not present in cart - decrementation error");
 				return;
 			}
-			
+
 			if (!isPresent && !decrement) { // if not present create it
 
 				cartSession.get(vendorAdd).put(itemAdd, quantity);
-				
+
 			} else { // item is already present
 				int actualQuantity = cartSession.get(vendorAdd).get(itemAdd);
 
@@ -218,7 +213,7 @@ public class doAddCart extends HttpServlet {
 				}
 			}
 		}
-		
+
 		request.getSession().setAttribute("cartSession", cartSession);
 		response.sendRedirect(getServletContext().getContextPath() + "/cart");
 

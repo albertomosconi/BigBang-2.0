@@ -28,7 +28,7 @@ import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
 import it.polimi.tiw.bigbang.utils.OrderUtils;
 
-public class Cart extends HttpServlet {
+public class getCart extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private ServletContext servletContext;
 	private Connection connection;
@@ -37,7 +37,7 @@ public class Cart extends HttpServlet {
 		servletContext = getServletContext();
 		connection = DBConnectionProvider.getConnection(servletContext);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -60,7 +60,7 @@ public class Cart extends HttpServlet {
 		}
 
 		if (cartSession.isEmpty()) {
-		
+
 			response.setStatus(HttpServletResponse.SC_NO_CONTENT);
 			response.getWriter().println("Cart is empty");
 			return;
@@ -78,10 +78,10 @@ public class Cart extends HttpServlet {
 
 				vendorCurrent = vendorDAO.fineOneByVendorId(vendor);
 			} catch (DatabaseException e) {
-			
+
 				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 				response.getWriter().println("Database error: " + e.getBody());
-				return;	
+				return;
 			}
 
 			Set<Integer> itemsForVendorSet = cartSession.get(vendor).keySet();
@@ -95,11 +95,11 @@ public class Cart extends HttpServlet {
 				try {
 					itemCurrent = itemDAO.findOneByItemId(item);
 				} catch (DatabaseException e) {
-					
+
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					response.getWriter().println("Database error: " + e.getBody());
-				
-					return;	
+
+					return;
 				}
 
 				// collect price
@@ -108,12 +108,12 @@ public class Cart extends HttpServlet {
 				try {
 					price = priceDAO.findOneByItemIdAndVendorId(item, vendor);
 				} catch (DatabaseException e) {
-					
+
 					response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
 					response.getWriter().println("Database error: " + e.getBody());
-					return;	
+					return;
 				}
-				
+
 				SelectedItem selectedItem = new SelectedItem();
 				selectedItem.setItem(itemCurrent);
 				selectedItem.setQuantity(cartSession.get(vendor).get(item));
@@ -141,46 +141,42 @@ public class Cart extends HttpServlet {
 
 			shipping.put(vendor, costs);
 		}
-		
-		//necessary just for manage errors
+
+		// necessary just for manage errors
 		request.getSession().setAttribute("cartOld", cart);
 		request.getSession().setAttribute("shippingOld", shipping);
 
 		Gson gson = new GsonBuilder().create();
 		String cartJson = gson.toJson(cart);
-		
+
 		/**
 		 * JSON structure
 		 * 
-		 * {Vendor,
-		 * 	[item1: {,
-		 * 	item2,
-		 * 	...
-		 * 	],
-		 * Shipping,
-		 * Total},
+		 * {Vendor, [item1: {, item2, ... ], Shipping, Total},
 		 * 
 		 */
 		cartJson = "[";
-		for(Vendor vendors: cart.keySet()) {
-			cartJson+="{\"vendorName\":\""+ vendors.getName()+"\",\"vendorScore\":"+ vendors.getScore()+",\"vendorId\":"+ vendors.getId()+",\"items\":[";
-			      for(SelectedItem items: cart.get(vendors)) {
-			        cartJson+="{\"itemId\":" + items.getItem().getId()+ ",\"itemName\":\"" + items.getItem().getName()+"\",\"quantity\":"+items.getQuantity()+",\"price\":"+items.getCost()+"},";
-			      }
-			      cartJson = cartJson.substring(0,cartJson.length()-1);
-			      cartJson+= "],";
-			      cartJson+="\"shipping\":"+ shipping.get(vendors)[0]+ ",";
-			      cartJson+="\"subtotal\":"+ shipping.get(vendors)[1]+ ",";
-			      cartJson+="\"total\":"+ shipping.get(vendors)[2]+ "},";
-			      }
-		cartJson = cartJson.substring(0,cartJson.length()-1);
-		cartJson+="]";
-		
+		for (Vendor vendors : cart.keySet()) {
+			cartJson += "{\"vendorName\":\"" + vendors.getName() + "\",\"vendorScore\":" + vendors.getScore()
+					+ ",\"vendorId\":" + vendors.getId() + ",\"items\":[";
+			for (SelectedItem items : cart.get(vendors)) {
+				cartJson += "{\"itemId\":" + items.getItem().getId() + ",\"itemName\":\"" + items.getItem().getName()
+						+ "\",\"quantity\":" + items.getQuantity() + ",\"price\":" + items.getCost() + "},";
+			}
+			cartJson = cartJson.substring(0, cartJson.length() - 1);
+			cartJson += "],";
+			cartJson += "\"shipping\":" + shipping.get(vendors)[0] + ",";
+			cartJson += "\"subtotal\":" + shipping.get(vendors)[1] + ",";
+			cartJson += "\"total\":" + shipping.get(vendors)[2] + "},";
+		}
+		cartJson = cartJson.substring(0, cartJson.length() - 1);
+		cartJson += "]";
+
 		response.setStatus(HttpServletResponse.SC_OK);
 		response.setContentType("application/json");
 		response.setCharacterEncoding("UTF-8");
 		response.getWriter().println(cartJson);
-		
+
 	}
 
 	public void destroy() {

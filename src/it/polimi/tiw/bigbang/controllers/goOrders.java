@@ -77,7 +77,7 @@ public class goOrders extends HttpServlet {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().println("Database error: "+e.getBody());
+			response.getWriter().println("Database error: " + e.getBody());
 			return;
 		}
 
@@ -88,7 +88,7 @@ public class goOrders extends HttpServlet {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().println("Database error: "+e.getBody());
+			response.getWriter().println("Database error: " + e.getBody());
 			return;
 		}
 

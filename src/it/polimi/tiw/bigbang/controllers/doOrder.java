@@ -58,7 +58,7 @@ public class doOrder extends HttpServlet {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().println("Database error: "+e.getBody());
+			response.getWriter().println("Database error: " + e.getBody());
 			return;
 		}
 
@@ -73,7 +73,7 @@ public class doOrder extends HttpServlet {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().println("Database error: "+e.getBody());
+			response.getWriter().println("Database error: " + e.getBody());
 			return;
 		}
 
@@ -89,7 +89,7 @@ public class doOrder extends HttpServlet {
 			} catch (DatabaseException e) {
 				e.printStackTrace();
 				response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-				response.getWriter().println("Database error: "+e.getBody());
+				response.getWriter().println("Database error: " + e.getBody());
 				return;
 			}
 			selectedItems.add(selectedItem);
@@ -103,10 +103,10 @@ public class doOrder extends HttpServlet {
 		} catch (DatabaseException e) {
 			e.printStackTrace();
 			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
-			response.getWriter().println("Database error: "+e.getBody());
+			response.getWriter().println("Database error: " + e.getBody());
 			return;
 		}
-		
+
 		cart.remove(vendorID);
 		session.setAttribute("cartSession", cart);
 

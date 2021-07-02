@@ -36,7 +36,7 @@ public class QueryFilter implements Filter {
 		}
 
 		List<String> allowedPaths = new ArrayList<>(
-				Arrays.asList("/home", "/cart", "/orders", "/search", "/register", "/doAddCart", "/doOrder", "/logout", "/view", "/visualize", "/home.html"));
+				Arrays.asList("/cart", "/orders", "/search", "/register", "/doAddCart", "/doOrder", "/logout", "/lastViewed", "/visualize", "/home.html"));
 
 		if (!allowedPaths.contains(requestURI.replace(req.getContextPath(), "")) && !isPathResource(requestURI)) {
 			res.sendRedirect("home.html");
