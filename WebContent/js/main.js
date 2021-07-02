@@ -260,6 +260,7 @@ function doAddCart(vendor, item, quantity, sub) {
 
         case 204:
           // create heading
+          window.sessionStorage.removeItem("cartSession");
           var pageContainer = document.getElementById("pageContainer");
           pageContainer.innerHTML = "";
           var heading = document.createElement("h1");

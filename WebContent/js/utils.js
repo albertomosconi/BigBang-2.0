@@ -106,7 +106,10 @@ function buildExtendedItem(item) {
     priceRow.classList.add("item-price-row");
     var itemPrice = document.createElement("span");
     itemPrice.classList.add("item-price");
-    itemPrice.textContent = item["priceList"][i]["price"] + "€";
+    itemPrice.textContent = Intl.NumberFormat("de-DE", {
+      style: "currency",
+      currency: "EUR",
+    }).format(item["priceList"][i]["price"]);
     priceRow.appendChild(itemPrice);
 
     var form = document.createElement("form");
@@ -137,16 +140,15 @@ function buildExtendedItem(item) {
     let vendorName = document.createElement("strong");
     vendorName.textContent = item["vendorList"][i]["name"];
     soldByText.appendChild(vendorName);
-    //soldByText.innerHTML = 'sold by <strong>' + item['vendorList'][i]['name'];
+
     var ratingContainer = document.createElement("div");
     for (let r = 0; r < 5; r++) {
       var vendorStar = document.createElement("span");
       vendorStar.classList.add("fa", "fa-star");
       if (r < item.vendorList[i].score) vendorStar.classList.add("checked");
-      //ratingContainer.appendChild(vendorStar);
+
       soldByText.appendChild(vendorStar);
     }
-    //soldByText.appendChild(ratingContainer);
     itemVendor.appendChild(soldByText);
 
     var itemsInCartText = document.createElement("p");
@@ -190,7 +192,6 @@ function buildExtendedItem(item) {
     itemsInCartText.appendChild(itemsInCartStrong);
     itemsInCartText.appendChild(itemsInCart);
 
-    //var popup = document.createElement('div');
     itemsInCartText.classList.add("popup");
 
     var popupContainer = document.createElement("span");
@@ -233,7 +234,12 @@ function buildExtendedItem(item) {
       var td1 = document.createElement("td");
       td1.textContent = range.min + " to " + range.max + " items";
       var td2 = document.createElement("td");
-      td2.textContent = range.cost + " €";
+
+      //td2.textContent = range.cost + " €";
+      td2.textContent = Intl.NumberFormat("de-DE", {
+        style: "currency",
+        currency: "EUR",
+      }).format(range.cost);
       tr.appendChild(td1);
       tr.appendChild(td2);
       shippingTable.appendChild(tr);
