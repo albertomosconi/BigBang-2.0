@@ -126,7 +126,7 @@ function buildExtendedItem(item) {
     addButton.addEventListener('click', (e) => {
       e.preventDefault();
       let addToCartButton = document.getElementById(
-        'add' + item.id + 'to' + item.vendorList[i].id,
+        'add' + item.id + 'to' + item.vendorList[i].id
       );
       doAddCart(item.vendorList[i].id, item.id, addToCartButton.value);
     });
@@ -207,14 +207,14 @@ function buildExtendedItem(item) {
 
     itemsInCartText.addEventListener('mouseover', (e) => {
       var popup = document.getElementById(
-        'myPopup' + item['vendorList'][i]['id'] + item['id'],
+        'myPopup' + item['vendorList'][i]['id'] + item['id']
       );
       popup.classList.toggle('show');
     });
 
     itemsInCartText.addEventListener('mouseout', (e) => {
       var popup = document.getElementById(
-        'myPopup' + item['vendorList'][i]['id'] + item['id'],
+        'myPopup' + item['vendorList'][i]['id'] + item['id']
       );
       popup.classList.toggle('show');
     });

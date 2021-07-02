@@ -15,8 +15,10 @@ import javax.servlet.http.HttpSession;
 import org.thymeleaf.context.WebContext;
 
 import it.polimi.tiw.bigbang.beans.ErrorMessage;
+import it.polimi.tiw.bigbang.beans.Item;
 import it.polimi.tiw.bigbang.beans.User;
 import it.polimi.tiw.bigbang.beans.View;
+import it.polimi.tiw.bigbang.dao.ItemDAO;
 import it.polimi.tiw.bigbang.dao.ViewDAO;
 import it.polimi.tiw.bigbang.exceptions.DatabaseException;
 import it.polimi.tiw.bigbang.utils.DBConnectionProvider;
@@ -55,11 +57,31 @@ public class doView extends HttpServlet {
 		View view = null;
 		try {
 			idItemAsked = Integer.parseInt(request.getParameter("idItem"));
-			// check the paramether
+				// check the paramether
 			if (idItemAsked == null || idItemAsked < 0) {
 
 				throw new Exception("Id asked to be viewed not valid or problem in word searched error");
 			}
+
+				//check if the id is present in the DB
+			Item item = null;
+			ItemDAO itemDAO = new ItemDAO(connection);
+			try{
+				item = itemDAO.findOneByItemId(idItemAsked);
+			}catch (DatabaseException e1) {
+
+	      response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+	      response.getWriter().println("Item not found!");
+				return;
+			}
+
+			if (item == null) {
+				//item not found in the DB
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().println("Item not found!");
+				return;
+			}
+
 
 			// check OK, so create the Bean View
 			view = new View();
