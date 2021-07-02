@@ -149,7 +149,7 @@ function doOrders(vendorId) {
             });
             window.sessionStorage.setItem(
               'cartSession',
-              JSON.stringify(newCart),
+              JSON.stringify(newCart)
             );
           }
           goOrders();
