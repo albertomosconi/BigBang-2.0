@@ -90,6 +90,22 @@ public class doRegister extends HttpServlet {
 
 		// create new user in the DB
 		UserDAO userDAO = new UserDAO(connection);
+		//
+		int occurency = 0;
+		try {
+			occurency = userDAO.findFromEmail(email);
+		} catch (DatabaseException e) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().println("Database Error: " + e.getBody());
+			return;
+		}
+
+		if (occurency>0) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().println("The user has already been registered");
+			return;
+		}
+
 		try {
 
 			userDAO.createUser(name, surname, email, AuthUtils.encryptString(pwd), address);

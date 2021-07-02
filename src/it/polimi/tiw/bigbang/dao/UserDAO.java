@@ -15,6 +15,23 @@ public class UserDAO {
 		this.con = connection;
 	}
 
+	public int findFromEmail(String email) throws DatabaseException {
+	String query = "SELECT count(*) as total FROM progtiw.user WHERE email= ? ";
+		try (PreparedStatement pstatement = con.prepareStatement(query);) {
+			pstatement.setString(1, email);
+
+			try (ResultSet result = pstatement.executeQuery();) {
+				if (!result.isBeforeFirst()) // no results, credential check failed
+					return 0;
+				else {
+					return result.getInt("total");
+				}
+			}
+		} catch (SQLException e) {
+			throw new DatabaseException("The user has already been registered.");
+		}
+	}
+
 	public User checkCredentials(String email, String pwd) throws DatabaseException {
 		String query = "SELECT  id, name, surname, email, address FROM user  WHERE email = ? AND password =?";
 		try (PreparedStatement pstatement = con.prepareStatement(query);) {
@@ -43,13 +60,13 @@ public class UserDAO {
 	public void createUser(String name, String surname, String email, String pwd,String address) throws DatabaseException {
 
 		String query = "INSERT INTO user (name,surname,email,password, address) VALUES (?,?,?,?,?)";
-		
+
 		try {
 			con.setAutoCommit(false);
 		} catch (SQLException e2) {
 			e2.printStackTrace();
 		}
-		
+
 		try (PreparedStatement preparedStatement = con.prepareStatement(query);) {
 			preparedStatement.setString(1, name);
 			preparedStatement.setString(2, surname);

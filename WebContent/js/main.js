@@ -263,12 +263,14 @@ function doAddCart(vendor, item, quantity, sub) {
           window.sessionStorage.removeItem('cartSession');
           var pageContainer = document.getElementById('pageContainer');
           pageContainer.innerHTML = '';
+          
           var heading = document.createElement('h1');
+          
           heading.textContent = 'Items in your cart';
           heading.classList.add('title');
           var icon = document.createElement('div');
           icon.innerHTML = `<i class="fa fa-shopping-cart"></i>`;
-          headind.appendChild(icon);
+          heading.appendChild(icon);
           pageContainer.appendChild(heading);
           break;
 
