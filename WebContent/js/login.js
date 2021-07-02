@@ -17,9 +17,7 @@
               case 200:
                 // remove the error msg create bofore (if exist)
                 var errorContainer = document.getElementById('errorMessage');
-                if (errorContainer != null) {
-                  errorContainer.innerHTML = '';
-                }
+                errorContainer.style.display = 'none';
 
                 // request was successful, go to home page
                 var user = JSON.parse(responseBody);
@@ -50,6 +48,9 @@
 
     //hide the login form
     formBox.style.display = 'none';
+
+    var errorContainer = document.getElementById('errorMessage');
+    errorContainer.style.display = 'none';
 
     //create a new form for the Registration
     var formBox2 = document.createElement('form');

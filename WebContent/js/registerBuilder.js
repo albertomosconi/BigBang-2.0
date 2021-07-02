@@ -154,8 +154,7 @@ function buildRegister() {
         //show error msg
         let errorContainer = document.getElementById("errorMessage");
         errorContainer.style.display = "block";
-        document.getElementById("errorBody").textContent =
-          "The confirm password do not match the password";
+         document.getElementById("errorBody").textContent = "The confirm password do not match the password";
       }
     }
   });
