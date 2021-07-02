@@ -102,16 +102,18 @@ protected void doGet(HttpServletRequest request, HttpServletResponse response) t
 
     if (extendedItemSearch != null && !extendedItemSearch.isEmpty())  {
       //the list of ITEM returned by the search
-      System.out.println("1");
+
     extendedItemsJson = "[";
     for (ExtendedItem extendedItem : extendedItemSearch) {
-      System.out.println("2");
+
+      //check if there is at least one item returned by the query
       if (!extendedItem.getValue().keySet().isEmpty() || !extendedItem.getValue().values().isEmpty()) {
-System.out.println("3");
+
       extendedItemsJson += "{\"id\":"+extendedItem.getId()+",\"name\":\""+extendedItem.getName()+"\",\"description\":\""+extendedItem.getDescription().replace("\"", "\\\"")+"\",\"category\":\""+extendedItem.getCategory()+"\",\"picture\":\""+extendedItem.getPicture()+"\",";
       String vendorString = "[";
       String priceString = "[";
 
+      //check if the item returned is sold by any vendor and has a price
       for (Map.Entry<Vendor, Price> entry : extendedItem.getValue().entrySet()) {
         Vendor v = entry.getKey();
         Price p = entry.getValue();
@@ -128,10 +130,9 @@ System.out.println("3");
 
   }
 else{
-  System.out.println("4");
+
   extendedItemsJson += "x"; //this will be removed by row 136
-    System.out.println(extendedItemsJson);
-}
+  }
 }
 extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length()-1);
 extendedItemsJson+="]";
@@ -140,7 +141,7 @@ extendedItemsJson+="]";
     //if the search returned 0 items
     extendedItemsJson = "[]";
   }
-System.out.println(extendedItemsJson);
+
       //the search went successfully
     response.setStatus(HttpServletResponse.SC_OK);
     response.setContentType("application/json");

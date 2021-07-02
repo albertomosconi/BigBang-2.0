@@ -49,7 +49,7 @@ public class Visualize extends HttpServlet {
 
 		//create a variable for the id of the item of which the user ask the visualization
 		Integer idItemAsked = null;
-		//create a variable for the new View created
+		//create a Bean for the new View created
 		View view = null;
 		try {
 			idItemAsked = Integer.parseInt(request.getParameter("idItem"));
@@ -78,7 +78,7 @@ public class Visualize extends HttpServlet {
 			viewDAO.createOneViewByUserIdAndItemId(idUser, idItemAsked);
 
 		}catch (DatabaseException e1) {
-			
+
       response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
       response.getWriter().println("Database Error");
 			return;

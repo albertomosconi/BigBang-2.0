@@ -30,9 +30,6 @@ public class QueryFilter implements Filter {
 				chain.doFilter(request, response);
 				return;
 			} else {
-				//res.setStatus(HttpServletResponse.SC_FORBIDDEN);
-				//res.setCharacterEncoding("UTF-8");
-				//res.getWriter().println("Not logged in.");
 				res.sendRedirect("login.html");
 				return;
 			}
@@ -42,9 +39,7 @@ public class QueryFilter implements Filter {
 				Arrays.asList("/home", "/cart", "/orders", "/search", "/register", "/doAddCart", "/doOrder", "/logout", "/view", "/visualize", "/home.html"));
 
 		if (!allowedPaths.contains(requestURI.replace(req.getContextPath(), "")) && !isPathResource(requestURI)) {
-			res.setStatus(HttpServletResponse.SC_NOT_FOUND);
-			res.setCharacterEncoding("UTF-8");
-			res.getWriter().println("Unknown path.");
+			res.sendRedirect("home.html");
 			return;
 		}
 
