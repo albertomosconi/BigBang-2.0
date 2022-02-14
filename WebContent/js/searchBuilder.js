@@ -25,15 +25,17 @@ if (viewed === null) {
 else{
     //the vield with all id items visualized is not empty
   items.forEach((item, i) => {
-    if (viewed.includes(item.id)) {
-      //this item is Visualized
-      var singleContainer = buildExtendedItem(item);
-      itemsContainer.appendChild(singleContainer);
-    } else {
-      //this one not
-      var singleContainer = new buildCompressedItem(item);
-      itemsContainer.appendChild(singleContainer);
-    }
+  	
+    	if (viewed.includes(item.id)) {
+      	//this item is Visualized
+      	var singleContainer = buildExtendedItem(item);
+     	 itemsContainer.appendChild(singleContainer);
+   	 } else {
+     	 //this one not
+     	 var singleContainer = new buildCompressedItem(item);
+      	itemsContainer.appendChild(singleContainer);
+   	 	
+   	 }
   });
 }
 section.appendChild(itemsContainer);

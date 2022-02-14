@@ -131,7 +131,7 @@ public class doSearch extends HttpServlet {
 
 				} else {
 
-					extendedItemsJson += "x"; // this will be removed by row 136
+					extendedItemsJson += ""; // this will be removed by row 136
 				}
 			}
 			extendedItemsJson = extendedItemsJson.substring(0, extendedItemsJson.length() - 1);
@@ -140,6 +140,7 @@ public class doSearch extends HttpServlet {
 			// if the search returned 0 items
 			extendedItemsJson = "[]";
 		}
+		
 
 		// the search went successfully
 		response.setStatus(HttpServletResponse.SC_OK);
