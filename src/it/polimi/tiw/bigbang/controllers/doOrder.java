@@ -29,10 +29,11 @@ import it.polimi.tiw.bigbang.utils.OrderUtils;
 public class doOrder extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Connection connection;
+	private ServletContext servletContext;
 
 	@Override
 	public void init() throws ServletException {
-		ServletContext servletContext = getServletContext();
+		servletContext = getServletContext();
 		connection = DBConnectionProvider.getConnection(servletContext);
 	}
 
@@ -48,7 +49,26 @@ public class doOrder extends HttpServlet {
 				.getAttribute("cartSession");
 
 		// get the vendor id from the request
-		int vendorID = Integer.parseInt(request.getParameter("vendorId"));
+		Integer vendorID;
+		String vendorString = request.getParameter("vendorId");
+		if (vendorString != null && !vendorString.equals("")) {
+			try {
+				vendorID = Integer.parseInt(vendorString);
+			} catch (NumberFormatException e) {
+				response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+				response.getWriter().println("Vendor Parameter Error: not corret format of credential value");
+				return;
+			}
+		} else {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().println("Vendor Parameter Error: not corret format of credential value");
+			return;
+		}
+		if (vendorID == null || vendorID < 0) {
+			response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
+			response.getWriter().println("Vendor Parameter Error: missing or empty value");
+			return;
+		}		
 
 		// get the vendor details
 		VendorDAO vendorDAO = new VendorDAO(connection);
@@ -64,8 +84,16 @@ public class doOrder extends HttpServlet {
 
 		// get all the items with their respective quantities for this vendor
 		HashMap<Integer, Integer> items = cart.get(vendorID);
+		
+		// check if items is empty
+		if (items == null || items.isEmpty()) {
+			response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
+			response.getWriter().println("Vendor Parameter Error: you don't have any items from this vendor in your cart.");
+			return;
+		}
 
 		// get details for all items
+
 		ItemDAO itemDAO = new ItemDAO(connection);
 		List<Item> fullItems = new ArrayList<>();
 		try {
